@@ -121,11 +121,12 @@
 </script>
 
 <div>
-	<div class="h-screen w-full bg-cover fixed" style="background-image: url(/background.png)">
+	<div class="h-screen w-full bg-cover fixed">
+		<!-- <div class="h-screen w-full bg-cover fixed" style="background-image: url(/background.png)"> -->
 		<div
 			class={`${
 				makeRecommendation ? 'backdrop-blur-md' : ''
-			}  flex flex-col items-center justify-center min-h-screen w-full h-full bg-gradient-to-br from-slate-900/80 to-black/90`}
+			}  flex flex-col items-center justify-center min-h-screen w-full h-full bg-white bg-opacity-80 bg-gradient-to-br from-transparent to-blue-500/20`}
 		/>
 	</div>
 
