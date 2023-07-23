@@ -1,5 +1,5 @@
 <script>
-	import TvIcon from './TvIcon.svelte';
+	import TvIcon from '../components/icons/LogoIcon.svelte';
 </script>
 
 <div
@@ -27,6 +27,5 @@
 				/></svg
 			></span
 		>
-		<span class="ml-2">Deploy</span>
 	</a>
 </div>

@@ -1,11 +1,21 @@
+<!-- src/routes/_layout.svelte -->
 <script>
 	import '../app.css';
-	import { dev } from '$app/environment';
-	import { inject } from '@vercel/analytics';
-
-	inject({ mode: dev ? 'development' : 'production' });
 </script>
 
-<div class="min-h-screen w-full">
+<main>
 	<slot />
-</div>
+</main>
+
+<style>
+	:global(body) {
+		margin: 0;
+	}
+	main {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+		/* padding: 1em; */
+		box-sizing: border-box;
+	}
+</style>

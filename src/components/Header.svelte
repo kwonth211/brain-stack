@@ -1,0 +1,46 @@
+<script>
+	import Divider from './Divider.svelte';
+	import BackIcon from './icons/BackIcon.svelte';
+
+	const goBack = () => {
+		window.history.back();
+	};
+</script>
+
+<header class="header">
+	<div class="container">
+		<div class="back-icon" on:click={goBack}>
+			<BackIcon />
+		</div>
+		<div class="title">
+			<slot />
+		</div>
+	</div>
+</header>
+<Divider />
+
+<style>
+	.header {
+	}
+	.container {
+		padding-top: 8px;
+		padding-bottom: 8px;
+		display: flex;
+		align-items: center;
+		height: 100%;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	.title {
+		width: 100%;
+		text-align: center;
+
+		color: #000;
+		text-align: center;
+		font-family: Pretendard;
+		font-size: 17px;
+		font-style: normal;
+		font-weight: 600;
+		line-height: normal;
+	}
+</style>

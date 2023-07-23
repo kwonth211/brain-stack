@@ -1,0 +1,30 @@
+<script>
+	import '../app.css';
+	import { dev } from '$app/environment';
+	import { inject } from '@vercel/analytics';
+
+	inject({ mode: dev ? 'development' : 'production' });
+</script>
+
+<div class="min-h-screen h-full">
+	<slot />
+</div>
+
+<style>
+	.h-full {
+		height: 100vh;
+		width: 100vw;
+	}
+	/* :global(html, body) {
+		height: 100vh;
+		width: 100vw;
+		margin: 0;
+		padding: 0;
+	} */
+	/* .h-full {
+		height: 100%;
+		background-color: white;
+		background-image: linear-gradient(to bottom right, transparent, rgba(59, 130, 246, 0.2));
+	} */
+	/* 다른 스타일 */
+</style>

@@ -1,39 +1,72 @@
 <script>
-	import { fade, fly } from 'svelte/transition';
 	import { writable } from 'svelte/store';
-	import QuizCategories from './QuizCategories.svelte';
+	import LogoIcon from '../components/icons/LogoIcon.svelte';
+	import Button from '../components/Button.svelte';
+	import Input from '../components/Input.svelte';
+	import Divider from '../components/Divider.svelte';
+
+	let email = '';
+	let password = '';
+
+	const login = () => {
+		// 로그인 로직을 추가하세요.
+	};
 
 	const store = writable('home');
-
-	function goToQuizzes() {
-		store.set('quizzes');
-	}
 </script>
 
 {#if $store === 'home'}
-	<div class="w-full" in:fly={{ x: 300, duration: 500 }} out:fly={{ x: -300, duration: 500 }}>
-		<div
-			class="text-center md:text-left font-bold text-cyan-700 text-4xl md:text-5xl mb-8 md:mb-16 w-full"
-		>
-			Brain Stack
+	<div class="wrapper">
+		<!-- Existing content goes here -->
+		<div class="title">
+			<LogoIcon />
+			<div>재미있는 퀴즈를 풀기 위해<br /> 로그인을 해주세요.</div>
 		</div>
-		<div class="flex flex-wrap items-center mr-auto">
-			<button
-				on:click={goToQuizzes}
-				class="w-full md:w-auto text-center bg-cyan-400 hover:bg-cyan-500 mb-4 flex-none rounded-full text-white font-medium py-3 px-6 mr-8"
-			>
-				상식 채우러 가기
-			</button>
-			<a
-				href="https://www.youtube.com/watch?v=Z3LrfdctOpU"
-				target="_blank"
-				class="w-full md:w-auto text-center bg-white hover:bg-cyan-300 mb-4 flex-none rounded-full text-cyan-800 font-medium py-3 px-6"
-			>
-				이어 하기
-			</a>
+		<Input placeholder="이메일 입력" />
+		<Input placeholder="비밀번호 입력" />
+		<Button size="lg" primary>로그인하기</Button>
+
+		<div class="menu-link">
+			<a href="/find-id">아이디찾기</a> |
+			<a href="/find-password">비밀번호 찾기</a> |
+			<a href="/register">회원가입</a>
 		</div>
+		<Divider />
+		<Button size="md" white>구글로 로그인하기</Button>
+		<Button size="md" white>애플로 로그인하기</Button>
 	</div>
-{:else if $store === 'quizzes'}
-	<!-- Your quizzes page content here -->
-	<QuizCategories />
 {/if}
+
+<style>
+	.wrapper {
+		padding: 20px; /* Adjust the padding as needed */
+	}
+	.container :global(.btn) {
+		margin-top: 6px;
+		margin-bottom: 6px;
+	}
+	.container :global(.divider) {
+		margin-top: 20px;
+		margin-bottom: 30px;
+	}
+	.menu-link {
+		text-align: center;
+		padding-top: 20px;
+		padding-bottom: 20px;
+		color: #a4a4a4;
+	}
+	.menu-link a {
+		text-decoration: none;
+		color: #a4a4a4;
+	}
+
+	.title {
+		padding-top: 40px;
+		padding-bottom: 160px;
+		color: #000;
+		font-family: Pretendard;
+		font-size: 28px;
+		font-style: normal;
+		font-weight: bold;
+	}
+</style>
