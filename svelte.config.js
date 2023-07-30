@@ -16,6 +16,7 @@ const config = {
 		// }
 		alias: {
 			$components: path.resolve('./src/components'),
+			$mock: path.resolve('./src/mocks'),
 			$lib: path.resolve('./src/lib')
 		}
 	}

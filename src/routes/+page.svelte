@@ -11,6 +11,4 @@
 </div>
 
 <style>
-	.container {
-	}
 </style>

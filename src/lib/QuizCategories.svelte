@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { fly } from 'svelte/transition';
 	let categories = [
 		'한국 상식',
@@ -13,7 +13,7 @@
 		'음악',
 		'현대 사회'
 	];
-	function loadQuiz(category) {
+	function loadQuiz(category: any) {
 		// TODO: Implement the function that loads quizzes based on the category
 	}
 </script>

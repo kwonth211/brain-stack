@@ -2,9 +2,13 @@
 	export let primary = false; // a prop to define button type
 	export let white = false; // a prop to define button type
 	export let size = 'md'; // a prop to define button size
+	export let onclick = () => {}; // Add this line to export onclick function
 </script>
 
-<button class="btn {primary ? 'btn-primary' : ''} {white ? 'btn-white' : ''} {size}">
+<button
+	on:click={onclick}
+	class="btn {primary ? 'btn-primary' : ''} {white ? 'btn-white' : ''} {size}"
+>
 	<slot />
 </button>
 
@@ -20,7 +24,6 @@
 		height: var(--height);
 		font-size: val(--font-size);
 		border: none;
-		/* Font */
 	}
 	.btn.sm {
 		font-size: 14px;

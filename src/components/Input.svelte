@@ -1,12 +1,16 @@
 <!-- Input.svelte -->
-<script>
+<script lang="ts">
 	export let label = '';
 	export let placeholder = '';
 	export let type = 'text';
 	let value = '';
 
-	function handleInput(event) {
-		value = event.target.value;
+	// function handleInput(event: FormEventHandler<HTMLInputElement>) {
+	// 	value = event.target.value;
+	// }
+	function handleInput(event: Event) {
+		const inputElement = event.target as HTMLInputElement;
+		value = inputElement.value;
 	}
 </script>
 

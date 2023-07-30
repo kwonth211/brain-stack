@@ -9,6 +9,7 @@
 
 <header class="header">
 	<div class="container">
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div class="back-icon" on:click={goBack}>
 			<BackIcon />
 		</div>
@@ -20,8 +21,6 @@
 <Divider />
 
 <style>
-	.header {
-	}
 	.container {
 		padding-top: 8px;
 		padding-bottom: 8px;
