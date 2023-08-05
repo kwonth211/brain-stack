@@ -17,6 +17,8 @@
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
 		"autoprefixer": "^10.4.13",
+		"dotenv": "^16.3.1",
+		"dotenv-expand": "^10.0.0",
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte3": "^4.0.0",
@@ -34,6 +36,7 @@
 	"dependencies": {
 		"@sveltejs/adapter-vercel": "^1.0.6",
 		"@vercel/analytics": "^0.1.8",
+		"@vercel/postgres": "^0.4.1",
 		"eventsource-parser": "^0.1.0",
 		"svelte-scrollto": "^0.2.0"
 	}
