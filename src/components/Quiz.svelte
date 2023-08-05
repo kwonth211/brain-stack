@@ -1,9 +1,12 @@
 <!-- Quiz.svelte -->
 <script lang="ts">
 	import { fade } from 'svelte/transition';
+	import type { Quiz } from '../types/quiz';
+
 	import Button from '$components/Button.svelte';
 	import ProgressBar from '$components/ProgressBar.svelte';
-	export let quiz: any = null;
+	export let quiz: Quiz;
+	const options = [quiz.option1, quiz.option2, quiz.option3, quiz.option4];
 	export let onclick = () => {};
 </script>
 
@@ -20,11 +23,11 @@
 		<div class="question">{quiz.question}</div>
 	</div>
 	<div class="button-container">
-		{#each quiz.answers as answer, index}
+		{#each options as option, index}
 			<Button primary {onclick}>
 				<div class="button-content">
 					<span class="number">{index + 1}.</span>
-					<span class="text">{answer}</span>
+					<span class="text">{option}</span>
 				</div>
 			</Button>
 		{/each}

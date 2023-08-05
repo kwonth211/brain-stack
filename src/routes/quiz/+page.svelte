@@ -3,11 +3,10 @@
 	import Header from '$components/Header.svelte';
 	import Quiz from '$components/Quiz.svelte';
 	import { writable } from 'svelte/store';
-	import { quizzes } from '$mock/quizzes.ts';
 	let quizIndex = 0;
-	const currentQuiz = writable<any>(quizzes[quizIndex]);
 	export let data;
-	console.log(data);
+	const { quizzes } = data;
+	const currentQuiz = writable<any>(quizzes[quizIndex]);
 
 	const submitAnswer = async (answerId: number) => {};
 
