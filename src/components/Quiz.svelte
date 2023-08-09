@@ -5,9 +5,29 @@
 
 	import Button from '$components/Button.svelte';
 	import ProgressBar from '$components/ProgressBar.svelte';
+	import { onMount } from 'svelte';
 	export let quiz: Quiz;
 	const options = [quiz.option1, quiz.option2, quiz.option3, quiz.option4];
 	export let onclick = () => {};
+
+	let displayQuestion = '';
+	let index = 0;
+
+	onMount(() => {
+		typeQuestion();
+	});
+
+	let cursor: HTMLElement; // 추가한 부분
+
+	const typeQuestion = () => {
+		if (index < quiz.question.length) {
+			displayQuestion += quiz.question[index];
+			index++;
+			setTimeout(typeQuestion, 50);
+		} else {
+			// cursor.style.display = 'none'; // 타이핑이 끝나면 커서 숨기기
+		}
+	};
 </script>
 
 <div in:fade class="container">
@@ -19,9 +39,15 @@
 		{1}/{10} 맞은 개수 {1}개
 	</div>
 	<div class="question-container">
-		<div class="q-mark">Q.</div>
-		<div class="question">{quiz.question}</div>
+		<div class="question chat-style">
+			<div class="q-mark">Q.</div>
+			<span
+				>{displayQuestion}
+				<span class="blink" bind:this={cursor} />
+			</span>
+		</div>
 	</div>
+
 	<div class="button-container">
 		{#each options as option, index}
 			<Button primary {onclick}>
@@ -35,6 +61,34 @@
 </div>
 
 <style>
+	.question.chat-style {
+		padding: 10px;
+		border-radius: 15px;
+		display: inline-flex;
+		align-items: center;
+		position: relative;
+	}
+
+	.blink {
+		border-right: 4px solid rgba(0, 0, 0, 0.6);
+		animation: blinking 1s infinite;
+		height: 20px;
+		vertical-align: middle; /* 이 부분 추가 */
+		margin-bottom: 4px;
+	}
+
+	@keyframes blinking {
+		0% {
+			opacity: 0;
+		}
+		49% {
+			opacity: 0;
+		}
+		50% {
+			opacity: 1;
+		}
+	}
+
 	@keyframes fadein {
 		from {
 			opacity: 0;
@@ -65,15 +119,24 @@
 		font-weight: 500;
 		line-height: 22px;
 		letter-spacing: -0.408px;
+		justify-content: flex-start; /* 추가 */
 	}
 	.question {
 		word-break: break-word;
+		position: relative;
+		overflow: hidden;
+	}
+	.question span {
+		display: inline-block;
 	}
 	.question-container .q-mark {
 		color: #5387f7;
 		font-weight: bold;
-		margin-bottom: 10px;
+
 		margin-right: 15px;
+	}
+	.q-mark {
+		flex-shrink: 0; /* 추가 */
 	}
 
 	.button-container {
