@@ -4,15 +4,13 @@
 	import Button from '../components/Button.svelte';
 	import Input from '../components/Input.svelte';
 	import Divider from '../components/Divider.svelte';
+	import { signIn, signOut } from "@auth/sveltekit/client"
+	import { page } from "$app/stores"
 
-	let email = '';
-	let password = '';
 
-	const login = () => {
-		// 로그인 로직을 추가하세요.
-	};
 
 	const store = writable('home');
+console.log($page.data.session)
 </script>
 
 {#if $store === 'home'}
@@ -32,10 +30,35 @@
 			<a href="/register">회원가입</a>
 		</div>
 		<Divider />
-		<Button size="md" white>구글로 로그인하기</Button>
+		<Button size="md" white onclick={()=>{
+			signIn("google")
+		}}>구글로 로그인하기</Button>
 		<Button size="md" white>애플로 로그인하기</Button>
+
+		  {#if $page.data.session}
+          {#if $page.data.session.user?.image}
+            <span
+              style="background-image: url('{$page.data.session.user.image}')"
+              class="avatar"
+            />
+          {/if}
+          <span class="signedInText">
+            <small>Signed in as</small><br />
+            <strong
+              >{$page.data.session.user?.email ??
+                $page.data.session.user?.name}</strong
+            >
+          </span>
+          <a href="/auth/signout" class="button" data-sveltekit-preload-data="off">Sign out</a>
+        {:else}
+          <span class="notSignedInText">You are not signed in</span>
+          <a href="/auth/signin" class="buttonPrimary" data-sveltekit-preload-data="off">Sign in</a>
+        {/if}
 	</div>
 {/if}
+
+
+
 
 <style>
 	.wrapper {
