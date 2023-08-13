@@ -2,6 +2,7 @@
 	import { fade } from 'svelte/transition';
 	import Footer from '$components/Footer.svelte';
 	import QuizIcon from '$components/icons/QuizIcon.svelte';
+	import { goto } from '$app/navigation';
 </script>
 
 <div in:fade class="container">
@@ -17,7 +18,12 @@
 				<div class="create-quiz-card">질문 생성하기</div>
 			</div>
 			<div class="select-quiz">퀴즈 고르기</div>
-			<div class="common-sense-card">
+			<div
+				class="common-sense-card"
+				on:click={() => {
+					goto('/categories');
+				}}
+			>
 				<div class="quiz-content">
 					<div>상식 퀴즈</div>
 					<QuizIcon />
