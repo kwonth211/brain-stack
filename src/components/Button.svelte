@@ -1,5 +1,6 @@
 <script lang="ts">
 	export let primary = false; // a prop to define button type
+	export let type: 'filled' | 'outlined' = 'filled';
 	export let white = false; // a prop to define button type
 	export let size = 'md'; // a prop to define button size
 	export let id: string | null = null;
@@ -10,7 +11,11 @@
 <button
 	on:click={onclick}
 	id={id ?? null}
-	class="{classes} btn {primary ? 'btn-primary' : ''} {white ? 'btn-white' : ''} {size}"
+	class="{classes} btn {primary ? 'btn-primary' : ''} {white ? 'btn-white' : ''} {size}
+	
+	{type === 'filled' ? 'btn-filled' : ''}
+	{type === 'outlined' ? 'btn-outlined' : ''}
+	"
 >
 	<slot />
 </button>
@@ -43,16 +48,30 @@
 		color: black;
 		border: 1px solid #d4d4d4;
 	}
-	.btn-primary {
-		background-color: var(--primary);
+
+	.btn-primary.btn-filled {
+		background-color: #5387f7;
+		color: white;
 	}
-	.btn-primary:hover {
-		background-color: darken(var(--primary), 10%);
+
+	/* Primary Outlined */
+	.btn-primary.btn-outlined {
+		background-color: #eef3fe;
+		/* background-color: whitesmoke; */
+		/* border: 1px solid #5387f7; */
+		color: #5387f7;
 	}
-	.btn-secondary {
-		background-color: #ddd;
+
+	/* Secondary Filled (default) */
+	.btn-secondary.btn-filled {
+		background-color: #ddd; /* 이 값은 예시입니다. 실제 디자인에 따라 변경해야 할 수 있습니다. */
+		color: black; /* 이 값은 예시입니다. 실제 디자인에 따라 변경해야 할 수 있습니다. */
 	}
-	.btn-secondary:hover {
-		background-color: #bbb;
+
+	/* Secondary Outlined */
+	.btn-secondary.btn-outlined {
+		background-color: white; /* 이 값은 예시입니다. 실제 디자인에 따라 변경해야 할 수 있습니다. */
+		border: 1px solid #ddd; /* 이 값은 예시입니다. 실제 디자인에 따라 변경해야 할 수 있습니다. */
+		color: #ddd; /* 이 값은 예시입니다. 실제 디자인에 따라 변경해야 할 수 있습니다. */
 	}
 </style>

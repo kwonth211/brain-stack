@@ -2,13 +2,13 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import type { Quiz } from '../types/quiz';
-
+	import ResultModal from './ResultModal.svelte';
 	import Button from '$components/Button.svelte';
 	import ProgressBar from '$components/ProgressBar.svelte';
 	import { onMount } from 'svelte';
+
 	export let quiz: Quiz;
 	const options = [quiz.option1, quiz.option2, quiz.option3, quiz.option4];
-	export let onclick = () => {};
 
 	let displayQuestion = '';
 	let index = 0;
@@ -27,6 +27,14 @@
 		} else {
 			// cursor.style.display = 'none'; // 타이핑이 끝나면 커서 숨기기
 		}
+	};
+
+	let isModalOpen = false;
+	let answerIsCorrect = false;
+
+	const checkAnswer = (_selectedOption: number) => {
+		answerIsCorrect = _selectedOption === quiz.answer;
+		isModalOpen = true;
 	};
 </script>
 
@@ -48,9 +56,18 @@
 		</div>
 	</div>
 
+	{#if isModalOpen}
+		<ResultModal
+			isCorrect={answerIsCorrect}
+			explanation={quiz.explanation}
+			close={() => (isModalOpen = false)}
+			answer={quiz.answer}
+		/>
+	{/if}
+
 	<div class="button-container">
 		{#each options as option, index}
-			<Button primary {onclick}>
+			<Button primary type="outlined" onclick={() => checkAnswer(index + 1)}>
 				<div class="button-content">
 					<span class="number">{index + 1}.</span>
 					<span class="text">{option}</span>
@@ -183,14 +200,11 @@
 	}
 	.button-container :global(.btn) {
 		min-height: 60px;
-		background-color: #5387f7;
-		color: #ffffff;
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
 		padding: 10px;
 
-		color: #fff;
 		font-family: Pretendard;
 		font-size: 15px;
 		font-style: normal;
