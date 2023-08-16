@@ -8,6 +8,7 @@
 	import { onMount } from 'svelte';
 
 	export let quiz: Quiz;
+	export let onNext = () => {};
 	const options = [quiz.option1, quiz.option2, quiz.option3, quiz.option4];
 
 	let displayQuestion = '';
@@ -29,12 +30,43 @@
 		}
 	};
 
+	let optionsShown: string[] = []; // 선택지를 표시하기 위한 배열
+
+	onMount(() => {
+		typeQuestion();
+		setTimeout(() => {
+			showOptionsSequentially(0);
+		}, quiz.question.length * 50); // 질문 타이핑 후에 선택지 표시 시작
+	});
+
+	// 순차적으로 선택지 표시
+	const showOptionsSequentially = (index: number) => {
+		if (index === 0) {
+			// 첫 번째 선택지가 표시될 때 button-container를 활성화
+			const btnContainer = document.querySelector('.button-container');
+			if (btnContainer) {
+				btnContainer.classList.add('active');
+			}
+		}
+
+		if (index < options.length) {
+			optionsShown = [...optionsShown, options[index]];
+			setTimeout(() => {
+				showOptionsSequentially(index + 1);
+			}, 200); // 200ms 간격으로 선택지 표시
+		}
+	};
+
 	let isModalOpen = false;
 	let answerIsCorrect = false;
 
 	const checkAnswer = (_selectedOption: number) => {
 		answerIsCorrect = _selectedOption === quiz.answer;
 		isModalOpen = true;
+	};
+	const closeModal = () => {
+		isModalOpen = false;
+		// onNext();
 	};
 </script>
 
@@ -60,13 +92,13 @@
 		<ResultModal
 			isCorrect={answerIsCorrect}
 			explanation={quiz.explanation}
-			close={() => (isModalOpen = false)}
+			close={closeModal}
 			answer={quiz.answer}
 		/>
 	{/if}
 
 	<div class="button-container">
-		{#each options as option, index}
+		{#each optionsShown as option, index}
 			<Button primary type="outlined" onclick={() => checkAnswer(index + 1)}>
 				<div class="button-content">
 					<span class="number">{index + 1}.</span>
@@ -78,6 +110,26 @@
 </div>
 
 <style>
+	@keyframes slideUp {
+		0% {
+			transform: translateY(100%); /* 100%로 변경하여 아래에서 시작 */
+			opacity: 0;
+		}
+		100% {
+			transform: translateY(0);
+			opacity: 1;
+		}
+	}
+
+	.button-container.active {
+		transform: translateY(0); /* 활성화될 때 원래 위치로 돌아옴 */
+	}
+
+	.button-container :global(.btn) {
+		animation: slideUp 0.5s forwards;
+		opacity: 0;
+	}
+
 	.question.chat-style {
 		padding: 10px;
 		border-radius: 15px;
@@ -165,6 +217,8 @@
 		margin-bottom: 10px;
 		width: 100%;
 		gap: 8px;
+		height: calc(60px * 4 + 8px * 3); /* 4개의 버튼과 3개의 간격을 고려한 총 높이 */
+		overflow: hidden;
 	}
 	.progressbar-container {
 		display: flex;

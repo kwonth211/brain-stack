@@ -10,7 +10,7 @@
 
 	const submitAnswer = async (answerId: number) => {};
 
-	const selectAnswer = () => {
+	const handleNext = () => {
 		quizIndex = (quizIndex + 1) % quizzes.length;
 		currentQuiz.set(null); // Add this line
 		setTimeout(() => currentQuiz.set(quizzes[quizIndex])); // And change this line
@@ -22,7 +22,7 @@
 
 	<div class="content">
 		{#if $currentQuiz}
-			<Quiz onclick={selectAnswer} quiz={$currentQuiz} />
+			<Quiz onNext={handleNext} quiz={$currentQuiz} />
 		{:else}
 			<div>Loading...</div>
 		{/if}

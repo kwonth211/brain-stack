@@ -3,9 +3,9 @@
 	import CircleIcon from './icons/CircleIcon.svelte';
 	import XIcon from './icons/XIcon.svelte';
 	import { slide } from 'svelte/transition';
-
+	import { onMount } from 'svelte';
 	export let isCorrect: boolean;
-	export let close: () => {};
+	export let close: () => void;
 	export let answer: number;
 	let modal: EventTarget;
 	let showExplanation = false;
@@ -34,9 +34,6 @@
 		</div>
 		<div class={isCorrect ? 'correct-text' : 'incorrect-text'}>
 			{isCorrect ? '정답입니다!' : '오답입니다!'}
-			{#if !isCorrect}
-				<div class="correct-answer">정답은 {answer}번 이에요.</div>
-			{/if}
 		</div>
 
 		{#if !showExplanation}
@@ -49,16 +46,19 @@
 			>
 		{/if}
 		{#if showExplanation}
+			{#if !isCorrect}
+				<div class="correct-answer">정답은 {answer}번 이에요.</div>
+			{/if}
 			<div transition:slide|local class="description">
 				{explanation}
 			</div>
-			<span
+			<!-- <span
 				class="close-button"
 				on:keydown={() => {}}
 				on:click={(e) => {
 					close();
 				}}>닫기</span
-			>
+			> -->
 		{/if}
 	</div>
 </div>
@@ -76,12 +76,12 @@
 		text-decoration: underline;
 	}
 	.description {
-		color: #858585;
+		color: black;
 		text-align: center;
 		font-family: Pretendard;
 		font-size: 12px;
 		font-style: normal;
-		font-weight: 300;
+		font-weight: 400;
 		line-height: 16.5px; /* 137.5% */
 	}
 	.correct-answer {
@@ -90,11 +90,11 @@
 		margin-top: 5px;
 	}
 	.more-info {
-		color: #858585;
+		color: rgb(69, 68, 68);
 		font-family: Pretendard;
 		font-size: 12px;
 		font-style: normal;
-		font-weight: 300;
+		font-weight: 500;
 		line-height: 22px; /* 183.333% */
 		letter-spacing: -0.408px;
 		text-decoration: underline;
@@ -144,14 +144,6 @@
 		background: #fff;
 		box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
 		gap: 5px;
-	}
-
-	button {
-		margin-top: 20px;
-		padding: 10px 20px;
-		border: none;
-		border-radius: 5px;
-		cursor: pointer;
 	}
 
 	@keyframes bounce {
