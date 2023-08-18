@@ -6,6 +6,7 @@
 	import Button from '$components/Button.svelte';
 	import ProgressBar from '$components/ProgressBar.svelte';
 	import { onMount } from 'svelte';
+	import { fly } from 'svelte/transition';
 
 	export let quiz: Quiz;
 	export let onNext = () => {};
@@ -26,7 +27,6 @@
 			index++;
 			setTimeout(typeQuestion, 50);
 		} else {
-			// cursor.style.display = 'none'; // 타이핑이 끝나면 커서 숨기기
 		}
 	};
 
@@ -35,27 +35,9 @@
 	onMount(() => {
 		typeQuestion();
 		setTimeout(() => {
-			showOptionsSequentially(0);
-		}, quiz.question.length * 50); // 질문 타이핑 후에 선택지 표시 시작
+			optionsShown = options;
+		}, quiz.question.length * 50);
 	});
-
-	// 순차적으로 선택지 표시
-	const showOptionsSequentially = (index: number) => {
-		if (index === 0) {
-			// 첫 번째 선택지가 표시될 때 button-container를 활성화
-			const btnContainer = document.querySelector('.button-container');
-			if (btnContainer) {
-				btnContainer.classList.add('active');
-			}
-		}
-
-		if (index < options.length) {
-			optionsShown = [...optionsShown, options[index]];
-			setTimeout(() => {
-				showOptionsSequentially(index + 1);
-			}, 200); // 200ms 간격으로 선택지 표시
-		}
-	};
 
 	let isModalOpen = false;
 	let answerIsCorrect = false;
@@ -99,37 +81,19 @@
 
 	<div class="button-container">
 		{#each optionsShown as option, index}
-			<Button primary type="outlined" onclick={() => checkAnswer(index + 1)}>
-				<div class="button-content">
-					<span class="number">{index + 1}.</span>
-					<span class="text">{option}</span>
-				</div>
-			</Button>
+			<div style="width: 100%;" in:fly={{ y: 100, delay: index * 500 }}>
+				<Button primary type="outlined" onclick={() => checkAnswer(index + 1)}>
+					<div class="button-content">
+						<span class="number">{index + 1}.</span>
+						<span class="text">{option}</span>
+					</div>
+				</Button>
+			</div>
 		{/each}
 	</div>
 </div>
 
 <style>
-	@keyframes slideUp {
-		0% {
-			transform: translateY(100%); /* 100%로 변경하여 아래에서 시작 */
-			opacity: 0;
-		}
-		100% {
-			transform: translateY(0);
-			opacity: 1;
-		}
-	}
-
-	.button-container.active {
-		transform: translateY(0); /* 활성화될 때 원래 위치로 돌아옴 */
-	}
-
-	.button-container :global(.btn) {
-		animation: slideUp 0.5s forwards;
-		opacity: 0;
-	}
-
 	.question.chat-style {
 		padding: 10px;
 		border-radius: 15px;
@@ -158,17 +122,7 @@
 		}
 	}
 
-	@keyframes fadein {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
-	}
-
 	.container {
-		/* animation: fadein 0.2s; */
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
