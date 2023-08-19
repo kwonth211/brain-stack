@@ -1,11 +1,12 @@
 <script>
 	export let animate = false;
+	export let color = '';
 </script>
 
 <svg width="25" height="25" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
 	<path
 		d="M10 25 L20 35 L40 15"
-		stroke="#5387f7"
+		stroke={color}
 		stroke-width="5"
 		fill="none"
 		id="checkmark"

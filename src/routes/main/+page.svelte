@@ -23,6 +23,7 @@
 				on:click={() => {
 					goto('/categories');
 				}}
+				on:keydown={() => {}}
 			>
 				<div class="quiz-content">
 					<div>상식 퀴즈</div>

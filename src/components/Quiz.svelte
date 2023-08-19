@@ -1,12 +1,12 @@
 <!-- Quiz.svelte -->
 <script lang="ts">
-	import { fade } from 'svelte/transition';
 	import type { Quiz } from '../types/quiz';
 	import ResultModal from './ResultModal.svelte';
 	import Button from '$components/Button.svelte';
 	import ProgressBar from '$components/ProgressBar.svelte';
 	import { onMount } from 'svelte';
-	import { fly } from 'svelte/transition';
+	import {} from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 
 	export let quiz: Quiz;
 	export let onNext = () => {};
@@ -19,8 +19,6 @@
 	onMount(() => {
 		typeQuestion();
 	});
-
-	let cursor: HTMLElement; // 추가한 부분
 
 	const typeQuestion = () => {
 		if (index < quiz.question.length) {
@@ -79,7 +77,19 @@
 	<div class="status-wrapper">
 		<div class="progressbar-container">
 			<ProgressBar progress={20} />
-			<div class="grade-chip">현재 {3}등</div>
+			<div
+				class={`${
+					quiz.difficulty === 'Easy'
+						? 'easy'
+						: quiz.difficulty === 'Medium'
+						? 'medium'
+						: quiz.difficulty === 'Hard'
+						? 'hard'
+						: ''
+				} difficulty-chip`}
+			>
+				{quiz.difficulty}
+			</div>
 		</div>
 		{1}/{10} 맞은 개수 {1}개
 	</div>
@@ -88,10 +98,25 @@
 			<div class="q-mark">Q.</div>
 			<span
 				>{displayQuestion}
-				<span class="blink" bind:this={cursor} />
+				<span class="blink" />
 			</span>
 		</div>
 	</div>
+
+	{#if selectedOption}
+		<div
+			class="next-button-wrapper"
+			in:fade
+			on:click={() => {
+				setTimeout(() => {
+					onNext();
+				}, 500);
+			}}
+			on:keydown={() => {}}
+		>
+			>> 다음 문제
+		</div>
+	{/if}
 
 	{#if isModalOpen}
 		<ResultModal
@@ -122,6 +147,18 @@
 </div>
 
 <style>
+	.next-button-wrapper {
+		position: absolute;
+		right: 16px;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 2;
+		padding: 8px 12px;
+		cursor: pointer;
+		transition: background-color 0.3s;
+		color: #797979;
+	}
+
 	.question.chat-style {
 		padding: 10px;
 		border-radius: 15px;
@@ -211,23 +248,33 @@
 		width: 100%;
 		gap: 8px;
 	}
-	.grade-chip {
+	.difficulty-chip {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 61px;
-		height: 24px;
-		flex-shrink: 0;
+		width: 34px;
+		height: 30px;
 		border-radius: 12.5px;
-		border: 0.5px solid #ff7971;
-
-		color: #ff7971;
+		padding-left: 4px;
+		padding-right: 4px;
 		font-family: Pretendard;
-		font-size: 12px;
+		font-size: 11px;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 22px;
-		letter-spacing: -0.408px;
+		border-radius: 8px;
+	}
+	.difficulty-chip.easy {
+		background-color: #e8f5e9;
+		color: #66bb6a;
+	}
+	.difficulty-chip.medium {
+		background-color: #fff4e5;
+		color: #ffa64d;
+	}
+	.difficulty-chip.hard {
+		background-color: #ffeef0;
+		color: #ff4c4c;
 	}
 	.status-wrapper {
 		display: flex;
@@ -273,5 +320,32 @@
 	:global(.correct-neutral) {
 		background-color: #c5c5c5 !important;
 		color: white !important;
+	}
+
+	@keyframes buttonClick {
+		0% {
+			transform: translateY(-50%) scale(1);
+		}
+		50% {
+			transform: translateY(-50%) scale(0.95);
+		}
+		100% {
+			transform: translateY(-50%) scale(1);
+		}
+	}
+	@keyframes slideRight {
+		from {
+			transform: translateY(-50%) translateX(10px);
+			opacity: 0.5;
+		}
+		to {
+			transform: translateY(-50%) translateX(20px);
+			opacity: 1;
+		}
+	}
+
+	.next-button-wrapper:active,
+	.next-button-wrapper:hover {
+		animation: slideRight 0.5s forwards;
 	}
 </style>

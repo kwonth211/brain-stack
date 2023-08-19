@@ -11,3 +11,8 @@
 	--height: 51px;
 	--font-size: 16px;
 }
+
+/* 모든 요소에서 tap highlight를 끈다 */
+* {
+	-webkit-tap-highlight-color: transparent;
+}

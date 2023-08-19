@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Quiz } from '../types/quiz';
-	import CheckAnimationIcon from './icons/CheckAnimation.svelte';
+	import CheckAnimationIcon from './icons/CheckAnimationIcon.svelte';
 	import CircleIcon from './icons/CircleIcon.svelte';
 	import XIcon from './icons/XIcon.svelte';
 
@@ -39,7 +39,10 @@
 
 		<div class="flip-box-back" class:conceal-answer={showCardBack}>
 			<div class={isCorrect ? 'correct-answer' : 'incorrect-answer'}>
-				<CheckAnimationIcon animate={showCardBack} />
+				<CheckAnimationIcon
+					animate={showCardBack}
+					color={isCorrect ? 'var(--primary)' : '#ff7971'}
+				/>
 				정답은 {answer}번 이에요.
 			</div>
 			<div class="description">

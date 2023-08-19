@@ -1,12 +1,11 @@
 <script lang="ts">
-	export let primary = false; // a prop to define button type
+	export let primary = false;
 	export let type: 'filled' | 'outlined' = 'filled';
-	export let white = false; // a prop to define button type
-	export let size = 'md'; // a prop to define button size
+	export let white = false;
+	export let size = 'md';
 	export let id: string | null = null;
-	export let onclick = () => {}; // Add this line to export onclick function
+	export let onclick = () => {};
 	export let classes = '';
-	console.log(classes);
 </script>
 
 <button
