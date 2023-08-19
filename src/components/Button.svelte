@@ -6,15 +6,16 @@
 	export let id: string | null = null;
 	export let onclick = () => {}; // Add this line to export onclick function
 	export let classes = '';
+	console.log(classes);
 </script>
 
 <button
 	on:click={onclick}
 	id={id ?? null}
-	class="{classes} btn {primary ? 'btn-primary' : ''} {white ? 'btn-white' : ''} {size}
+	class="{classes} btn {primary ? 'primary' : ''} {white ? 'white' : ''} {size}
 	
-	{type === 'filled' ? 'btn-filled' : ''}
-	{type === 'outlined' ? 'btn-outlined' : ''}
+	{type === 'filled' ? 'filled' : ''}
+	{type === 'outlined' ? 'outlined' : ''}
 	"
 >
 	<slot />
@@ -43,35 +44,32 @@
 	.btn.lg {
 		font-size: 20px;
 	}
-	.btn-white {
+	.white {
 		background-color: white;
 		color: black;
 		border: 1px solid #d4d4d4;
 	}
 
-	.btn-primary.btn-filled {
+	.primary.filled {
 		background-color: #5387f7;
 		color: white;
 	}
 
-	/* Primary Outlined */
-	.btn-primary.btn-outlined {
+	.primary.outlined {
 		background-color: #eef3fe;
 		/* background-color: whitesmoke; */
 		/* border: 1px solid #5387f7; */
 		color: #5387f7;
 	}
 
-	/* Secondary Filled (default) */
-	.btn-secondary.btn-filled {
-		background-color: #ddd; /* 이 값은 예시입니다. 실제 디자인에 따라 변경해야 할 수 있습니다. */
-		color: black; /* 이 값은 예시입니다. 실제 디자인에 따라 변경해야 할 수 있습니다. */
+	.secondary.filled {
+		background-color: #ddd;
+		color: black;
 	}
 
-	/* Secondary Outlined */
-	.btn-secondary.btn-outlined {
-		background-color: white; /* 이 값은 예시입니다. 실제 디자인에 따라 변경해야 할 수 있습니다. */
-		border: 1px solid #ddd; /* 이 값은 예시입니다. 실제 디자인에 따라 변경해야 할 수 있습니다. */
-		color: #ddd; /* 이 값은 예시입니다. 실제 디자인에 따라 변경해야 할 수 있습니다. */
+	.secondary.outlined {
+		background-color: white;
+		border: 1px solid #ddd;
+		color: #ddd;
 	}
 </style>

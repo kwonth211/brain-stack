@@ -11,6 +11,7 @@
 	export let quiz: Quiz;
 	export let onNext = () => {};
 	const options = [quiz.option1, quiz.option2, quiz.option3, quiz.option4];
+	let selectedOption: number | null = null;
 
 	let displayQuestion = '';
 	let index = 0;
@@ -30,7 +31,7 @@
 		}
 	};
 
-	let optionsShown: string[] = []; // 선택지를 표시하기 위한 배열
+	let optionsShown: string[] = [];
 
 	onMount(() => {
 		typeQuestion();
@@ -43,12 +44,34 @@
 	let answerIsCorrect = false;
 
 	const checkAnswer = (_selectedOption: number) => {
+		if (selectedOption) {
+			return;
+		}
+
 		answerIsCorrect = _selectedOption === quiz.answer;
+		selectedOption = _selectedOption;
+
 		isModalOpen = true;
 	};
 	const closeModal = () => {
 		isModalOpen = false;
 		// onNext();
+	};
+
+	$: getButtonClassName = (index: number) => {
+		if (!selectedOption) {
+			return '';
+		}
+		if (index + 1 === quiz.answer) {
+			return 'correct';
+		}
+		if (index + 1 === quiz.answer && index + 1 === selectedOption) {
+			return 'correct';
+		} else if (index + 1 === selectedOption) {
+			return 'incorrect';
+		} else {
+			return 'neutral';
+		}
 	};
 </script>
 
@@ -82,7 +105,12 @@
 	<div class="button-container">
 		{#each optionsShown as option, index}
 			<div style="width: 100%;" in:fly={{ y: 100, delay: index * 500 }}>
-				<Button primary type="outlined" onclick={() => checkAnswer(index + 1)}>
+				<Button
+					primary
+					type="outlined"
+					onclick={() => checkAnswer(index + 1)}
+					classes={getButtonClassName(index)}
+				>
 					<div class="button-content">
 						<span class="number">{index + 1}.</span>
 						<span class="text">{option}</span>
@@ -229,5 +257,21 @@
 	}
 	.button-container .number {
 		width: 30px;
+	}
+	/* FIXME: important 없애기 */
+	:global(.correct) {
+		background-color: #5387f7 !important;
+		color: white !important;
+	}
+
+	:global(.incorrect) {
+		background-color: #ff7971 !important;
+		color: white !important;
+	}
+
+	:global(.neutral),
+	:global(.correct-neutral) {
+		background-color: #c5c5c5 !important;
+		color: white !important;
 	}
 </style>

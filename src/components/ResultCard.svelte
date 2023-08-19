@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Quiz } from '../types/quiz';
+	import CheckAnimationIcon from './icons/CheckAnimation.svelte';
 	import CircleIcon from './icons/CircleIcon.svelte';
 	import XIcon from './icons/XIcon.svelte';
 
@@ -22,22 +23,30 @@
 				{/if}
 			</div>
 			<div class={isCorrect ? 'correct-text' : 'incorrect-text'}>
-				{isCorrect ? '정답입니다!' : '오답입니다!'}
+				{isCorrect ? '정답이에요!' : '오답이에요'}
+			</div>
+			<div class={'is-correct-sub-text'}>
+				{isCorrect ? '잘했어요! 확인해볼까요?' : '괜찮아요. 지식이 생길거에요.'}
 			</div>
 			<span
 				class="more-info"
 				on:keydown={() => {}}
 				on:click={(e) => {
 					toggleShowBack();
-				}}>설명보기</span
+				}}>설명 보기</span
 			>
 		</div>
 
 		<div class="flip-box-back" class:conceal-answer={showCardBack}>
-			<div class="correct-answer">정답은 {answer}번 이에요.</div>
+			<div class={isCorrect ? 'correct-answer' : 'incorrect-answer'}>
+				<CheckAnimationIcon animate={showCardBack} />
+				정답은 {answer}번 이에요.
+			</div>
 			<div class="description">
 				{explanation}
 			</div>
+			<!-- <div class="manner-text">지식이 +1 늘었어요.</div> -->
+			<div class="manner-text">지식 +1</div>
 		</div>
 	</div>
 </div>
@@ -47,7 +56,18 @@
 		background-color: transparent;
 		width: 200px;
 		height: 100px;
-		perspective: 1000px; /* Remove this if you don't want the 3D effect */
+		perspective: 1000px;
+	}
+	.manner-text {
+		width: 100%;
+		text-align: right;
+		color: black;
+		font-family: Pretendard;
+		font-size: 12px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 16.5px; /* 137.5% */
+		color: #818386;
 	}
 
 	.flip-box-inner {
@@ -57,8 +77,10 @@
 		text-align: center;
 		transition: transform 0.4s;
 		transform-style: preserve-3d;
-
-		/* // */
+	}
+	.is-correct-sub-text {
+		color: #7d7979;
+		font-size: 12px;
 	}
 
 	.flip-it {
@@ -101,14 +123,12 @@
 		gap: 5px;
 	}
 
-	/* Style the front side */
 	.flip-box-front {
 		color: black;
 		display: flex;
 		justify-content: center;
 	}
 
-	/* Style the back side */
 	.flip-box-back {
 		display: flex;
 		justify-content: center;
@@ -132,15 +152,26 @@
 		color: black;
 		text-align: center;
 		font-family: Pretendard;
-		font-size: 12px;
+		font-size: 13px;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 16.5px; /* 137.5% */
+		text-align: left;
 	}
 	.correct-answer {
+		color: var(--primary);
+	}
+	.incorrect-answer {
 		color: #ff7971;
-		font-size: 14px;
+	}
+	.correct-answer,
+	.incorrect-answer {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		font-size: 16px;
 		margin-top: 5px;
+		gap: 6px;
 	}
 
 	.incorrect-text {
