@@ -10,6 +10,7 @@
 
 	export let quiz: Quiz;
 	export let onNext = () => {};
+	export let quizzes: Quiz[];
 	const options = [quiz.option1, quiz.option2, quiz.option3, quiz.option4];
 	let selectedOption: number | null = null;
 
@@ -91,7 +92,7 @@
 				{quiz.difficulty}
 			</div>
 		</div>
-		{1}/{10} 맞은 개수 {1}개
+		{1}/{quizzes.length} 맞은문제/푼문제
 	</div>
 	<div class="question-container">
 		<div class="question chat-style">
@@ -160,11 +161,13 @@
 	}
 
 	.question.chat-style {
+		height: 382px;
 		padding: 10px;
 		border-radius: 15px;
 		display: inline-flex;
 		align-items: center;
 		position: relative;
+		box-sizing: border-box;
 	}
 
 	.blink {
@@ -192,14 +195,11 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		height: calc(100vh - 82px);
+		height: calc(100% - 39px);
 		padding: 16px;
+		box-sizing: border-box;
 	}
 	.question-container {
-		flex: 1;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
 		color: #000;
 		font-family: Pretendard;
 		font-size: 22px;
@@ -230,13 +230,11 @@
 	.button-container {
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
 		align-items: center;
-		margin-top: 2rem;
 		margin-bottom: 10px;
 		width: 100%;
 		gap: 8px;
-		height: calc(60px * 4 + 8px * 3); /* 4개의 버튼과 3개의 간격을 고려한 총 높이 */
+		height: 100%;
 		overflow: hidden;
 	}
 	.progressbar-container {

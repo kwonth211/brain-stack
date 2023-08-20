@@ -17,7 +17,7 @@
 		<!-- Existing content goes here -->
 		<div class="title">
 			<LogoIcon />
-			<div>재미있는 퀴즈를 풀기 위해<br /> 로그인을 해주세요.</div>
+			<div>지식을 키워줄 퀴즈가 기다리고 있어요<br /> 로그인하고 도전해보세요</div>
 		</div>
 		<Input placeholder="이메일 입력" />
 		<Input placeholder="비밀번호 입력" />
@@ -74,11 +74,13 @@
 	}
 
 	.wrapper {
+		height: 100%;
 		padding: 20px; /* Adjust the padding as needed */
+		box-sizing: border-box;
 	}
 	:global(.btn) {
-		margin-top: 6px;
-		margin-bottom: 6px;
+		/* margin-top: 6px;
+		margin-bottom: 6px; */
 	}
 	:global(.google) {
 		font-size: 16px !important;
@@ -120,8 +122,9 @@
 		padding-bottom: 160px;
 		color: #000;
 		font-family: Pretendard;
-		font-size: 28px;
+		font-size: 22px;
 		font-style: normal;
 		font-weight: bold;
+		letter-spacing: -2px;
 	}
 </style>

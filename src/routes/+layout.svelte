@@ -3,19 +3,20 @@
 	import '../app.css';
 </script>
 
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
 <main>
 	<slot />
 </main>
 
 <style>
-	:global(body) {
+	:global(body),
+	:global(html) {
+		height: 100%;
 		margin: 0;
 	}
 	main {
-		display: flex;
-		flex-direction: column;
-		min-height: 100vh;
-		/* padding: 1em; */
-		box-sizing: border-box;
+		height: 100%;
 	}
 </style>

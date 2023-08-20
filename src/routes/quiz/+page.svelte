@@ -3,6 +3,8 @@
 	import Header from '$components/Header.svelte';
 	import Quiz from '$components/Quiz.svelte';
 	import { writable } from 'svelte/store';
+	import { goto } from '$app/navigation';
+
 	let quizIndex = 0;
 	export let data;
 	const { quizzes } = data;
@@ -17,17 +19,22 @@
 	};
 </script>
 
-<div>
-	<Header>상식 퀴즈</Header>
+<div style="height: 100%;">
+	<Header
+		onClick={() => {
+			goto('/main');
+		}}>상식 퀴즈</Header
+	>
 
-	<div class="content">
-		{#if $currentQuiz}
-			<Quiz onNext={handleNext} quiz={$currentQuiz} />
-		{:else}
-			<div>Loading...</div>
-		{/if}
-	</div>
+	{#if $currentQuiz}
+		<Quiz onNext={handleNext} {quizzes} quiz={$currentQuiz} />
+	{:else}
+		<div>Loading...</div>
+	{/if}
 </div>
 
 <style>
+	.content {
+		height: 100%;
+	}
 </style>

@@ -1,13 +1,13 @@
 <script>
 	import Divider from './Divider.svelte';
 	import BackIcon from './icons/BackIcon.svelte';
-
+	export let onClick = () => {};
 	const goBack = () => {
 		window.history.back();
 	};
 </script>
 
-<header class="header">
+<header class="header" on:click={onClick} on:keydown={() => {}}>
 	<div class="container">
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div class="back-icon" on:click={goBack}>

@@ -25,12 +25,14 @@
 				}}
 				on:keydown={() => {}}
 			>
+				<span style="font-size: 55px;">💡</span>
 				<div class="quiz-content">
 					<div>상식 퀴즈</div>
 					<QuizIcon />
 				</div>
 			</div>
 			<div class="high-sense-card">
+				<span style="font-size: 55px;">🗣️</span>
 				<div class="quiz-content">
 					<div>아재 퀴즈</div>
 					<QuizIcon color="#5387F7" />
