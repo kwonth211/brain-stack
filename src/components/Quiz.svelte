@@ -5,7 +5,6 @@
 	import Button from '$components/Button.svelte';
 	import ProgressBar from '$components/ProgressBar.svelte';
 	import { onMount } from 'svelte';
-	import {} from 'svelte/transition';
 	import { fade, fly } from 'svelte/transition';
 
 	export let quiz: Quiz;

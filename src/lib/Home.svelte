@@ -7,8 +7,16 @@
 	import { signIn, signOut } from '@auth/sveltekit/client';
 	import GoogleLogo from '../components/icons/GoogleIcon.svelte';
 	import { page } from '$app/stores';
+	import NonMemberModal from '$components/NonMemberModal.svelte';
 
 	const store = writable('home');
+	let NonMemberModalOpen = false;
+
+	// 	<div>지식의 향연을 시작하려면<br /> 로그인을 눌러주세요</div>
+	// <div>오늘 어떤 흥미진진한 퀴즈와 마주칠지<br /> 로그인하고 확인해보세요</div>
+	// <div>놓치면 후회할 퀴즈의 세계<br /> 로그인하고 지식을 늘려보세요</div>
+	// <div>당신의 지식을 키워줄 퀴즈가 기다리고 있어요<br /> 로그인하고 함께 도전해보세요</div>
+	// <div>놀라운 퀴즈로 당신의 지식을 테스트해보고 싶다면<br /> 로그인을 해주세요</div>
 	console.log($page.data.session);
 </script>
 
@@ -22,7 +30,14 @@
 		<Input placeholder="이메일 입력" />
 		<Input placeholder="비밀번호 입력" />
 		<Button size="lg" primary classes="normal-login">로그인하기</Button>
-		<a class="guest-button" href="/categories">비회원으로 시작하기</a>
+		<a
+			class="guest-button"
+			on:click={(e) => {
+				e.preventDefault();
+				NonMemberModalOpen = true;
+			}}
+			href="/categories">비회원으로 시작하기</a
+		>
 
 		<div class="menu-link">
 			<a href="/find-id">아이디찾기</a> |
@@ -31,18 +46,28 @@
 		</div>
 		<Divider />
 
-		<Button
-			size="md"
-			white
-			classes="google"
-			onclick={() => {
-				signIn('google');
-			}}
-		>
-			<GoogleLogo style="position:absolute;left:0px;" />구글로 로그인하기</Button
-		>
+		<div class="oAuth-login-wrapper">
+			<Button
+				size="md"
+				white
+				classes="google"
+				onclick={() => {
+					signIn('google');
+				}}
+			>
+				<GoogleLogo style="position:absolute;left:0px;" />구글로 로그인하기</Button
+			>
 
-		<Button size="md" classes="google" white>애플로 로그인하기</Button>
+			<Button size="md" classes="google" white>애플로 로그인하기</Button>
+		</div>
+
+		{#if NonMemberModalOpen}
+			<NonMemberModal
+				close={() => {
+					NonMemberModalOpen = false;
+				}}
+			/>
+		{/if}
 
 		<!--
 			TODO 중요!
@@ -94,12 +119,14 @@
 		font-style: normal;
 		font-weight: 500;
 		line-height: 11.336%; /* 20.214px */
+		height: var(--button-height);
 	}
 	:global(.normal-login) {
 		font-family: 'Roboto-Medium', sans-serif;
 		text-align: center;
 		position: relative;
 		justify-content: center;
+		height: var(--button-height);
 	}
 
 	.container :global(.divider) {
@@ -126,5 +153,11 @@
 		font-style: normal;
 		font-weight: bold;
 		letter-spacing: -2px;
+	}
+	.oAuth-login-wrapper {
+		margin-top: 20px;
+		gap: 6px;
+		display: flex;
+		flex-direction: column;
 	}
 </style>

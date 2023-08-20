@@ -2,6 +2,7 @@
 	export let primary = false;
 	export let type: 'filled' | 'outlined' = 'filled';
 	export let white = false;
+	export let gray = false;
 	export let size = 'md';
 	export let id: string | null = null;
 	export let onclick = () => {};
@@ -11,7 +12,7 @@
 <button
 	on:click={onclick}
 	id={id ?? null}
-	class="{classes} btn {primary ? 'primary' : ''} {white ? 'white' : ''} {size}
+	class="{classes} btn {primary ? 'primary' : ''} {white ? 'white' : ''} {size} {gray ? 'gray' : ''}
 	
 	{type === 'filled' ? 'filled' : ''}
 	{type === 'outlined' ? 'outlined' : ''}
@@ -27,10 +28,10 @@
 		text-decoration: none;
 		text-align: center;
 		transition: background-color 0.3s;
+		justify-content: center;
 		width: 100%;
 		align-items: center;
 		border-radius: 8px;
-		height: var(--height);
 		font-size: val(--font-size);
 		border: none;
 	}
@@ -70,5 +71,9 @@
 		background-color: white;
 		border: 1px solid #ddd;
 		color: #ddd;
+	}
+	.gray.filled {
+		background-color: var(--gray);
+		color: black;
 	}
 </style>

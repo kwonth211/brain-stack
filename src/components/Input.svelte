@@ -39,6 +39,6 @@
 		border-radius: 6px;
 		font-size: val(--font-size);
 		box-sizing: border-box;
-		height: var(--height);
+		height: var(--input-height);
 	}
 </style>
