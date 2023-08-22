@@ -17,7 +17,20 @@
 	// <div>놓치면 후회할 퀴즈의 세계<br /> 로그인하고 지식을 늘려보세요</div>
 	// <div>당신의 지식을 키워줄 퀴즈가 기다리고 있어요<br /> 로그인하고 함께 도전해보세요</div>
 	// <div>놀라운 퀴즈로 당신의 지식을 테스트해보고 싶다면<br /> 로그인을 해주세요</div>
-	console.log($page.data.session);
+	const handleLogin = async () => {
+		await signIn('google');
+
+		if ($page.data.session && $page.data.session.user) {
+			const user = $page.data.session.user;
+
+			await fetch('/api/auth/signin', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(user)
+			});
+		}
+	};
+	// console.log($page.data.session);
 </script>
 
 {#if $store === 'home'}
@@ -52,7 +65,7 @@
 				white
 				classes="google"
 				onclick={() => {
-					signIn('google');
+					handleLogin();
 				}}
 			>
 				<GoogleLogo style="position:absolute;left:0px;" />구글로 로그인하기</Button
