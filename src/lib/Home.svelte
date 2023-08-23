@@ -68,10 +68,28 @@
 					handleLogin();
 				}}
 			>
-				<GoogleLogo style="position:absolute;left:0px;" />구글로 로그인하기</Button
+				<GoogleLogo style="position:absolute;left:0px;" />구글로 로그인</Button
 			>
-
-			<Button size="md" classes="google" white>애플로 로그인하기</Button>
+			<Button
+				size="md"
+				white
+				classes="google"
+				onclick={() => {
+					handleLogin();
+				}}
+			>
+				<GoogleLogo style="position:absolute;left:0px;" />네이버로 로그인</Button
+			>
+			<Button
+				size="md"
+				white
+				classes="google"
+				onclick={() => {
+					handleLogin();
+				}}
+			>
+				<GoogleLogo style="position:absolute;left:0px;" />카카오로 로그인</Button
+			>
 		</div>
 
 		{#if NonMemberModalOpen}
