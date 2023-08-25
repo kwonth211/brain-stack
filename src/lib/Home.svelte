@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { writable } from 'svelte/store';
 	import LogoIcon from '../components/icons/LogoIcon.svelte';
 	import Button from '../components/Button.svelte';
@@ -6,20 +6,21 @@
 	import Divider from '../components/Divider.svelte';
 	import { signIn, signOut } from '@auth/sveltekit/client';
 	import GoogleLogo from '../components/icons/GoogleIcon.svelte';
+	import KakaoLogo from '../components/icons/KakaoIcon.svelte';
 	import { page } from '$app/stores';
 	import NonMemberModal from '$components/NonMemberModal.svelte';
-
+	// import Kakao from '../../static/kakao_login_large_wide.png'
 	const store = writable('home');
 	let NonMemberModalOpen = false;
+	let Kakao;
 
 	// 	<div>지식의 향연을 시작하려면<br /> 로그인을 눌러주세요</div>
 	// <div>오늘 어떤 흥미진진한 퀴즈와 마주칠지<br /> 로그인하고 확인해보세요</div>
 	// <div>놓치면 후회할 퀴즈의 세계<br /> 로그인하고 지식을 늘려보세요</div>
 	// <div>당신의 지식을 키워줄 퀴즈가 기다리고 있어요<br /> 로그인하고 함께 도전해보세요</div>
 	// <div>놀라운 퀴즈로 당신의 지식을 테스트해보고 싶다면<br /> 로그인을 해주세요</div>
-	const handleLogin = async () => {
-		await signIn('google');
-
+	const handleLogin = async (platform: string) => {
+		await signIn(platform);
 		if ($page.data.session && $page.data.session.user) {
 			const user = $page.data.session.user;
 
@@ -30,7 +31,7 @@
 			});
 		}
 	};
-	// console.log($page.data.session);
+	console.log($page.data.session);
 </script>
 
 {#if $store === 'home'}
@@ -65,7 +66,7 @@
 				white
 				classes="google"
 				onclick={() => {
-					handleLogin();
+					handleLogin('google');
 				}}
 			>
 				<GoogleLogo style="position:absolute;left:0px;" />구글로 로그인</Button
@@ -75,7 +76,7 @@
 				white
 				classes="google"
 				onclick={() => {
-					handleLogin();
+					handleLogin('naver');
 				}}
 			>
 				<GoogleLogo style="position:absolute;left:0px;" />네이버로 로그인</Button
@@ -83,13 +84,15 @@
 			<Button
 				size="md"
 				white
-				classes="google"
+				classes="kakao"
 				onclick={() => {
-					handleLogin();
+					handleLogin('kakao');
 				}}
 			>
-				<GoogleLogo style="position:absolute;left:0px;" />카카오로 로그인</Button
+				<KakaoLogo style="position:absolute;left:11px;" />카카오로 로그인</Button
 			>
+
+			<!-- <Kakao /> -->
 		</div>
 
 		{#if NonMemberModalOpen}
@@ -134,10 +137,7 @@
 		padding: 20px; /* Adjust the padding as needed */
 		box-sizing: border-box;
 	}
-	:global(.btn) {
-		/* margin-top: 6px;
-		margin-bottom: 6px; */
-	}
+
 	:global(.google) {
 		font-size: 16px !important;
 		font-family: 'Roboto-Medium', sans-serif;
@@ -146,6 +146,21 @@
 		justify-content: center;
 
 		color: #606060 !important;
+		font-size: 16px;
+		font-style: normal;
+		font-weight: 500;
+		line-height: 11.336%; /* 20.214px */
+		height: var(--button-height);
+	}
+	:global(.kakao) {
+		font-size: 16px !important;
+		font-family: 'Roboto-Medium', sans-serif;
+		text-align: center;
+		position: relative;
+		justify-content: center;
+
+		color: #000000 85% !important;
+		background-color: #fee500 !important;
 		font-size: 16px;
 		font-style: normal;
 		font-weight: 500;

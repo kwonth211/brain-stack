@@ -7,7 +7,6 @@
 
 	let active = 'home';
 	page.subscribe((_page) => {
-		console.log(_page);
 		const { id } = _page.route;
 		if (id === '/main') {
 			active = 'home';

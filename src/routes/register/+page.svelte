@@ -14,11 +14,14 @@
 		<Input label="비밀번호" placeholder="비밀번호를 입력해주세요." />
 		<Input placeholder="비밀번호를 재입력해주세요." />
 
-		<Button primary>회원가입하기</Button>
+		<Button primary classes="register-submit">회원가입하기</Button>
 	</form>
 </div>
 
 <style>
+	:global(.register-submit) {
+		height: var(--button-height);
+	}
 	form {
 		display: flex;
 		flex-direction: column;
