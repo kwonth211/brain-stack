@@ -19,7 +19,7 @@ export const handle = SvelteKitAuth({
 		async signIn({ user, account, profile }) {
 			await axios.post(
 				'http://127.0.0.1:5173/api/auth/signin',
-				{ user: profile },
+				{ user: profile, account },
 				{
 					headers: { 'Content-Type': 'application/json' }
 				}
