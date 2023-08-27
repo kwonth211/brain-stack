@@ -5,6 +5,8 @@
 	export let type = 'text';
 	export let value: string = '';
 	export let error = '';
+	export let classes = '';
+	export let style = '';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
@@ -20,7 +22,14 @@
 	{#if label}
 		<div class="label-span">{label}</div>
 	{/if}
-	<input {placeholder} {type} {value} on:input={handleInput} class={error ? 'error' : ''} />
+	<input
+		{placeholder}
+		{type}
+		{value}
+		on:input={handleInput}
+		class="{classes} {error ? 'error' : ''}"
+		{style}
+	/>
 	{#if error}
 		<div class="error-message">{error}</div>
 	{/if}

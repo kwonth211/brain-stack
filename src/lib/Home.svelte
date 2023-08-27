@@ -31,7 +31,7 @@
 			<div>지식을 키워줄 퀴즈가 기다리고 있어요<br /> 로그인하고 도전해보세요</div>
 		</div>
 		<Input placeholder="이메일 입력" bind:value={userEmail} />
-		<Input placeholder="비밀번호 입력" bind:value={password} />
+		<Input style="margin: 8px 0px;" placeholder="비밀번호 입력" bind:value={password} />
 		<Button
 			size="lg"
 			primary
@@ -176,6 +176,7 @@
 		position: relative;
 		justify-content: center;
 		height: var(--button-height);
+		margin-top: 10px;
 	}
 
 	.container :global(.divider) {

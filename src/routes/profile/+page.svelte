@@ -34,6 +34,7 @@
 		justify-content: space-between;
 		height: calc(100vh - 82px);
 		padding: 16px;
+		gap: 10px;
 	}
 	form :global(label) {
 		display: flex;
