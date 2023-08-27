@@ -5,6 +5,8 @@
 	export let gray = false;
 	export let size = 'md';
 	export let id: string | null = null;
+	export let disabled = false;
+	export let buttonType: 'button' | 'submit' | 'reset' = 'button';
 	export let onclick = () => {};
 	export let classes = '';
 </script>
@@ -12,10 +14,12 @@
 <button
 	on:click={onclick}
 	id={id ?? null}
+	type={buttonType}
 	class="{classes} btn {primary ? 'primary' : ''} {white ? 'white' : ''} {size} {gray ? 'gray' : ''}
 	
 	{type === 'filled' ? 'filled' : ''}
 	{type === 'outlined' ? 'outlined' : ''}
+	{disabled ? 'disabled' : ''}
 	"
 >
 	<slot />
@@ -75,5 +79,9 @@
 	.gray.filled {
 		background-color: var(--gray);
 		color: black;
+	}
+	.primary.disabled {
+		background-color: #ddd;
+		color: white;
 	}
 </style>

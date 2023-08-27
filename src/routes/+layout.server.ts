@@ -5,6 +5,7 @@ const ONLY_ACCESS_USER_PATHS = ['/main', '/profile', '/my-page'];
 
 export const load: LayoutServerLoad = async (event) => {
 	const session = await event.locals.getSession();
+	console.log({ session });
 	if (session && event.url.pathname === '/') {
 		throw redirect(303, '/main');
 	}

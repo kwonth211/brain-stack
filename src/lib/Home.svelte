@@ -7,12 +7,11 @@
 	import { signIn, signOut } from '@auth/sveltekit/client';
 	import GoogleLogo from '../components/icons/GoogleIcon.svelte';
 	import KakaoLogo from '../components/icons/KakaoIcon.svelte';
-	import { page } from '$app/stores';
 	import NonMemberModal from '$components/NonMemberModal.svelte';
-	// import Kakao from '../../static/kakao_login_large_wide.png'
 	const store = writable('home');
+	let userEmail = '';
+	let password = '';
 	let NonMemberModalOpen = false;
-	let Kakao;
 
 	// 	<div>지식의 향연을 시작하려면<br /> 로그인을 눌러주세요</div>
 	// <div>오늘 어떤 흥미진진한 퀴즈와 마주칠지<br /> 로그인하고 확인해보세요</div>
@@ -21,17 +20,7 @@
 	// <div>놀라운 퀴즈로 당신의 지식을 테스트해보고 싶다면<br /> 로그인을 해주세요</div>
 	const handleLogin = async (platform: string) => {
 		await signIn(platform);
-		if ($page.data.session && $page.data.session.user) {
-			const user = $page.data.session.user;
-
-			await fetch('/api/auth/signin', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(user)
-			});
-		}
 	};
-	console.log($page.data.session);
 </script>
 
 {#if $store === 'home'}
@@ -41,9 +30,23 @@
 			<LogoIcon />
 			<div>지식을 키워줄 퀴즈가 기다리고 있어요<br /> 로그인하고 도전해보세요</div>
 		</div>
-		<Input placeholder="이메일 입력" />
-		<Input placeholder="비밀번호 입력" />
-		<Button size="lg" primary classes="normal-login">로그인하기</Button>
+		<Input placeholder="이메일 입력" bind:value={userEmail} />
+		<Input placeholder="비밀번호 입력" bind:value={password} />
+		<Button
+			size="lg"
+			primary
+			classes="normal-login"
+			onclick={async () => {
+				// 라이브러리 이슈로 인한 홀딩
+				await signIn('credentials', {
+					redirect: false,
+					email: userEmail,
+					password: password,
+					nickname: 'test'
+				});
+				// goto('/main');
+			}}>로그인하기</Button
+		>
 		<a
 			class="guest-button"
 			on:click={(e) => {

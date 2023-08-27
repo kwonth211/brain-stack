@@ -3,7 +3,6 @@ import dotenvExpand from 'dotenv-expand';
 import { loadEnv, defineConfig } from 'vite';
 
 export default defineConfig(({ mode }) => {
-	console.log(mode);
 	if (mode === 'development') {
 		const env = loadEnv(mode, process.cwd(), '');
 		dotenvExpand.expand({ parsed: env });

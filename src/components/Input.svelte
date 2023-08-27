@@ -3,14 +3,16 @@
 	export let label = '';
 	export let placeholder = '';
 	export let type = 'text';
-	let value = '';
+	export let value: string = '';
+	export let error = '';
+	import { createEventDispatcher } from 'svelte';
 
-	// function handleInput(event: FormEventHandler<HTMLInputElement>) {
-	// 	value = event.target.value;
-	// }
+	const dispatch = createEventDispatcher();
+
 	function handleInput(event: Event) {
 		const inputElement = event.target as HTMLInputElement;
 		value = inputElement.value;
+		dispatch('input', value);
 	}
 </script>
 
@@ -18,14 +20,17 @@
 	{#if label}
 		<div class="label-span">{label}</div>
 	{/if}
-	<input {placeholder} {type} {value} on:input={handleInput} />
+	<input {placeholder} {type} {value} on:input={handleInput} class={error ? 'error' : ''} />
+	{#if error}
+		<div class="error-message">{error}</div>
+	{/if}
 </label>
 
 <!-- Add your styles here. -->
 <style>
 	label {
 		display: block;
-		margin-bottom: 1rem;
+		/* margin-bottom: 1rem; */
 	}
 	div {
 		display: block;
@@ -33,6 +38,7 @@
 	}
 	input {
 		background-color: var(--gray);
+
 		width: 100%;
 		padding: 0.75rem;
 		border: none;
@@ -40,5 +46,15 @@
 		font-size: val(--font-size);
 		box-sizing: border-box;
 		height: var(--input-height);
+	}
+	input.error {
+		border: 1px solid red;
+	}
+	.error-message {
+		margin-top: 5px;
+		width: 100%;
+		color: red;
+		font-size: 0.75rem;
+		display: block;
 	}
 </style>
