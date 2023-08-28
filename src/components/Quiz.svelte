@@ -6,6 +6,8 @@
 	import ProgressBar from '$components/ProgressBar.svelte';
 	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
+	import axios from 'axios';
+	import { page } from '$app/stores';
 
 	export let quiz: Quiz;
 	export let onNext = () => {};
@@ -50,6 +52,20 @@
 		selectedOption = _selectedOption;
 
 		isModalOpen = true;
+
+		const quizPoint = {
+			Easy: 1,
+			Medium: 2,
+			Hard: 3
+		};
+
+		axios.post('/api/quiz', {
+			userEmail: $page.data.session?.user?.email,
+			quizId: quiz.id,
+			answer: _selectedOption,
+			isCorrect: answerIsCorrect,
+			point: quizPoint[quiz.difficulty]
+		});
 	};
 	const closeModal = () => {
 		isModalOpen = false;
