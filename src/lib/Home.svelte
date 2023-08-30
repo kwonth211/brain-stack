@@ -8,6 +8,7 @@
 	import GoogleLogo from '../components/icons/GoogleIcon.svelte';
 	import KakaoLogo from '../components/icons/KakaoIcon.svelte';
 	import NonMemberModal from '$components/NonMemberModal.svelte';
+	import NaverLogo from '$components/icons/NaverIcon.svelte';
 	const store = writable('home');
 	let userEmail = '';
 	let password = '';
@@ -19,7 +20,9 @@
 	// <div>당신의 지식을 키워줄 퀴즈가 기다리고 있어요<br /> 로그인하고 함께 도전해보세요</div>
 	// <div>놀라운 퀴즈로 당신의 지식을 테스트해보고 싶다면<br /> 로그인을 해주세요</div>
 	const handleLogin = async (platform: string) => {
-		await signIn(platform);
+		await signIn(platform, {
+			redirect: false
+		});
 	};
 </script>
 
@@ -72,17 +75,17 @@
 					handleLogin('google');
 				}}
 			>
-				<GoogleLogo style="position:absolute;left:0px;" />구글로 로그인</Button
+				<GoogleLogo style="position:absolute;left:0px;" />구글 로그인</Button
 			>
 			<Button
 				size="md"
 				white
-				classes="google"
+				classes="naver"
 				onclick={() => {
 					handleLogin('naver');
 				}}
 			>
-				<GoogleLogo style="position:absolute;left:0px;" />네이버로 로그인</Button
+				<NaverLogo style="position:absolute;left:3px;" />네이버 로그인</Button
 			>
 			<Button
 				size="md"
@@ -92,7 +95,7 @@
 					handleLogin('kakao');
 				}}
 			>
-				<KakaoLogo style="position:absolute;left:11px;" />카카오로 로그인</Button
+				<KakaoLogo style="position:absolute;left:11px;" />카카오 로그인</Button
 			>
 
 			<!-- <Kakao /> -->
@@ -155,6 +158,21 @@
 		line-height: 11.336%; /* 20.214px */
 		height: var(--button-height);
 	}
+	:global(.naver) {
+		font-size: 16px !important;
+		font-family: 'Roboto-Medium', sans-serif;
+		text-align: center;
+		position: relative;
+		justify-content: center;
+		background-color: #03c75a !important;
+		color: white !important;
+		font-size: 16px;
+		font-style: normal;
+		font-weight: 500;
+		line-height: 11.336%; /* 20.214px */
+		height: var(--button-height);
+		border: none !important;
+	}
 	:global(.kakao) {
 		font-size: 16px !important;
 		font-family: 'Roboto-Medium', sans-serif;
@@ -169,6 +187,7 @@
 		font-weight: 500;
 		line-height: 11.336%; /* 20.214px */
 		height: var(--button-height);
+		border: none !important;
 	}
 	:global(.normal-login) {
 		font-family: 'Roboto-Medium', sans-serif;

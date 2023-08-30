@@ -1,11 +1,14 @@
 import { SvelteKitAuth } from '@auth/sveltekit';
 import GoogleProvider from '@auth/core/providers/google';
 import KakaoProvider from '@auth/core/providers/kakao';
+import NaverProvider from '@auth/core/providers/naver';
 import {
 	GOOGLE_CLIENT_ID,
 	GOOGLE_CLIENT_SECRET,
 	KAKAO_CLIENT_ID,
-	KAKAO_CLIENT_SECRET
+	KAKAO_CLIENT_SECRET,
+	NAVER_CLIENT_ID,
+	NAVER_CLIENT_SECRET
 } from '$env/static/private';
 import axios from 'axios';
 import Credentials from '@auth/core/providers/credentials';
@@ -15,6 +18,7 @@ export const handle = SvelteKitAuth({
 	providers: [
 		GoogleProvider({ clientId: GOOGLE_CLIENT_ID, clientSecret: GOOGLE_CLIENT_SECRET }),
 		KakaoProvider({ clientId: KAKAO_CLIENT_ID, clientSecret: KAKAO_CLIENT_SECRET }),
+		NaverProvider({ clientId: NAVER_CLIENT_ID, clientSecret: NAVER_CLIENT_SECRET }),
 		Credentials({
 			credentials: {
 				email: { label: 'UserEmail' },
@@ -57,7 +61,7 @@ export const handle = SvelteKitAuth({
 
 			await axios.post(
 				'http://127.0.0.1:5173/api/auth/signin',
-				{ user: profile, account },
+				{ profile: profile, account },
 				{
 					headers: { 'Content-Type': 'application/json' }
 				}
