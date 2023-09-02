@@ -7,6 +7,8 @@
 	import Divider from '$components/Divider.svelte';
 	import DividerVertical from '$components/DividerVertical.svelte';
 	import NextIcon from '$components/icons/NextIcon.svelte';
+	export let data;
+	const { user } = data;
 </script>
 
 <div in:fade class="container">
@@ -23,7 +25,7 @@
 			goto('/profile');
 		}}
 	>
-		<div class="user-name">홍길동</div>
+		<div class="user-name">{user.nickname}</div>
 
 		<div class="user-rank">랭킹 ??위 <DotIcon /> 정답률 90%</div>
 		<div class="next-icon-wrapper">

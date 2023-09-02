@@ -3,11 +3,14 @@
 	import Footer from '$components/Footer.svelte';
 	import QuizIcon from '$components/icons/QuizIcon.svelte';
 	import { goto } from '$app/navigation';
+
+	export let data;
+	const { user } = data;
 </script>
 
 <div in:fade class="container">
 	<div class="outer-container">
-		<div class="title">홍길동님,</div>
+		<div class="title">{user?.nickname} 님,</div>
 		<div class="content">총 50개의 퀴즈를 푸셨어요! <br /> 아주 잘하고 있습니다!</div>
 	</div>
 	<div class="card-container">

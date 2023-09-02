@@ -4,8 +4,11 @@
 	import { fade } from 'svelte/transition';
 	import Input from '$components/Input.svelte';
 	import { signOut } from '@auth/sveltekit/client';
+	import axios from 'axios';
+	import { goto } from '$app/navigation';
 	export let data;
 	const { user } = data;
+	let nickname = user?.nickname ?? '';
 </script>
 
 <div in:fade>
@@ -27,9 +30,18 @@
 					: user.email}
 				disabled
 			/>
-			<Input label="닉네임" placeholder="닉네임을 입력해주세요." value={user.nickname ?? ''} />
+			<Input label="닉네임" placeholder="닉네임을 입력해주세요." bind:value={nickname} />
 
-			<Button primary classes="change-user-info">회원 정보 변경</Button>
+			<Button
+				primary
+				classes="change-user-info"
+				onclick={async () => {
+					await axios.patch(`/api/user/${user.email}`, {
+						nickname
+					});
+					goto('/my-page');
+				}}>회원 정보 변경</Button
+			>
 			<Button
 				gray
 				classes="logout"
