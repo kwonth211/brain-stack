@@ -4,27 +4,43 @@
 	import { fade } from 'svelte/transition';
 	import Input from '$components/Input.svelte';
 	import { signOut } from '@auth/sveltekit/client';
+	export let data;
+	const { user } = data;
 </script>
 
 <div in:fade>
 	<Header>계정정보</Header>
 
-	<form>
-		<Input label="이름" placeholder="이름 입력" />
-		<Input label="이메일" placeholder="이메일을 입력해주세요" />
-		<Input label="닉네임" placeholder="비밀번호를 입력해주세요." />
+	{#if user}
+		<form>
+			{#if user.name}
+				<Input label="이름" placeholder="이름 입력을 입력해주세요" value={user.name} disabled />
+			{/if}
 
-		<Button primary classes="change-user-info">회원 정보 변경</Button>
-		<Button
-			gray
-			classes="logout"
-			onclick={() => {
-				signOut();
-			}}
-		>
-			로그아웃
-		</Button>
-	</form>
+			<Input
+				label="이메일"
+				placeholder="이메일을 입력해주세요"
+				value={user.type === 'kakao'
+					? 'kakao 계정'
+					: user.type === 'naver'
+					? 'naver 계정'
+					: user.email}
+				disabled
+			/>
+			<Input label="닉네임" placeholder="닉네임을 입력해주세요." value={user.nickname ?? ''} />
+
+			<Button primary classes="change-user-info">회원 정보 변경</Button>
+			<Button
+				gray
+				classes="logout"
+				onclick={() => {
+					signOut();
+				}}
+			>
+				로그아웃
+			</Button>
+		</form>
+	{/if}
 </div>
 
 <style>

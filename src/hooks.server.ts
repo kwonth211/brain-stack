@@ -53,6 +53,14 @@ export const handle = SvelteKitAuth({
 		})
 	],
 	callbacks: {
+		async session({ session, token, user }) {
+			if (session.user) {
+				session.user.email = token.email ?? token.sub;
+			}
+
+			return session;
+		},
+
 		async signIn({ user, account, profile }) {
 			// custom credentials provider 일떄
 			if (!profile) {

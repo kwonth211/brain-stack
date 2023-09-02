@@ -1,7 +1,7 @@
 export type User = {
 	id: number;
-	email: string;
 	name: string;
-	type: 'google' | 'kakao' | 'email';
+	email: string;
+	type: 'google' | 'kakao' | 'email' | 'naver';
 	nickname: string | null;
 };

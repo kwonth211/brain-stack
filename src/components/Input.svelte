@@ -7,6 +7,7 @@
 	export let error = '';
 	export let classes = '';
 	export let style = '';
+	export let disabled = false;
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
@@ -27,8 +28,9 @@
 		{type}
 		{value}
 		on:input={handleInput}
-		class="{classes} {error ? 'error' : ''}"
+		class="{classes} {error ? 'error' : ''} {disabled ? 'disabled' : ''}"
 		{style}
+		{disabled}
 	/>
 	{#if error}
 		<div class="error-message">{error}</div>
@@ -65,5 +67,10 @@
 		color: red;
 		font-size: 0.75rem;
 		display: block;
+	}
+	.disabled {
+		background-color: #dcdcdc;
+		pointer-events: none;
+		cursor: not-allowed;
 	}
 </style>
