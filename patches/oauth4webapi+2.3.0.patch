@@ -1,0 +1,13 @@
+diff --git a/node_modules/oauth4webapi/build/index.js b/node_modules/oauth4webapi/build/index.js
+index 83b47de..3e6cadb 100644
+--- a/node_modules/oauth4webapi/build/index.js
++++ b/node_modules/oauth4webapi/build/index.js
+@@ -899,7 +899,7 @@ async function processGenericAccessTokenResponse(as, client, response, ignoreIdT
+         throw new UnsupportedOperationError('unsupported `token_type` value');
+     }
+     if (json.expires_in !== undefined &&
+-        (typeof json.expires_in !== 'number' || json.expires_in <= 0)) {
++        (isNaN(Number(json.expires_in))  || json.expires_in <= 0)) {
+         throw new OPE('"response" body "expires_in" property must be a positive number');
+     }
+     if (!ignoreRefreshToken &&
