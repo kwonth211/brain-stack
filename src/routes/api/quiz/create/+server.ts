@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit';
 import nodemailer from 'nodemailer';
-
 import { NAVER_LOGIN_ID, NAVER_LOGIN_PW } from '$env/static/private';
+
 export async function POST({ request }: { request: Request }) {
 	const { question, option1, option2, option3, option4, answer } = await request.json();
 
