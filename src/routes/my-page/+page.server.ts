@@ -17,11 +17,6 @@ export async function load({ locals, request }: { request: Request }) {
 	const { rows: quizResults } =
 		await sql`SELECT is_correct FROM user_quizzes WHERE user_id=${userId}`;
 
-	if (quizResults.length === 0) {
-		return json({ message: 'No quiz results found for this user.' }, { status: 404 });
-	}
-
-	// Calculate statistics
 	const totalQuizzes = quizResults.length;
 	let correctAnswers = 0;
 	let incorrectAnswers = 0;
@@ -42,7 +37,7 @@ export async function load({ locals, request }: { request: Request }) {
 			totalQuizzes,
 			correctAnswers,
 			incorrectAnswers,
-			accuracy: `${accuracy}%`
+			accuracy: `${isNaN(Number(accuracy)) ? 0 : accuracy}%`
 		}
 	};
 }
