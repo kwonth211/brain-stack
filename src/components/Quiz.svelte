@@ -209,7 +209,7 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		height: calc(100% - 39px);
+		overflow: scroll;
 		padding: 16px;
 		box-sizing: border-box;
 	}

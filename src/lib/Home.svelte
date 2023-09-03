@@ -34,7 +34,7 @@
 			<div>지식을 키워줄 퀴즈가 기다리고 있어요<br /> 로그인하고 도전해보세요</div>
 		</div>
 		<Input placeholder="이메일 입력" bind:value={userEmail} />
-		<Input style="margin: 8px 0px;" placeholder="비밀번호 입력" bind:value={password} />
+		<Input placeholder="비밀번호 입력" bind:value={password} />
 		<Button
 			size="lg"
 			primary
@@ -139,9 +139,14 @@
 	}
 
 	.wrapper {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
 		height: 100%;
 		padding: 20px; /* Adjust the padding as needed */
 		box-sizing: border-box;
+		overflow: scroll;
+		gap: 5px;
 	}
 
 	:global(.google) {
@@ -215,7 +220,7 @@
 
 	.title {
 		padding-top: 40px;
-		padding-bottom: 160px;
+		/* padding-bottom: 12%; */
 		color: #000;
 		font-family: Pretendard;
 		font-size: 22px;

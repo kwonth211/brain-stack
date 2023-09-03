@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit';
 import { sql } from '@vercel/postgres';
+import axios from 'axios';
 
 export async function POST({ request, cookies }) {
 	const { profile, account } = await request.json();
@@ -37,6 +38,16 @@ export async function POST({ request, cookies }) {
 
 	const { rows: existingUsers } = await sql`SELECT * FROM users WHERE email=${userId}`;
 	if (existingUsers.length === 0) {
+		if (!nickname) {
+			const randomNicknameResponse = await axios.get(
+				'https://nickname.hwanmoo.kr/?format=json&count=2'
+			);
+
+			if (randomNicknameResponse.data.words) {
+				nickname = randomNicknameResponse.data.words[0];
+			}
+		}
+
 		await sql`INSERT INTO users (email, name, nickname, type) VALUES (${userId}, ${name ?? ''}, ${
 			nickname ?? ''
 		}, ${account.provider})`;
