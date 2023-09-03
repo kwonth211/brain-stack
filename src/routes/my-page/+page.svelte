@@ -8,7 +8,7 @@
 	import DividerVertical from '$components/DividerVertical.svelte';
 	import NextIcon from '$components/icons/NextIcon.svelte';
 	export let data;
-	const { user } = data;
+	const { user, statistics } = data;
 </script>
 
 <div in:fade class="container">
@@ -25,9 +25,9 @@
 			goto('/profile');
 		}}
 	>
-		<div class="user-name">{user.nickname}</div>
+		<div class="user-name">{user?.nickname}</div>
 
-		<div class="user-rank">랭킹 ??위 <DotIcon /> 정답률 90%</div>
+		<div class="user-rank">랭킹 ??위 <DotIcon /> 정답률 {statistics?.accuracy}</div>
 		<div class="next-icon-wrapper">
 			<NextIcon />
 		</div>
@@ -35,12 +35,12 @@
 	<div class="quiz-card">
 		<div class="quiz-card-wrapper">
 			<div class="correct-quiz-text">맞은 퀴즈</div>
-			<div class="correct-quiz-count">50</div>
+			<div class="correct-quiz-count">{statistics?.correctAnswers}</div>
 		</div>
 		<DividerVertical />
 		<div class="quiz-card-wrapper">
 			<div class="incorrect-quiz-text">틀린 퀴즈</div>
-			<div class="incorrect-quiz-count">30</div>
+			<div class="incorrect-quiz-count">{statistics?.incorrectAnswers}</div>
 		</div>
 	</div>
 	<div class="card-container">

@@ -69,7 +69,6 @@
 	};
 	const closeModal = () => {
 		isModalOpen = false;
-		// onNext();
 	};
 
 	$: getButtonClassName = (index: number) => {

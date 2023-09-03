@@ -12,6 +12,37 @@ export async function load({ locals, request }: { request: Request }) {
 	}
 
 	const user = existingUsers[0];
+	const userId = user.id;
 
-	return { user: user as User };
+	const { rows: quizResults } =
+		await sql`SELECT is_correct FROM user_quizzes WHERE user_id=${userId}`;
+
+	if (quizResults.length === 0) {
+		return json({ message: 'No quiz results found for this user.' }, { status: 404 });
+	}
+
+	// Calculate statistics
+	const totalQuizzes = quizResults.length;
+	let correctAnswers = 0;
+	let incorrectAnswers = 0;
+
+	for (const result of quizResults) {
+		if (result.is_correct) {
+			correctAnswers++;
+		} else {
+			incorrectAnswers++;
+		}
+	}
+
+	const accuracy = ((correctAnswers / totalQuizzes) * 100).toFixed(2);
+
+	return {
+		user: user as User,
+		statistics: {
+			totalQuizzes,
+			correctAnswers,
+			incorrectAnswers,
+			accuracy: `${accuracy}%`
+		}
+	};
 }
