@@ -158,18 +158,11 @@
 		padding: 16px;
 	}
 	form :global(label) {
-		/* display: flex;
-		flex-direction: row;
-		align-items: center; */
-
 		display: flex;
-		flex-direction: column; /* 이 부분을 column으로 변경 */
+		flex-direction: column;
 	}
 	form :global(.label-span) {
 		width: 100px;
-	}
-	form :global(.label:last-of-type) {
-		/* padding-left: 76px; */
 	}
 	form :global(.btn) {
 		margin-top: auto;

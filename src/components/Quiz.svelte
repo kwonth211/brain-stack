@@ -11,7 +11,7 @@
 
 	export let quiz: Quiz;
 	export let onNext = () => {};
-	export let quizzes: Quiz[];
+	export let quizzes: Quiz[] | undefined;
 	const options = [quiz.option1, quiz.option2, quiz.option3, quiz.option4];
 	let selectedOption: number | null = null;
 
@@ -106,7 +106,7 @@
 				{quiz.difficulty}
 			</div>
 		</div>
-		{1}/{quizzes.length} 맞은문제/푼문제
+		{1}/{quizzes?.length ?? 0} 맞은문제/푼문제
 	</div>
 	<div class="question-container">
 		<div class="question chat-style">

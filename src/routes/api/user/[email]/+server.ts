@@ -1,7 +1,8 @@
 import { json } from '@sveltejs/kit';
 import { sql } from '@vercel/postgres';
+import type { User } from '../../../../types/user';
 
-export async function PATCH({ request, params, ...rest }: { request: Request }) {
+export async function PATCH({ request, params }) {
 	const { email } = params;
 	const { name, nickname } = (await request.json()) as Partial<User>;
 
@@ -12,8 +13,8 @@ export async function PATCH({ request, params, ...rest }: { request: Request }) 
 	}
 
 	let query = `UPDATE users SET `;
-	let paramsToUpdate = [];
-	let values = [];
+	const paramsToUpdate: string[] = [];
+	const values: string[] = [];
 
 	if (name) {
 		paramsToUpdate.push(`name=$${paramsToUpdate.length + 1}`);

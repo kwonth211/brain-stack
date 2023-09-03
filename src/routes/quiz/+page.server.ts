@@ -1,4 +1,3 @@
-import { createPool } from '@vercel/postgres';
 import type { Quiz } from '../../types/quiz';
 import { sql } from '@vercel/postgres';
 
@@ -12,8 +11,8 @@ export async function load(event) {
 			await sql`SELECT quiz_id FROM user_quizzes WHERE user_id = (SELECT id FROM users WHERE email=${userId})`;
 
 		let query = `SELECT * FROM quizzes WHERE `;
-		let conditions = [];
-		let values = [];
+		const conditions: string[] = [];
+		const values: string[] = [];
 
 		if (categoryId) {
 			conditions.push(`category_id=$${conditions.length + 1}`);

@@ -203,14 +203,6 @@
 		gap: 10px;
 	}
 
-	.quiz-container {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		height: 100%;
-		gap: 10px;
-	}
-
 	.create-container {
 		display: flex;
 		flex-direction: column;

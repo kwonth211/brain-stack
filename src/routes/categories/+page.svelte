@@ -98,28 +98,4 @@
 	.quiz-card:hover {
 		transform: scale(1.05);
 	}
-
-	.quiz-card.science {
-	}
-
-	.quiz-card.history {
-	}
-
-	.quiz-card.literature {
-	}
-
-	.quiz-card.art {
-	}
-
-	.quiz-card.technology {
-	}
-
-	.quiz-card.economy {
-	}
-
-	.quiz-card.psychology {
-	}
-
-	.quiz-card.philosophy {
-	}
 </style>

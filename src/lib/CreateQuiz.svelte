@@ -59,7 +59,6 @@
 			type="text"
 			placeholder="퀴즈 문제를 입력해주세요."
 			bind:value={question}
-			autofocus
 			class="question-input"
 		/>
 	</div>
@@ -143,15 +142,7 @@
 		box-sizing: border-box;
 		font-weight: 400;
 	}
-	button {
-		padding: 10px 20px;
-		font-size: 16px;
-		background-color: #5387f7;
-		color: white;
-		border: none;
-		border-radius: 8px;
-		cursor: pointer;
-	}
+
 	:global(.create-quiz-button) {
 		height: var(--button-height);
 	}

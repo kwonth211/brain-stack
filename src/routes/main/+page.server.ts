@@ -1,9 +1,12 @@
-import { json } from '@sveltejs/kit';
 import { sql } from '@vercel/postgres';
-import type { User } from '../../data/user';
+import type { User } from '../../types/user';
 
-export async function load({ locals, request }: { request: Request }) {
+export async function load({ locals }) {
 	const session = await locals.getSession();
+
+	if (!session?.user) {
+		throw new Error('Unauthorized');
+	}
 
 	try {
 		const { rows: existingUsers } =
@@ -25,7 +28,7 @@ export async function load({ locals, request }: { request: Request }) {
 
 		return { user: user as User, totalQuizzes };
 	} catch (error) {
-		if (error.status === 404) {
+		if ((error as Error).status === 404) {
 			throw error;
 		}
 	}

@@ -12,7 +12,7 @@ import {
 } from '$env/static/private';
 import axios from 'axios';
 import Credentials from '@auth/core/providers/credentials';
-import type { User } from './data/user';
+import type { User } from './types/user';
 
 export const handle = SvelteKitAuth({
 	providers: [
