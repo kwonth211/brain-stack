@@ -170,7 +170,7 @@
 	.outer-container {
 		display: flex;
 		flex-direction: column;
-		margin: 100px 10px 10px 15px;
+		margin: 80px 10px 10px 15px;
 		gap: 10px;
 	}
 	.card-container {

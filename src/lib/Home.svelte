@@ -34,7 +34,7 @@
 			<div>지식을 키워줄 퀴즈가 기다리고 있어요<br /> 로그인하고 도전해보세요</div>
 		</div>
 		<Input placeholder="이메일 입력" bind:value={userEmail} />
-		<Input placeholder="비밀번호 입력" bind:value={password} />
+		<Input placeholder="비밀번호 입력" bind:value={password} type="password" />
 		<Button
 			size="lg"
 			primary
@@ -44,8 +44,7 @@
 				await signIn('credentials', {
 					redirect: false,
 					email: userEmail,
-					password: password,
-					nickname: 'test'
+					password: password
 				});
 				// goto('/main');
 			}}>로그인하기</Button

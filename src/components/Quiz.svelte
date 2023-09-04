@@ -11,7 +11,8 @@
 
 	export let quiz: Quiz;
 	export let onNext = () => {};
-	export let quizzes: Quiz[] | undefined;
+	export let solvedCount: number;
+	export let totalCount: number;
 	const options = [quiz.option1, quiz.option2, quiz.option3, quiz.option4];
 	let selectedOption: number | null = null;
 
@@ -91,7 +92,7 @@
 <div in:fade class="container">
 	<div class="status-wrapper">
 		<div class="progressbar-container">
-			<ProgressBar progress={20} />
+			<ProgressBar progress={(solvedCount / totalCount) * 100} />
 			<div
 				class={`${
 					quiz.difficulty === 'Easy'
@@ -106,7 +107,7 @@
 				{quiz.difficulty}
 			</div>
 		</div>
-		{1}/{quizzes?.length ?? 0} 맞은문제/푼문제
+		{solvedCount ?? 0}/{totalCount ?? 0} 푼문제/총문제
 	</div>
 	<div class="question-container">
 		<div class="question chat-style">
@@ -175,7 +176,6 @@
 	}
 
 	.question.chat-style {
-		height: 382px;
 		padding: 10px;
 		border-radius: 15px;
 		display: inline-flex;
@@ -207,11 +207,12 @@
 	.container {
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		justify-content: space-between;
 		align-items: center;
 		overflow: scroll;
 		padding: 16px;
 		box-sizing: border-box;
+		height: calc(100% - 32px);
 	}
 	.question-container {
 		color: #000;
@@ -248,7 +249,8 @@
 		margin-bottom: 10px;
 		width: 100%;
 		gap: 8px;
-		height: 100%;
+		height: 43%;
+
 		overflow: hidden;
 	}
 	.progressbar-container {

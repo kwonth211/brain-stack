@@ -9,18 +9,22 @@
 
 	let quizIndex = 0;
 	export let data;
-	const { quizzes } = data;
+	const { unsolvedQuizzes, solvedCount: _solvedCount, totalCount } = data;
 
-	const currentQuiz = writable<QuizType | null>(quizzes?.[quizIndex] ?? null);
-
+	let solvedCount = _solvedCount ?? 0;
+	const currentQuiz = writable<QuizType | null>(unsolvedQuizzes?.[quizIndex] ?? null);
 	const handleNext = () => {
-		if (!quizzes) {
+		if (!unsolvedQuizzes) {
 			return;
 		}
-		quizIndex = (quizIndex + 1) % quizzes.length;
+		quizIndex = (quizIndex + 1) % unsolvedQuizzes.length;
 		currentQuiz.set(null); // Add this line
-		setTimeout(() => currentQuiz.set(quizzes[quizIndex])); // And change this line
-		quizzes?.shift();
+		setTimeout(() => currentQuiz.set(unsolvedQuizzes[quizIndex])); // And change this line
+
+		solvedCount++;
+
+		// if (solvedCount === totalCount) {
+		// 	goto('/result');
 	};
 </script>
 
@@ -32,7 +36,7 @@
 	>
 
 	{#if $currentQuiz}
-		<Quiz onNext={handleNext} {quizzes} quiz={$currentQuiz} />
+		<Quiz onNext={handleNext} {solvedCount} totalCount={totalCount ?? 0} quiz={$currentQuiz} />
 	{:else}
 		<div>Loading...</div>
 	{/if}

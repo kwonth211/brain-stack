@@ -4,11 +4,12 @@ import { sql } from '@vercel/postgres';
 export async function load(event) {
 	const categoryId = event.url.searchParams.get('category');
 	const session = await event.locals.getSession();
-	const userId = session?.user?.email; // 세션에서 유저 이메일 가져오기
+	const userId = session?.user?.email;
 
 	try {
-		const { rows: solvedQuizzes } =
-			await sql`SELECT quiz_id FROM user_quizzes WHERE user_id = (SELECT id FROM users WHERE email=${userId})`;
+		const { rows: solvedQuizzes } = categoryId
+			? await sql`SELECT quiz_id FROM user_quizzes WHERE user_id = (SELECT id FROM users WHERE email=${userId}) AND quiz_id IN (SELECT id FROM quizzes WHERE category_id=${categoryId})`
+			: await sql`SELECT quiz_id FROM user_quizzes WHERE user_id = (SELECT id FROM users WHERE email=${userId})`;
 
 		let query = `SELECT * FROM quizzes WHERE `;
 		const conditions: string[] = [];
@@ -29,10 +30,14 @@ export async function load(event) {
 
 		query += conditions.join(' AND ');
 
-		const { rows: quizzes } = await sql.query(query, values);
+		const { rows: unsolvedQuizzes } = await sql.query(query, values);
+
+		const totalCount = solvedQuizzes.length + unsolvedQuizzes.length;
 
 		return {
-			quizzes: quizzes as Quiz[]
+			solvedCount: solvedQuizzes.length,
+			totalCount: totalCount,
+			unsolvedQuizzes: unsolvedQuizzes
 		};
 	} catch (error: unknown) {
 		if (error instanceof Error) {

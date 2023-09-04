@@ -51,8 +51,9 @@
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
-		height: 70px;
+		height: 42px;
 		border-top: 1px solid #e0e0e0;
+		padding-top: 9px;
 		bottom: 0px;
 		position: absolute;
 	}
