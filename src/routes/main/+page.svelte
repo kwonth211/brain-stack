@@ -26,8 +26,8 @@
 	];
 
 	const getCheerUpText = () => {
-		if (!totalQuizzes) {
-			return lessThan50[Math.floor(Math.random() * lessThan50.length)];
+		if (!totalQuizzes && totalQuizzes !== 0) {
+			return '';
 		}
 
 		if (totalQuizzes < 50) {
@@ -46,7 +46,7 @@
 		<div class="content">
 			총 <span class="total-quiz">{totalQuizzes}</span>개의 퀴즈를 푸셨어요<br />
 			<div class="cheer-up-text">
-				{getCheerUpText()}
+				<!-- {getCheerUpText()} -->
 			</div>
 		</div>
 	</div>
@@ -84,7 +84,7 @@
 			<div class="high-sense-card">
 				<span style="font-size: 55px;">🗣️</span>
 				<div class="quiz-content">
-					<div>아재 퀴즈</div>
+					<div>넌센스 퀴즈</div>
 					<QuizIcon color="#5387F7" />
 				</div>
 			</div>

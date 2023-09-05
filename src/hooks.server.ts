@@ -3,6 +3,7 @@ import GoogleProvider from '@auth/core/providers/google';
 import KakaoProvider from '@auth/core/providers/kakao';
 import NaverProvider from '@auth/core/providers/naver';
 import {
+	DOMAIN,
 	GOOGLE_CLIENT_ID,
 	GOOGLE_CLIENT_SECRET,
 	KAKAO_CLIENT_ID,
@@ -28,7 +29,7 @@ export const handle = SvelteKitAuth({
 
 			async authorize({ email, password }) {
 				const response = await axios.post(
-					'http://127.0.0.1:5173/api/auth/check',
+					`${DOMAIN}/api/auth/check`,
 					{
 						email,
 						password
@@ -68,7 +69,7 @@ export const handle = SvelteKitAuth({
 			}
 
 			await axios.post(
-				'http://127.0.0.1:5173/api/auth/signin',
+				`${DOMAIN}/api/auth/signin`,
 				{ profile: profile, account },
 				{
 					headers: { 'Content-Type': 'application/json' }

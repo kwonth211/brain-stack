@@ -2,7 +2,7 @@ import { json } from '@sveltejs/kit';
 import { sql } from '@vercel/postgres';
 import axios from 'axios';
 
-export async function POST({ request, cookies }) {
+export async function POST({ request }: { request: Request }) {
 	const { profile, account } = await request.json();
 
 	const { id, name: oAuthName, email, response } = profile;

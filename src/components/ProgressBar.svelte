@@ -13,6 +13,7 @@
 		background-color: #dfe9fe;
 		border-radius: 9px;
 		overflow: hidden;
+		margin-bottom: 1px;
 	}
 
 	.progress-gauge {

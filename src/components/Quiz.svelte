@@ -11,8 +11,10 @@
 
 	export let quiz: Quiz;
 	export let onNext = () => {};
+	export let onCheckAnswer = (isCorrect: boolean) => {};
 	export let solvedCount: number;
 	export let totalCount: number;
+	export let correctCount: number;
 	const options = [quiz.option1, quiz.option2, quiz.option3, quiz.option4];
 	let selectedOption: number | null = null;
 
@@ -67,6 +69,7 @@
 			isCorrect: answerIsCorrect,
 			point: quizPoint[quiz.difficulty]
 		});
+		onCheckAnswer(answerIsCorrect);
 	};
 	const closeModal = () => {
 		isModalOpen = false;
@@ -107,7 +110,12 @@
 				{quiz.difficulty}
 			</div>
 		</div>
-		{solvedCount ?? 0}/{totalCount ?? 0} 푼문제/총문제
+		<div class="count-text">
+			{solvedCount ?? 0}/{totalCount ?? 0}
+			<div class="correct-text">
+				맞은개수 <span class="correct-text-count">{correctCount}개</span>
+			</div>
+		</div>
 	</div>
 	<div class="question-container">
 		<div class="question chat-style">
@@ -249,7 +257,7 @@
 		margin-bottom: 10px;
 		width: 100%;
 		gap: 8px;
-		height: 43%;
+		height: 45%;
 
 		overflow: hidden;
 	}
@@ -258,7 +266,6 @@
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
-		margin-bottom: 10px;
 		width: 100%;
 		gap: 8px;
 	}
@@ -266,28 +273,29 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 34px;
-		height: 30px;
-		border-radius: 12.5px;
-		padding-left: 4px;
-		padding-right: 4px;
+		width: 36px;
+		height: 26px;
+
 		font-family: Pretendard;
 		font-size: 11px;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 22px;
-		border-radius: 8px;
+		border-radius: 13px;
 	}
 	.difficulty-chip.easy {
-		background-color: #e8f5e9;
+		/* background-color: #e8f5e9; */
+		border: 1px solid #66bb6a;
 		color: #66bb6a;
 	}
 	.difficulty-chip.medium {
-		background-color: #fff4e5;
+		/* background-color: #fff4e5; */
+		border: 1px solid #ffa64d;
 		color: #ffa64d;
 	}
 	.difficulty-chip.hard {
-		background-color: #ffeef0;
+		/* background-color: #ffeef0; */
+		border: 1px solid #ff4c4c;
 		color: #ff4c4c;
 	}
 	.status-wrapper {
@@ -319,6 +327,33 @@
 	.button-container .number {
 		width: 30px;
 	}
+
+	.count-text {
+		color: #858585;
+		font-family: Pretendard;
+		font-size: 15px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 22px; /* 146.667% */
+		letter-spacing: -0.408px;
+		display: flex;
+		gap: 5px;
+		align-items: center;
+	}
+	.correct-text {
+		font-size: 13px;
+		margin-bottom: 2px;
+	}
+	.correct-text-count {
+		color: #5387f7;
+		font-family: Pretendard;
+		font-size: 13px;
+		font-style: normal;
+		font-weight: 500;
+		line-height: 22px;
+		letter-spacing: -0.408px;
+	}
+
 	/* FIXME: important 없애기 */
 	:global(.correct) {
 		background-color: #5387f7 !important;

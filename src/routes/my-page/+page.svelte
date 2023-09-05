@@ -18,16 +18,15 @@
 	</div> -->
 	<div
 		class="user-card"
-		on:keydown={() => {
-			goto('/profile');
-		}}
-		on:click={() => {
-			goto('/profile');
+		on:keydown={() => {}}
+		on:click={(e) => {
+			e.stopPropagation();
+			// goto('/profile');
 		}}
 	>
-		<div class="user-name">{user?.nickname}</div>
+		<div class="user-name"><a style="color: inherit;" href="/profile">{user?.nickname}</a></div>
 
-		<div class="user-rank">랭킹 ??위 <DotIcon /> 정답률 {statistics?.accuracy}</div>
+		<div class="user-rank">랭킹 ?위 <DotIcon /> 정답률 {statistics?.accuracy}</div>
 		<div class="next-icon-wrapper">
 			<NextIcon />
 		</div>
@@ -115,7 +114,7 @@
 		font-size: 16px;
 		color: gray;
 		border-radius: 16px;
-		margin-bottom: 61px;
+		margin-bottom: 64px;
 	}
 
 	.rank-name {

@@ -218,8 +218,8 @@
 	}
 
 	.title {
-		padding-top: 40px;
-		/* padding-bottom: 12%; */
+		padding-top: 20px;
+		padding-bottom: 7px;
 		color: #000;
 		font-family: Pretendard;
 		font-size: 22px;

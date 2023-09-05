@@ -2,7 +2,7 @@ import { json } from '@sveltejs/kit';
 import { sql } from '@vercel/postgres';
 import type { User } from '../../../../types/user';
 
-export async function PATCH({ request, params }) {
+export async function PATCH({ request, params }: { request: Request; params: { email: string } }) {
 	const { email } = params;
 	const { name, nickname } = (await request.json()) as Partial<User>;
 

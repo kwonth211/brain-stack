@@ -11,7 +11,7 @@ export async function load({ locals }) {
 	const { rows: existingUsers } = await sql`SELECT * FROM users WHERE email=${session.user.email}`;
 
 	if (existingUsers.length === 0) {
-		return json({ error: 'User not found' }, { status: 404 });
+		throw new Error('User not found');
 	}
 
 	const user = existingUsers[0];
