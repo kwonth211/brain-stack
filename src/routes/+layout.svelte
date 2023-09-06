@@ -9,7 +9,7 @@
 		}
 
 		const doc = document.documentElement;
-		doc.style.setProperty('--doc-height', `${window.innerHeight + 12}px`);
+		doc.style.setProperty('--doc-height', `${window.innerHeight}px`);
 	};
 	onMount(() => {
 		documentHeight();
@@ -33,5 +33,6 @@
 	}
 	main {
 		height: 100%;
+		position: relative;
 	}
 </style>

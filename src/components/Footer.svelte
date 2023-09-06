@@ -42,7 +42,6 @@
 		마이페이지
 	</div>
 </footer>
-<Divider />
 
 <style>
 	.footer {

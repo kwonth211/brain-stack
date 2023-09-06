@@ -8,7 +8,7 @@
 	import DividerVertical from '$components/DividerVertical.svelte';
 	import NextIcon from '$components/icons/NextIcon.svelte';
 	export let data;
-	const { user, statistics } = data;
+	const { user, statistics, userRanking, rankings } = data;
 </script>
 
 <div in:fade class="container">
@@ -26,7 +26,9 @@
 	>
 		<div class="user-name"><a style="color: inherit;" href="/profile">{user?.nickname}</a></div>
 
-		<div class="user-rank">랭킹 ?위 <DotIcon /> 정답률 {statistics?.accuracy}</div>
+		<div class="user-rank">
+			랭킹 {userRanking ?? '?'}위 <DotIcon /> 정답률 {statistics?.accuracy}
+		</div>
 		<div class="next-icon-wrapper">
 			<NextIcon />
 		</div>
@@ -46,24 +48,14 @@
 		<div>랭킹</div>
 		<!-- <div class="overlay">준비 중이에요...</div> -->
 		<div class="create-container">
-			<div class="ranking-list-item">
-				<!-- TODO 메달 추가 -->
-				<div class="rank">1</div>
-				<div class="rank-name">Einstein</div>
-				<div class="correct-ratio">정답률 90%</div>
-			</div>
-			<div class="ranking-list-item">
-				<!-- TODO 메달 추가 -->
-				<div class="rank">2</div>
-				<div class="rank-name">페이커</div>
-				<div class="correct-ratio">정답률 90%</div>
-			</div>
-			<div class="ranking-list-item">
-				<!-- TODO 메달 추가 -->
-				<div class="rank">3</div>
-				<div class="rank-name">알파고</div>
-				<div class="correct-ratio">정답률 90%</div>
-			</div>
+			{#each rankings as rank, index}
+				<div class="ranking-list-item">
+					<!-- TODO 메달 추가 -->
+					<div class="rank">{index + 1}</div>
+					<div class="rank-name">{rank.userNickname}</div>
+					<div class="correct-ratio">정답률 {rank.userAccuracy.toFixed(0)}%</div>
+				</div>
+			{/each}
 		</div>
 	</div>
 	<Footer />
@@ -74,12 +66,12 @@
 		color: #424242;
 		text-align: center;
 		font-family: Pretendard;
-		font-size: 23px;
+		font-size: 17px;
 		font-style: normal;
 		font-weight: 600;
 		line-height: 22px; /* 95.652% */
 		letter-spacing: -0.408px;
-		flex: 0.3;
+		flex: 0.12;
 		/* margin-right: 15px; */
 	}
 	.overlay {
@@ -102,7 +94,7 @@
 	.rank-name {
 		color: #424242;
 		font-family: Pretendard;
-		font-size: 18px;
+		font-size: 12px;
 		font-style: normal;
 		flex: 1;
 		font-weight: 600;
@@ -117,6 +109,7 @@
 		font-weight: 400;
 		line-height: 22px; /* 169.231% */
 		letter-spacing: -0.408px;
+		text-align: right;
 		/* position: absolute;
 		right: 10px; */
 		flex: 1;
@@ -201,7 +194,6 @@
 		border-radius: 10px;
 		background: #f3f4f6;
 		padding: 10px;
-		padding-left: 20px;
 		box-sizing: border-box;
 	}
 

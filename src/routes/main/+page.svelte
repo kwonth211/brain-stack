@@ -96,8 +96,7 @@
 
 <style>
 	.container {
-		position: relative;
-		height: 100vh;
+		height: 100%;
 		display: flex;
 		flex-direction: column;
 		background-color: rgba(83, 135, 247, 0.19);

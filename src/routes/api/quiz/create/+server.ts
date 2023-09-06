@@ -26,14 +26,19 @@ export async function POST({ request }: { request: Request }) {
 		text: `새로운 퀴즈가 생성되었습니다.\n\n문제: ${question}\n옵션1: ${option1}\n옵션2: ${option2}\n옵션3: ${option3}\n옵션4: ${option4}\n정답: ${answer}`
 	};
 
-	transporter.sendMail(mailOptions, (error, info) => {
-		if (error) {
-			console.log(error);
-			return json({ error: '메일을 보내는 데 실패했습니다.' }, { status: 500 });
-		} else {
-			console.log('Email sent: ' + info.response);
-		}
-	});
+	try {
+		await new Promise((resolve, reject) => {
+			transporter.sendMail(mailOptions, (err, info) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(info);
+				}
+			});
+		});
+	} catch (error) {
+		return json({ error: '메일을 보내는 데 실패했습니다.' }, { status: 500 });
+	}
 
 	return json({ message: '관리자에게 메일이 발송되었습니다.' }, { status: 201 });
 }
