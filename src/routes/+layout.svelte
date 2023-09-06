@@ -1,6 +1,20 @@
 <!-- src/routes/_layout.svelte -->
 <script>
+	import { onMount } from 'svelte';
 	import '../app.css';
+
+	const documentHeight = () => {
+		if (typeof window === 'undefined') {
+			return;
+		}
+
+		const doc = document.documentElement;
+		doc.style.setProperty('--doc-height', `${window.innerHeight + 12}px`);
+	};
+	onMount(() => {
+		documentHeight();
+		window?.addEventListener('resize', documentHeight);
+	});
 </script>
 
 <head>
@@ -13,7 +27,8 @@
 <style>
 	:global(body),
 	:global(html) {
-		height: 100%;
+		height: 100vh;
+		height: var(--doc-height);
 		margin: 0;
 	}
 	main {

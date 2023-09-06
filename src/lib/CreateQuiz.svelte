@@ -61,28 +61,28 @@
 			bind:value={question}
 			class="question-input"
 		/>
-	</div>
-
-	<div class="options-container">
-		<input type="text" placeholder="옵션 1" bind:value={option1} class="option-input" />
-		<input type="text" placeholder="옵션 2" bind:value={option2} class="option-input" />
-		<input type="text" placeholder="옵션 3" bind:value={option3} class="option-input" />
-		<input type="text" placeholder="옵션 4" bind:value={option4} class="option-input" />
-	</div>
-
-	<div class="correct-option-container">
-		<input
-			type="text"
-			placeholder="정답 번호(1~4까지 입력해주세요)"
-			maxlength="1"
-			pattern="[1-4]"
-			bind:value={correctOption}
-			on:input={handleChange}
-			class="correct-option-input"
-		/>
-		<Button onclick={createQuiz} classes="create-quiz-button" primary buttonType="submit" {disabled}
-			>퀴즈 만들기</Button
-		>
+		<div class="correct-option-container">
+			<input type="text" placeholder="옵션 1" bind:value={option1} class="option-input" />
+			<input type="text" placeholder="옵션 2" bind:value={option2} class="option-input" />
+			<input type="text" placeholder="옵션 3" bind:value={option3} class="option-input" />
+			<input type="text" placeholder="옵션 4" bind:value={option4} class="option-input" />
+			<input
+				type="text"
+				placeholder="정답 번호(1~4까지 입력해주세요)"
+				maxlength="1"
+				pattern="[1-4]"
+				bind:value={correctOption}
+				on:input={handleChange}
+				class="correct-option-input"
+			/>
+			<Button
+				onclick={createQuiz}
+				classes="create-quiz-button"
+				primary
+				buttonType="submit"
+				{disabled}>퀴즈 만들기</Button
+			>
+		</div>
 	</div>
 
 	{#if isModalOpen}
@@ -95,7 +95,9 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		justify-content: center;
 		padding: 16px;
+		height: 50%;
 		box-sizing: border-box;
 	}
 	.question-input {
@@ -107,7 +109,6 @@
 
 	.question-container {
 		width: 100%;
-		height: 400px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -135,11 +136,14 @@
 		width: 100%;
 		font-family: Pretendard;
 		font-size: 15px;
-		border: 1px solid #ccc;
 		border-radius: 34px;
 		padding: 12px;
+		border: 1px solid #ccc;
 		box-sizing: border-box;
 		font-weight: 400;
+	}
+	.correct-option-input {
+		border: 1px solid var(--primary);
 	}
 
 	:global(.create-quiz-button) {

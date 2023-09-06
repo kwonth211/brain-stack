@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation';
 
 	export let data;
+
 	const { user, totalQuizzes } = data;
 
 	const lessThan50 = [
@@ -95,6 +96,7 @@
 
 <style>
 	.container {
+		position: relative;
 		height: 100vh;
 		display: flex;
 		flex-direction: column;

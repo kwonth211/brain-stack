@@ -3,7 +3,6 @@ import type { User } from '../../types/user';
 
 export async function load({ locals }) {
 	const session = await locals.getSession();
-
 	if (!session?.user) {
 		throw new Error('Unauthorized');
 	}
@@ -23,8 +22,7 @@ export async function load({ locals }) {
 
 		const { rows: quizResults } =
 			await sql`SELECT is_correct FROM user_quizzes WHERE user_id=${userId}`;
-
-		const totalQuizzes = quizResults.length;
+		const totalQuizzes = quizResults.length ?? 0;
 
 		return { user: user as User, totalQuizzes };
 	} catch (error) {

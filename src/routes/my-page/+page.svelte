@@ -44,7 +44,7 @@
 	</div>
 	<div class="card-container">
 		<div>랭킹</div>
-		<div class="overlay">준비 중이에요...</div>
+		<!-- <div class="overlay">준비 중이에요...</div> -->
 		<div class="create-container">
 			<div class="ranking-list-item">
 				<!-- TODO 메달 추가 -->
@@ -62,24 +62,6 @@
 				<!-- TODO 메달 추가 -->
 				<div class="rank">3</div>
 				<div class="rank-name">알파고</div>
-				<div class="correct-ratio">정답률 90%</div>
-			</div>
-			<div class="ranking-list-item">
-				<!-- TODO 메달 추가 -->
-				<div class="rank">4</div>
-				<div class="rank-name">홍길동</div>
-				<div class="correct-ratio">정답률 90%</div>
-			</div>
-			<div class="ranking-list-item">
-				<!-- TODO 메달 추가 -->
-				<div class="rank">5</div>
-				<div class="rank-name">홍길동</div>
-				<div class="correct-ratio">정답률 90%</div>
-			</div>
-			<div class="ranking-list-item">
-				<!-- TODO 메달 추가 -->
-				<div class="rank">6</div>
-				<div class="rank-name">홍길동</div>
 				<div class="correct-ratio">정답률 90%</div>
 			</div>
 		</div>
@@ -224,7 +206,6 @@
 	}
 
 	.card-container {
-		position: relative;
 		display: flex;
 		flex-direction: column;
 		padding: 15px;
