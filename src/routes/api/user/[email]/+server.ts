@@ -31,8 +31,6 @@ export async function PATCH({ request, params }: { request: Request; params: { e
 
 	if (paramsToUpdate.length > 0) {
 		await sql.query(query, values);
-		console.log(query);
-		console.log(values);
 	}
 
 	return json({ message: '유저 정보가 성공적으로 업데이트되었습니다.' }, { status: 200 });

@@ -15,10 +15,11 @@
 <script>
 	export let data;
 	import { goto } from '$app/navigation';
-
+	import Header from '$components/Header.svelte';
 	const { categories } = data;
 </script>
 
+<Header>카테고리</Header>
 <div class="container">
 	<div class="quiz-prompt">퀴즈 유형을 골라주세요!</div>
 	<div class="card-container">
@@ -44,7 +45,7 @@
 
 <style>
 	.container {
-		height: 100vh;
+		height: calc(100% - var(--header-height));
 		display: flex;
 		flex-direction: column;
 		justify-content: center;

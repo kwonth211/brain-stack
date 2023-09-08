@@ -5,6 +5,7 @@
 	import type { Quiz as QuizType } from '../../types/quiz';
 	import { writable } from 'svelte/store';
 	import { goto } from '$app/navigation';
+	import QuizComplete from '$components/QuizComplete.svelte';
 
 	export let data;
 	const {
@@ -67,6 +68,6 @@
 			quiz={$currentQuiz}
 		/>
 	{:else}
-		<div>Loading...</div>
+		<QuizComplete />
 	{/if}
 </div>

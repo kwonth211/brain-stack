@@ -1,10 +1,8 @@
 <script>
 	import { fade } from 'svelte/transition';
 	import Footer from '$components/Footer.svelte';
-	import QuizIcon from '$components/icons/QuizIcon.svelte';
 	import { goto } from '$app/navigation';
 	import DotIcon from '$components/icons/DotIcon.svelte';
-	import Divider from '$components/Divider.svelte';
 	import DividerVertical from '$components/DividerVertical.svelte';
 	import NextIcon from '$components/icons/NextIcon.svelte';
 	export let data;
@@ -12,10 +10,6 @@
 </script>
 
 <div in:fade class="container">
-	<!-- <div class="outer-container">
-		<div class="title">홍길동님,</div>
-		<div class="content">총 50개의 퀴즈를 푸셨어요! <br /> 아주 잘하고 있습니다!</div>
-	</div> -->
 	<div
 		class="user-card"
 		on:keydown={() => {}}
@@ -170,7 +164,8 @@
 		padding: 13px;
 	}
 	.container {
-		height: 100vh;
+		height: 100%;
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		background-color: rgba(83, 135, 247, 0.19);
@@ -199,15 +194,17 @@
 
 	.card-container {
 		display: flex;
+		overflow: scroll;
 		flex-direction: column;
 		padding: 15px;
 		background-color: white;
 		margin-left: 15px;
 		margin-right: 15px;
-		height: 100%;
 		border-radius: 16px 16px 0px 0px;
 		background: #fff;
 		gap: 10px;
+		max-height: 350px;
+		margin-bottom: 51px;
 	}
 	.next-icon-wrapper {
 		position: absolute;

@@ -22,11 +22,9 @@
 
 <style>
 	.container {
-		padding-top: 8px;
-		padding-bottom: 8px;
 		display: flex;
 		align-items: center;
-		height: 100%;
+		height: var(--header-height);
 		padding-left: 10px;
 		padding-right: 10px;
 	}

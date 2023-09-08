@@ -83,7 +83,7 @@
 				</div>
 			</div>
 			<div class="high-sense-card">
-				<span style="font-size: 55px;">🗣️</span>
+				<span style="font-size: 55px;">🙃</span>
 				<div class="quiz-content">
 					<div>넌센스 퀴즈</div>
 					<QuizIcon color="#5387F7" />

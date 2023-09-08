@@ -31,7 +31,6 @@ export async function load(event) {
 			query += ' WHERE ' + conditions.join(' AND ');
 		}
 
-		console.log(query, values); // Debug log
 		const { rows: unsolvedQuizzes } = await sql.query(query, values);
 		const totalCount = solvedQuizzes.length + unsolvedQuizzes.length;
 		const correctQuiz = solvedQuizzes.filter((q) => q.is_correct);
