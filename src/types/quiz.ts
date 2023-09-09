@@ -6,7 +6,7 @@ export interface Quiz {
 	option2: string;
 	option3: string;
 	option4: string;
-	answer: number;
+	answer: string;
 	explanation: string;
 	difficulty: 'Easy' | 'Medium' | 'Hard';
 }

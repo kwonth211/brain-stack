@@ -4,7 +4,7 @@
 	import ResultCard from './ResultCard.svelte';
 	export let isCorrect: boolean;
 	export let close: () => void;
-	export let answer: number;
+	export let answer: string;
 	let modal: EventTarget;
 	export let explanation: Quiz['explanation'];
 </script>

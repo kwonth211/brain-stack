@@ -16,7 +16,7 @@
 	export let totalCount: number;
 	export let correctCount: number;
 	const options = [quiz.option1, quiz.option2, quiz.option3, quiz.option4];
-	let selectedOption: number | null = null;
+	let selectedOption: string | null = null;
 
 	let displayQuestion = '';
 	let index = 0;
@@ -46,7 +46,7 @@
 	let isModalOpen = false;
 	let answerIsCorrect = false;
 
-	const checkAnswer = (_selectedOption: number) => {
+	const checkAnswer = (_selectedOption: string) => {
 		if (selectedOption) {
 			return;
 		}
@@ -76,15 +76,16 @@
 	};
 
 	$: getButtonClassName = (index: number) => {
+		const quizNumber = Number(quiz.answer);
 		if (!selectedOption) {
 			return '';
 		}
-		if (index + 1 === quiz.answer) {
+		if (index + 1 === quizNumber) {
 			return 'correct';
 		}
-		if (index + 1 === quiz.answer && index + 1 === selectedOption) {
+		if (index + 1 === quizNumber && index + 1 === Number(selectedOption)) {
 			return 'correct';
-		} else if (index + 1 === selectedOption) {
+		} else if (index + 1 === Number(selectedOption)) {
 			return 'incorrect';
 		} else {
 			return 'neutral';
@@ -157,7 +158,7 @@
 				<Button
 					primary
 					type="outlined"
-					onclick={() => checkAnswer(index + 1)}
+					onclick={() => checkAnswer(String(index + 1))}
 					classes={getButtonClassName(index)}
 				>
 					<div class="button-content">
