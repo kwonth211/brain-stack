@@ -18,6 +18,9 @@ const config = {
 			$mock: path.resolve('./src/mocks'),
 			$lib: path.resolve('./src/lib'),
 			$types: path.resolve('./src/types')
+		},
+		files: {
+			serviceWorker: 'src/service-worker.ts' // or `src/my-sw.ts`
 		}
 	}
 };

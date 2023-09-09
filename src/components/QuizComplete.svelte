@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import Button from './Button.svelte';
@@ -21,7 +21,7 @@
 		'12': '넌센스'
 	};
 
-	const categoryId = $page.url.searchParams.get('category');
+	const categoryId = $page.url.searchParams.get('category') as keyof typeof CATEGORY;
 	function launchFireworks() {
 		const container = document.querySelector('.completed-container');
 
@@ -30,7 +30,7 @@
 		for (let i = 0; i < numParticles; i++) {
 			const particle = document.createElement('div');
 			particle.className = 'particle';
-			container.appendChild(particle);
+			container?.appendChild(particle);
 
 			const angle = Math.random() * 360;
 			const distance = Math.random() * 100 + 50;
@@ -48,6 +48,10 @@
 	onMount(() => {
 		launchFireworks();
 	});
+
+	if (!categoryId) {
+		goto('/main');
+	}
 </script>
 
 <div class="completed-container">
@@ -59,7 +63,7 @@
 		축하합니다🎉 <br />{CATEGORY[categoryId]} 문제를 모두 해결했어요.
 	</div>
 	<button
-		click={() => {
+		on:click={() => {
 			goto('/main');
 		}}
 	>
