@@ -19,8 +19,11 @@ const config = {
 			$lib: path.resolve('./src/lib'),
 			$types: path.resolve('./src/types')
 		},
-		files: {
-			serviceWorker: 'src/service-worker.ts' // or `src/my-sw.ts`
+		// files: {
+		// 	serviceWorker: 'src/service-worker.ts'
+		// }
+		serviceWorker: {
+			register: false
 		}
 	}
 };
