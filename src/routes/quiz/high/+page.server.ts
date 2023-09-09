@@ -1,25 +1,17 @@
 import { sql } from '@vercel/postgres';
 
 export async function load(event) {
-	const categoryId = event.url.searchParams.get('category');
 	const session = await event.locals.getSession();
 	const userId = session?.user?.email;
-
+	const categoryId = 12;
 	try {
-		const { rows: solvedQuizzes } = categoryId
-			? await sql`SELECT quiz_id, is_correct FROM user_quizzes WHERE user_id = (SELECT id FROM users WHERE email=${userId}) AND quiz_id IN (SELECT id FROM quizzes WHERE category_id=${categoryId})`
-			: await sql`SELECT quiz_id, is_correct FROM user_quizzes WHERE user_id = (SELECT id FROM users WHERE email=${userId})`;
+		const { rows: solvedQuizzes } =
+			await sql`SELECT quiz_id, is_correct FROM user_quizzes WHERE user_id = (SELECT id FROM users WHERE email=${userId}) AND quiz_id IN (SELECT id FROM quizzes WHERE category_id=${categoryId})`;
 
 		let query = `SELECT * FROM quizzes`;
 		const conditions: string[] = [];
 		const values: string[] = [];
-
-		if (categoryId) {
-			conditions.push(`category_id=$${values.length + 1}`);
-			values.push(categoryId);
-		}
-
-		conditions.push('category_id != 12');
+		conditions.push('category_id = 12');
 
 		if (solvedQuizzes.length > 0) {
 			const quizIds = solvedQuizzes.map((q) => q.quiz_id);

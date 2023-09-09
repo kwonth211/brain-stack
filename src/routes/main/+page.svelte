@@ -82,7 +82,15 @@
 					<QuizIcon />
 				</div>
 			</div>
-			<div class="high-sense-card">
+			<div
+				class="high-sense-card"
+				on:click={() => {
+					goto('/quiz/high');
+				}}
+				on:keydown={() => {
+					goto('/quiz/high');
+				}}
+			>
 				<span style="font-size: 55px;">🙃</span>
 				<div class="quiz-content">
 					<div>넌센스 퀴즈</div>

@@ -39,8 +39,6 @@
 	});
 
 	$: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : '';
-
-	console.log('>>>', webManifest);
 </script>
 
 <head>

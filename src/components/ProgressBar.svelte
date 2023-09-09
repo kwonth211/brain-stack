@@ -1,9 +1,14 @@
 <script>
 	export let progress = 0;
+	export let primary = false;
+	export let high = false;
 </script>
 
-<div class="progress-bar">
-	<div class="progress-gauge" style="width: {progress}%" />
+<div class={high ? 'progress-bar high' : 'progress-bar'}>
+	<div
+		class="progress-gauge {primary ? 'primary' : ''} {high ? 'high' : ''}"
+		style="width: {progress}%"
+	/>
 </div>
 
 <style>
@@ -16,10 +21,19 @@
 		margin-bottom: 1px;
 	}
 
+	.progress-bar.high {
+		background-color: #dffcfe;
+	}
+
 	.progress-gauge {
 		height: 100%;
-		background-color: #5387f7;
 		width: 0;
 		transition: width 0.4s ease-out;
+	}
+	.primary {
+		background-color: var(--primary);
+	}
+	.high {
+		background-color: var(--high);
 	}
 </style>

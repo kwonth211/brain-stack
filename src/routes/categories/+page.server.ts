@@ -6,7 +6,7 @@ export async function load() {
 	const startTime = Date.now();
 
 	try {
-		const { rows: categories } = await db.query('SELECT * FROM categories');
+		const { rows: categories } = await db.query('SELECT * FROM categories where id != 12');
 		const duration = Date.now() - startTime;
 		return {
 			categories: [

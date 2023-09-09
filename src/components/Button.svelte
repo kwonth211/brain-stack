@@ -3,6 +3,7 @@
 	export let type: 'filled' | 'outlined' = 'filled';
 	export let white = false;
 	export let gray = false;
+	export let high = false;
 	export let size = 'md';
 	export let id: string | null = null;
 	export let disabled = false;
@@ -15,7 +16,9 @@
 	on:click={onclick}
 	id={id ?? null}
 	type={buttonType}
-	class="{classes} btn {primary ? 'primary' : ''} {white ? 'white' : ''} {size} {gray ? 'gray' : ''}
+	class="{classes} btn {primary ? 'primary' : ''} {white ? 'white' : ''} {size} {gray
+		? 'gray'
+		: ''} {high ? 'high' : ''}
 	
 	{type === 'filled' ? 'filled' : ''}
 	{type === 'outlined' ? 'outlined' : ''}
@@ -81,6 +84,14 @@
 		color: black;
 	}
 	.primary.disabled {
+		background-color: #ddd;
+		color: white;
+	}
+	.high.filled {
+		background-color: var(--high);
+		color: white;
+	}
+	.high.disabled {
 		background-color: #ddd;
 		color: white;
 	}

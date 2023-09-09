@@ -1,13 +1,13 @@
 <!-- Quiz.svelte -->
 <script lang="ts">
 	import type { Quiz } from '../types/quiz';
-	import ResultModal from './ResultModal.svelte';
 	import Button from '$components/Button.svelte';
 	import ProgressBar from '$components/ProgressBar.svelte';
-	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 	import axios from 'axios';
 	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
+	import Input from './Input.svelte';
 
 	export let quiz: Quiz;
 	export let onNext = () => {};
@@ -15,163 +15,95 @@
 	export let solvedCount: number;
 	export let totalCount: number;
 	export let correctCount: number;
-	const options = [quiz.option1, quiz.option2, quiz.option3, quiz.option4];
-	let selectedOption: string | null = null;
 
 	let displayQuestion = '';
 	let index = 0;
-
-	onMount(() => {
-		typeQuestion();
-	});
+	let userAnswer = '';
+	let showHint = false;
 
 	const typeQuestion = () => {
 		if (index < quiz.question.length) {
 			displayQuestion += quiz.question[index];
 			index++;
 			setTimeout(typeQuestion, 50);
-		} else {
 		}
 	};
 
-	let optionsShown: string[] = [];
-
-	onMount(() => {
-		typeQuestion();
-		setTimeout(() => {
-			optionsShown = options;
-		}, quiz.question.length * 50);
-	});
+	onMount(typeQuestion);
 
 	let isModalOpen = false;
 	let answerIsCorrect = false;
 
-	const checkAnswer = (_selectedOption: string) => {
-		if (selectedOption) {
-			return;
-		}
-
-		answerIsCorrect = _selectedOption === quiz.answer;
-		selectedOption = _selectedOption;
-
+	const submitAnswer = () => {
+		answerIsCorrect = userAnswer === quiz.answer;
 		isModalOpen = true;
-
-		const quizPoint = {
-			Easy: 1,
-			Medium: 2,
-			Hard: 3
-		};
 
 		axios.post('/api/quiz', {
 			userEmail: $page.data.session?.user?.email,
 			quizId: quiz.id,
-			answer: _selectedOption,
-			isCorrect: answerIsCorrect,
-			point: quizPoint[quiz.difficulty]
+			answer: userAnswer,
+			isCorrect: answerIsCorrect
 		});
+
 		onCheckAnswer(answerIsCorrect);
 	};
-	const closeModal = () => {
-		isModalOpen = false;
+
+	const toggleHint = () => {
+		showHint = !showHint;
 	};
 
-	$: getButtonClassName = (index: number) => {
-		const quizNumber = Number(quiz.answer);
-		if (!selectedOption) {
-			return '';
-		}
-		if (index + 1 === quizNumber) {
-			return 'correct';
-		}
-		if (index + 1 === quizNumber && index + 1 === Number(selectedOption)) {
-			return 'correct';
-		} else if (index + 1 === Number(selectedOption)) {
-			return 'incorrect';
-		} else {
-			return 'neutral';
-		}
+	const closeModal = () => {
+		isModalOpen = false;
 	};
 </script>
 
 <div in:fade class="container">
 	<div class="status-wrapper">
 		<div class="progressbar-container">
-			<ProgressBar primary progress={(solvedCount / totalCount) * 100} />
-			<div
-				class={`${
-					quiz.difficulty === 'Easy'
-						? 'easy'
-						: quiz.difficulty === 'Medium'
-						? 'medium'
-						: quiz.difficulty === 'Hard'
-						? 'hard'
-						: ''
-				} difficulty-chip`}
-			>
-				{quiz.difficulty}
-			</div>
+			<ProgressBar high progress={(solvedCount / totalCount) * 100} />
 		</div>
 		<div class="count-text">
-			{solvedCount ?? 0}/{totalCount ?? 0}
+			{solvedCount}/{totalCount}
 			<div class="correct-text">
 				맞은개수 <span class="correct-text-count">{correctCount}개</span>
 			</div>
+			<div class="hint" on:click={toggleHint}>힌트 보기</div>
 		</div>
 	</div>
 	<div class="question-container">
 		<div class="question chat-style">
 			<div class="q-mark">Q.</div>
-			<span
-				>{displayQuestion}
-				<span class="blink" />
-			</span>
+			<span>{displayQuestion}<span class="blink" /></span>
 		</div>
 	</div>
-
-	{#if selectedOption}
-		<div
-			class="next-button-wrapper"
-			in:fade
-			on:click={() => {
-				setTimeout(() => {
-					onNext();
-				}, 500);
-			}}
-			on:keydown={() => {}}
-		>
-			>> 다음 문제
-		</div>
-	{/if}
-
-	{#if isModalOpen}
-		<ResultModal
-			isCorrect={answerIsCorrect}
-			explanation={quiz.explanation}
-			close={closeModal}
-			answer={quiz.answer}
-		/>
-	{/if}
-
-	<div class="button-container">
-		{#each optionsShown as option, index}
-			<div style="width: 100%;" in:fly={{ y: 100, delay: index * 500 }}>
-				<Button
-					primary
-					type="outlined"
-					onclick={() => checkAnswer(String(index + 1))}
-					classes={getButtonClassName(index)}
-				>
-					<div class="button-content">
-						<span class="number">{index + 1}.</span>
-						<span class="text">{option}</span>
-					</div>
-				</Button>
-			</div>
-		{/each}
+	<div class="answer-container">
+		{#if showHint}
+			<div class="hint-text">{'quiz.hint'}</div>
+		{/if}
+		<Input bind:value={userAnswer} placeholder="답을 입력하세요." />
+		<Button classes="answer-button" high on:click={submitAnswer} disabled>제출하기</Button>
+		<!-- <Button classes="answer-button" on:click={onNext}>다음 문제</Button> -->
+		{#if isModalOpen}
+			<div>정답: {quiz.answer}</div>
+		{/if}
 	</div>
 </div>
 
 <style>
+	:global(.answer-button) {
+		height: var(--button-height);
+	}
+
+	.hint {
+		color: #797979;
+		cursor: pointer;
+		position: absolute;
+		right: 0px;
+	}
+	.hint-text {
+		color: var(--high);
+		margin-top: 10px;
+	}
 	.next-button-wrapper {
 		position: absolute;
 		right: 16px;
@@ -242,7 +174,7 @@
 		display: inline-block;
 	}
 	.question-container .q-mark {
-		color: #5387f7;
+		color: var(--high);
 		font-weight: bold;
 
 		margin-right: 15px;
@@ -330,6 +262,7 @@
 	}
 
 	.count-text {
+		position: relative;
 		color: #858585;
 		font-family: Pretendard;
 		font-size: 15px;
@@ -346,7 +279,7 @@
 		margin-bottom: 2px;
 	}
 	.correct-text-count {
-		color: #5387f7;
+		color: var(--high);
 		font-family: Pretendard;
 		font-size: 13px;
 		font-style: normal;
@@ -357,7 +290,7 @@
 
 	/* FIXME: important 없애기 */
 	:global(.correct) {
-		background-color: #5387f7 !important;
+		background-color: var(--high) !important;
 		color: white !important;
 	}
 
@@ -397,5 +330,11 @@
 	.next-button-wrapper:active,
 	.next-button-wrapper:hover {
 		animation: slideRight 0.5s forwards;
+	}
+	.answer-container {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		gap: 10px;
 	}
 </style>

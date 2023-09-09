@@ -4,8 +4,6 @@
 	import Button from './Button.svelte';
 	import { page } from '$app/stores';
 
-	export let onContinue;
-
 	const CATEGORY = {
 		'1': '과학',
 		'2': '역사',
@@ -49,9 +47,9 @@
 		launchFireworks();
 	});
 
-	if (!categoryId) {
-		goto('/main');
-	}
+	// if (!categoryId) {
+	// 	goto('/main');
+	// }
 </script>
 
 <div class="completed-container">
