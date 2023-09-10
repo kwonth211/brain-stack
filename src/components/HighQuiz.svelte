@@ -11,6 +11,11 @@
 
 	export let quiz: Quiz;
 	export let onNext = () => {};
+
+	let correctAnimation = {};
+	let incorrectAnimation = {};
+	let swingAnimation = false;
+
 	export let onCheckAnswer = (isCorrect: boolean) => {};
 	export let solvedCount: number;
 	export let totalCount: number;
@@ -31,18 +36,40 @@
 
 	onMount(typeQuestion);
 
-	let isModalOpen = false;
+	let submittedAnswer = false;
 	let answerIsCorrect = false;
 
 	const submitAnswer = () => {
 		answerIsCorrect = userAnswer === quiz.answer;
-		isModalOpen = true;
+		submittedAnswer = true;
+
+		setTimeout(() => {
+			swingAnimation = true;
+			// setTimeout(() => (swingAnimation = false), 1000); // 2초 후 흔들림 애니메이션 종료
+		}, 500); // 떨어지는 효과 후에 0.5초 대기하고 흔들림 애니메이션 시작
+		if (answerIsCorrect) {
+			correctAnimation = {
+				duration: 1000,
+				y: -200
+			};
+		} else {
+			incorrectAnimation = {
+				duration: 1000,
+				y: -100
+			};
+		}
+		const quizPoint = {
+			Easy: 1,
+			Medium: 2,
+			Hard: 3
+		};
 
 		axios.post('/api/quiz', {
 			userEmail: $page.data.session?.user?.email,
 			quizId: quiz.id,
 			answer: userAnswer,
-			isCorrect: answerIsCorrect
+			isCorrect: answerIsCorrect,
+			point: quizPoint[quiz.difficulty]
 		});
 
 		onCheckAnswer(answerIsCorrect);
@@ -53,7 +80,7 @@
 	};
 
 	const closeModal = () => {
-		isModalOpen = false;
+		submittedAnswer = false;
 	};
 </script>
 
@@ -75,17 +102,31 @@
 			<div class="q-mark">Q.</div>
 			<span>{displayQuestion}<span class="blink" /></span>
 		</div>
+		{#if submittedAnswer}
+			<div class="answer-text" in:fly={answerIsCorrect ? correctAnimation : incorrectAnimation}>
+				{quiz.answer}
+			</div>
+			<div
+				class="next-button-wrapper"
+				in:fade
+				on:click={() => {
+					setTimeout(() => {
+						onNext();
+					}, 500);
+				}}
+				on:keydown={() => {}}
+			>
+				>> 다음 문제
+			</div>
+		{/if}
 	</div>
 	<div class="answer-container">
 		{#if showHint}
-			<div class="hint-text">{'quiz.hint'}</div>
+			<div class="hint-text">{quiz.hint}</div>
 		{/if}
-		<Input bind:value={userAnswer} placeholder="답을 입력하세요." />
-		<Button classes="answer-button" high on:click={submitAnswer} disabled>제출하기</Button>
+		<Input bind:value={userAnswer} placeholder="띄어쓰기 없이 답을 입력해주세요." />
+		<Button classes="answer-button" high onclick={submitAnswer}>제출하기</Button>
 		<!-- <Button classes="answer-button" on:click={onNext}>다음 문제</Button> -->
-		{#if isModalOpen}
-			<div>정답: {quiz.answer}</div>
-		{/if}
 	</div>
 </div>
 
@@ -101,19 +142,7 @@
 		right: 0px;
 	}
 	.hint-text {
-		color: var(--high);
 		margin-top: 10px;
-	}
-	.next-button-wrapper {
-		position: absolute;
-		right: 16px;
-		top: 50%;
-		transform: translateY(-50%);
-		z-index: 2;
-		padding: 8px 12px;
-		cursor: pointer;
-		transition: background-color 0.3s;
-		color: #797979;
 	}
 
 	.question.chat-style {
@@ -327,6 +356,19 @@
 		}
 	}
 
+	.next-button-wrapper {
+		position: absolute;
+		right: 4px;
+		font-size: 14px;
+		top: 56%;
+		transform: translateY(-50%);
+		z-index: 2;
+		padding: 8px 12px;
+		cursor: pointer;
+		transition: background-color 0.3s;
+		color: #797979;
+	}
+
 	.next-button-wrapper:active,
 	.next-button-wrapper:hover {
 		animation: slideRight 0.5s forwards;
@@ -336,5 +378,9 @@
 		flex-direction: column;
 		width: 100%;
 		gap: 10px;
+	}
+
+	.answer-text {
+		text-align: center;
 	}
 </style>

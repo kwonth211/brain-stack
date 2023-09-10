@@ -47,6 +47,8 @@
 				classes="logout"
 				onclick={() => {
 					signOut();
+					goto('/');
+					// page refresh
 				}}
 			>
 				로그아웃
