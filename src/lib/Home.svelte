@@ -10,6 +10,7 @@
 	import NonMemberModal from '$components/NonMemberModal.svelte';
 	import NaverLogo from '$components/icons/NaverIcon.svelte';
 	import KaKaoFit from '$components/KaKaoFit.svelte';
+	import Seo from './Seo.svelte';
 	const store = writable('home');
 	let userEmail = '';
 	let password = '';
