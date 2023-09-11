@@ -17,6 +17,7 @@
 	import { goto } from '$app/navigation';
 	import AdsWidget from '$components/AdsWidget.svelte';
 	import Header from '$components/Header.svelte';
+	import KaKaoFit from '$components/KaKaoFit.svelte';
 	import Seo from '$lib/Seo.svelte';
 	const { categories } = data;
 </script>
@@ -49,7 +50,7 @@
 		</div>
 	</div>
 </div>
-<AdsWidget />
+<KaKaoFit />
 
 <style>
 	.container {
