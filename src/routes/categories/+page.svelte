@@ -15,6 +15,7 @@
 <script>
 	export let data;
 	import { goto } from '$app/navigation';
+	import AdsWidget from '$components/AdsWidget.svelte';
 	import Header from '$components/Header.svelte';
 	const { categories } = data;
 </script>
@@ -41,6 +42,7 @@
 			{/each}
 		</div>
 	</div>
+	<AdsWidget />
 </div>
 
 <style>
