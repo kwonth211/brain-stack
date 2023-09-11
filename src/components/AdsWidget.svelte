@@ -11,8 +11,8 @@
 	<ins
 		class="adsbygoogle"
 		style="display:block"
-		data-ad-client="ca-pub-X0X0X0X0X0X0X"
-		data-ad-slot="X0X0X0X0X0X0"
+		data-ad-client="ca-pub-3415763008354504"
+		data-ad-slot="3415763008354504"
 		data-ad-format="auto"
 		data-full-width-responsive="true"
 	/>
