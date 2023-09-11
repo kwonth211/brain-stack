@@ -48,8 +48,8 @@
 			{/each}
 		</div>
 	</div>
-	<AdsWidget />
 </div>
+<AdsWidget />
 
 <style>
 	.container {
