@@ -1,7 +1,10 @@
 <script>
+	import { goto } from '$app/navigation';
 	import Divider from './Divider.svelte';
 	import BackIcon from './icons/BackIcon.svelte';
-	export let onClick = () => {};
+	export let onClick = () => {
+		goto('/main');
+	};
 	const goBack = () => {
 		window.history.back();
 	};
