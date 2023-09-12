@@ -7,8 +7,6 @@
 	import KaKaoAddFit from '$components/KaKaoAddFit.svelte';
 	import NextIcon from '$components/icons/NextIcon.svelte';
 	import KaKaoMiniAddFit from '$components/KaKaoMiniAddFit.svelte';
-	import { onMount } from 'svelte';
-	import { Loader } from '@svelteuidev/core';
 	import Spinner from '$components/Spinner.svelte';
 
 	export let data;
