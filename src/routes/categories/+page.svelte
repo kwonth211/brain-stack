@@ -15,9 +15,9 @@
 <script>
 	export let data;
 	import { goto } from '$app/navigation';
-	import AdsWidget from '$components/AdsWidget.svelte';
+	import AdsWidget from '$components/GoogleAdsWidget.svelte';
 	import Header from '$components/Header.svelte';
-	import KaKaoFit from '$components/KaKaoFit.svelte';
+	import KaKaoFit from '$components/KaKaoAddFit.svelte';
 	import Seo from '$lib/Seo.svelte';
 	const { categories } = data;
 </script>

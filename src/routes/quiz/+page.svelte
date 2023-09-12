@@ -33,8 +33,7 @@
 
 	const handleNext = () => {
 		if (!unsolvedQuizzes || unsolvedIndexes.length === 0) {
-			// goto('/result');
-			// return;
+			currentQuiz.set(null); // Add this line
 			return;
 		}
 

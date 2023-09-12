@@ -125,7 +125,9 @@
 			<div class="hint-text">{quiz.hint}</div>
 		{/if}
 		<Input bind:value={userAnswer} placeholder="띄어쓰기 없이 답을 입력해주세요." />
-		<Button classes="answer-button" high onclick={submitAnswer}>제출하기</Button>
+		<Button classes="answer-button" high onclick={submitAnswer} disabled={submittedAnswer}
+			>제출하기</Button
+		>
 		<!-- <Button classes="answer-button" on:click={onNext}>다음 문제</Button> -->
 	</div>
 </div>
@@ -315,23 +317,6 @@
 		font-weight: 500;
 		line-height: 22px;
 		letter-spacing: -0.408px;
-	}
-
-	/* FIXME: important 없애기 */
-	:global(.correct) {
-		background-color: var(--high) !important;
-		color: white !important;
-	}
-
-	:global(.incorrect) {
-		background-color: #ff7971 !important;
-		color: white !important;
-	}
-
-	:global(.neutral),
-	:global(.correct-neutral) {
-		background-color: #c5c5c5 !important;
-		color: white !important;
 	}
 
 	@keyframes buttonClick {

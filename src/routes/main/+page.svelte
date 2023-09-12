@@ -3,6 +3,8 @@
 	import Footer from '$components/Footer.svelte';
 	import QuizIcon from '$components/icons/QuizIcon.svelte';
 	import { goto } from '$app/navigation';
+	import KaKaoAddFit from '$components/KaKaoAddFit.svelte';
+	import KaKaoMiniAddFit from '$components/KaKaoMiniAddFit.svelte';
 
 	export let data;
 
@@ -94,11 +96,12 @@
 				<span style="font-size: 55px;">🙃</span>
 				<div class="quiz-content">
 					<div>넌센스 퀴즈</div>
-					<QuizIcon color="#5387F7" />
+					<QuizIcon color="white" />
 				</div>
 			</div>
 		</div>
 	</div>
+	<KaKaoAddFit />
 	<Footer />
 </div>
 
@@ -164,11 +167,11 @@
 	}
 	.high-sense-card {
 		border-radius: 15px;
-		background: #dae6ff;
+		background: var(--high);
 		width: 100%;
 		height: 121px;
 		flex-shrink: 0;
-		color: #5387f7;
+		color: white;
 		display: flex;
 		justify-content: flex-end;
 		flex-direction: column;
@@ -179,13 +182,13 @@
 	.outer-container {
 		display: flex;
 		flex-direction: column;
-		margin: 80px 10px 10px 15px;
+		margin: 40px 10px 10px 15px;
 		gap: 10px;
 	}
 	.card-container {
 		display: flex;
 		flex-direction: column;
-		padding: 15px;
+		padding: 15px 15px 0px 15px;
 		background-color: white;
 		margin-left: 15px;
 		margin-right: 15px;

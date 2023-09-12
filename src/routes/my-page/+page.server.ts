@@ -33,12 +33,12 @@ export async function load({ locals }) {
 	}
 
 	const accuracy = ((correctAnswers / totalQuizzes) * 100).toFixed(2);
-	const topTenRanking = await getTopTenRanking();
 
 	return {
 		user: user as User,
-		rankings: topTenRanking ?? [],
-		userRanking: topTenRanking.findIndex((ranking) => ranking.userId === userId) + 1,
+		streamed: {
+			ranking: getTopTenRanking()
+		},
 		statistics: {
 			totalQuizzes,
 			correctAnswers,

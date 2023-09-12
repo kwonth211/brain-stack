@@ -62,7 +62,7 @@
 	</div>
 	<button
 		on:click={() => {
-			goto('/main');
+			goto('/categories');
 		}}
 	>
 		🚀 다른 유형 퀴즈 풀러 가기 🚀</button

@@ -9,7 +9,7 @@
 	import KakaoLogo from '../components/icons/KakaoIcon.svelte';
 	import NonMemberModal from '$components/NonMemberModal.svelte';
 	import NaverLogo from '$components/icons/NaverIcon.svelte';
-	import KaKaoFit from '$components/KaKaoFit.svelte';
+	import KaKaoFit from '$components/KaKaoAddFit.svelte';
 	import Seo from './Seo.svelte';
 	const store = writable('home');
 	let userEmail = '';
@@ -125,7 +125,6 @@
 			<span class="notSignedInText">You are not signed in</span>
 			<a href="/auth/signin" class="buttonPrimary" data-sveltekit-preload-data="off">Sign in</a>
 		{/if} -->
-		<KaKaoFit />
 	</div>
 {/if}
 

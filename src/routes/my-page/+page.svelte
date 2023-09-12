@@ -4,10 +4,15 @@
 	import { goto } from '$app/navigation';
 	import DotIcon from '$components/icons/DotIcon.svelte';
 	import DividerVertical from '$components/DividerVertical.svelte';
-	import KaKaoFit from '$components/KaKaoFit.svelte';
+	import KaKaoAddFit from '$components/KaKaoAddFit.svelte';
 	import NextIcon from '$components/icons/NextIcon.svelte';
+	import KaKaoMiniAddFit from '$components/KaKaoMiniAddFit.svelte';
+	import { onMount } from 'svelte';
+	import { Loader } from '@svelteuidev/core';
+	import Spinner from '$components/Spinner.svelte';
+
 	export let data;
-	const { user, statistics, userRanking, rankings } = data;
+	const { user, statistics, streamed } = data;
 </script>
 
 <div in:fade class="container">
@@ -22,7 +27,14 @@
 		<div class="user-name"><a style="color: inherit;" href="/profile">{user?.nickname}</a></div>
 
 		<div class="user-rank">
-			랭킹 {userRanking ?? '?'}위 <DotIcon /> 정답률 {statistics?.accuracy}
+			랭킹
+			{#await data.streamed.ranking}
+				??위
+			{:then value}
+				{value?.findIndex((ranking) => ranking.userId === user.id) + 1}위
+			{/await}
+
+			<DotIcon /> 정답률 {statistics?.accuracy}
 		</div>
 		<div class="next-icon-wrapper">
 			<NextIcon />
@@ -43,17 +55,20 @@
 		<div>랭킹</div>
 		<!-- <div class="overlay">준비 중이에요...</div> -->
 		<div class="create-container">
-			{#each rankings as rank, index}
-				<div class="ranking-list-item">
-					<!-- TODO 메달 추가 -->
-					<div class="rank">{index + 1}</div>
-					<div class="rank-name">{rank.userNickname}</div>
-					<div class="correct-ratio">정답률 {rank.userAccuracy.toFixed(0)}%</div>
-				</div>
-			{/each}
+			{#await data.streamed.ranking}
+				<Spinner />
+			{:then value}
+				{#each value as rank, index}
+					<div class="ranking-list-item">
+						<div class="rank">{index + 1}</div>
+						<div class="rank-name">{rank.userNickname}</div>
+						<div class="correct-ratio">정답률 {rank.userAccuracy.toFixed(0)}%</div>
+					</div>
+				{/each}
+			{/await}
 		</div>
 	</div>
-	<KaKaoFit />
+	<KaKaoAddFit />
 	<Footer />
 </div>
 
@@ -177,6 +192,8 @@
 	.create-container {
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 		gap: 10px;
 	}
 	.ranking-list-item {
@@ -206,7 +223,6 @@
 		background: #fff;
 		gap: 10px;
 		max-height: 400px;
-
 	}
 	.next-icon-wrapper {
 		position: absolute;
