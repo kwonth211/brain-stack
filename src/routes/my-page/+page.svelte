@@ -4,6 +4,7 @@
 	import { goto } from '$app/navigation';
 	import DotIcon from '$components/icons/DotIcon.svelte';
 	import DividerVertical from '$components/DividerVertical.svelte';
+	import KaKaoFit from '$components/KaKaoFit.svelte';
 	import NextIcon from '$components/icons/NextIcon.svelte';
 	export let data;
 	const { user, statistics, userRanking, rankings } = data;
@@ -52,6 +53,7 @@
 			{/each}
 		</div>
 	</div>
+	<KaKaoFit />
 	<Footer />
 </div>
 

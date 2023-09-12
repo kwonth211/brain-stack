@@ -49,8 +49,8 @@
 			{/each}
 		</div>
 	</div>
+	<KaKaoFit />
 </div>
-<KaKaoFit />
 
 <style>
 	.container {
