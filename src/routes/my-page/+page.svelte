@@ -171,7 +171,7 @@
 		display: flex;
 		flex-direction: column;
 		background-color: rgba(83, 135, 247, 0.19);
-		gap: 10px;
+		gap: 7px;
 	}
 
 	.create-container {
@@ -202,11 +202,11 @@
 		background-color: white;
 		margin-left: 15px;
 		margin-right: 15px;
-		border-radius: 16px 16px 0px 0px;
+		border-radius: 16px;
 		background: #fff;
 		gap: 10px;
-		max-height: 350px;
-		margin-bottom: 51px;
+		max-height: 400px;
+
 	}
 	.next-icon-wrapper {
 		position: absolute;
