@@ -11,6 +11,7 @@
 	import NaverLogo from '$components/icons/NaverIcon.svelte';
 	import KaKaoFit from '$components/KaKaoAddFit.svelte';
 	import Seo from './Seo.svelte';
+	import { goto } from '$app/navigation';
 	const store = writable('home');
 	let userEmail = '';
 	let password = '';
@@ -48,7 +49,7 @@
 					email: userEmail,
 					password: password
 				});
-				// goto('/main');
+				goto('/main');
 			}}>로그인하기</Button
 		>
 		<a

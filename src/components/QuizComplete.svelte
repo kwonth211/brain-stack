@@ -58,7 +58,7 @@
 	<div class="confetti" style="left: 50%; top: 50%; animation-delay: 0.6s;">🎉</div>
 	<div class="confetti" style="right: 50%; bottom: 50%; animation-delay: 0.8s;">🎉</div> -->
 	<div class="completed-text">
-		축하합니다🎉 <br />{CATEGORY[categoryId]} 문제를 모두 해결했어요.
+		축하합니다🎉 <br />{CATEGORY[categoryId] ?? '모든'} 문제를 모두 해결했어요.
 	</div>
 	<button
 		on:click={() => {

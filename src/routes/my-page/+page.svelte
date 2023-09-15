@@ -81,7 +81,7 @@
 		line-height: 22px; /* 95.652% */
 		letter-spacing: -0.408px;
 		flex: 0.12;
-		/* margin-right: 15px; */
+		margin-right: 5px;
 	}
 	.overlay {
 		position: absolute;
