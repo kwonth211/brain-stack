@@ -9,6 +9,7 @@
 	export let option1: string;
 	export let option2: string;
 	export let option3: string;
+	export let category_id: number;
 	export let option4: string;
 
 	let showAnswer = false;
@@ -23,7 +24,10 @@
 
 <div
 	class="my-quiz-card {isCorrect ? 'my-correct' : 'my-inCorrect'}"
-	on:click={() => (isOpen = !isOpen)}
+	on:click={() => {
+		isOpen = !isOpen;
+		showAnswer = false;
+	}}
 	on:keydown={() => {}}
 >
 	<div class="title">
@@ -46,6 +50,10 @@
 			{/if}
 			{#if option4}
 				<div class={`option ${getOptionClass(3)}`}>4. {option4}</div>
+			{/if}
+			{#if category_id === 12 && showAnswer}
+				<div>입력한 답: {userAnswer}</div>
+				<div>정답: {quizAnswer}</div>
 			{/if}
 			<div
 				class="view-answer"

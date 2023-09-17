@@ -20,10 +20,19 @@
 			<slot />
 		</div>
 	</div>
+	<Divider />
 </header>
-<Divider />
+<div class="header-placeholder" />
 
 <style>
+	.header {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		background-color: white;
+		z-index: 1000; /* Ensure the header is above other elements */
+	}
 	.container {
 		display: flex;
 		align-items: center;
@@ -34,7 +43,6 @@
 	.title {
 		width: 100%;
 		text-align: center;
-
 		color: #000;
 		text-align: center;
 		font-family: Pretendard;
@@ -42,5 +50,8 @@
 		font-style: normal;
 		font-weight: 600;
 		line-height: normal;
+	}
+	.header-placeholder {
+		height: var(--header-height);
 	}
 </style>

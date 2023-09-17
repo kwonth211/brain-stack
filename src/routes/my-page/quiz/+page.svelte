@@ -17,9 +17,10 @@
 	>
 
 	<div class="my-quiz-card-container">
-		{#each totalQuizzes as { id, question, quiz_answer, user_answer, is_correct, option1, option2, option3, option4 } (id)}
+		{#each totalQuizzes as { id, question, quiz_answer, user_answer, category_id, is_correct, option1, option2, option3, option4 } (id)}
 			<MyQuizCard
 				{question}
+				{category_id}
 				quizAnswer={quiz_answer}
 				userAnswer={user_answer}
 				isCorrect={is_correct}
