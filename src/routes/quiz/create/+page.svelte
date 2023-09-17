@@ -9,7 +9,7 @@
 	<Header
 		onClick={() => {
 			goto('/main');
-		}}>퀴즈 만들기</Header
+		}}>퀴즈 출제하기</Header
 	>
 
 	<CreateQuiz />

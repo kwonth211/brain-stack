@@ -80,7 +80,7 @@
 				classes="create-quiz-button"
 				primary
 				buttonType="submit"
-				{disabled}>퀴즈 만들기</Button
+				{disabled}>제출하기</Button
 			>
 		</div>
 	</div>

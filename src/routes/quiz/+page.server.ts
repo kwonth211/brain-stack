@@ -44,7 +44,6 @@ export async function load(event) {
 		};
 	} catch (error: unknown) {
 		if (error instanceof Error) {
-			console.log(error.message);
 			throw new Error(error.message);
 		}
 	}

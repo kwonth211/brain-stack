@@ -6,10 +6,11 @@
 	import ProgressBar from '$components/ProgressBar.svelte';
 	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
-	import axios from 'axios';
+	import { axios } from '$lib/axios';
 	import { page } from '$app/stores';
 
 	export let quiz: Quiz;
+
 	export let onNext = () => {};
 	export let onCheckAnswer = (isCorrect: boolean) => {};
 	export let solvedCount: number;
@@ -17,6 +18,7 @@
 	export let correctCount: number;
 	const options = [quiz.option1, quiz.option2, quiz.option3, quiz.option4];
 	let selectedOption: string | null = null;
+	let correctRate: number | null = null;
 
 	let displayQuestion = '';
 	let index = 0;
@@ -91,6 +93,19 @@
 			return 'neutral';
 		}
 	};
+
+	const loadCorrectRate = async () => {
+		try {
+			const response = await axios.get(`/api/quiz/${quiz.id}`);
+			correctRate = response.data.correctRate ?? 0;
+		} catch (error) {
+			console.error('Failed to load correct rate:', error);
+		}
+	};
+
+	$: if (quiz) {
+		loadCorrectRate();
+	}
 </script>
 
 <div in:fade class="container">
@@ -116,6 +131,11 @@
 			<div class="correct-text">
 				맞은개수 <span class="correct-text-count">{correctCount}개</span>
 			</div>
+			{#if correctRate !== null}
+				<div class="correct-rate">
+					정답률 <span class="correct-rate-text">{correctRate}%</span>
+				</div>
+			{/if}
 		</div>
 	</div>
 	<div class="question-container">
@@ -399,5 +419,10 @@
 	.next-button-wrapper:active,
 	.next-button-wrapper:hover {
 		animation: slideRight 0.5s forwards;
+	}
+	.correct-rate {
+		position: absolute;
+		right: 16px;
+		font-size: 13px;
 	}
 </style>

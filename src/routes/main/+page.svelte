@@ -55,7 +55,6 @@
 	</div>
 	<div class="card-container">
 		<div class="quiz-container">
-			<div>내가 만들기</div>
 			<div class="create-container">
 				<div
 					class="create-quiz-card"
@@ -66,9 +65,8 @@
 						goto('/quiz/create');
 					}}
 				>
-					퀴즈 만들기
+					퀴즈 출제하기
 				</div>
-				<div class="create-quiz-card">질문 생성하기</div>
 			</div>
 			<div class="select-quiz">퀴즈 고르기</div>
 			<div

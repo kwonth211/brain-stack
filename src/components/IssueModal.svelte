@@ -27,8 +27,8 @@
 >
 	<div class="modal-container">
 		<div class="title">
-			<QuestionIcon style="margin-bottom:2px;" />
 			피드백 보내기
+			<QuestionIcon style="margin-bottom:2px;" />
 		</div>
 		<textarea
 			class="quiz-subscription"
@@ -67,6 +67,8 @@
 		height: 100%;
 		border-radius: 6px;
 		border-color: #bdbdbd;
+		padding: 10px;
+		box-sizing: border-box;
 	}
 	:global(.quiz-submit-button) {
 		height: 100px;
