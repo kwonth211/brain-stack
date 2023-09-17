@@ -19,10 +19,12 @@
 		on:keydown={() => {}}
 		on:click={(e) => {
 			e.stopPropagation();
-			// goto('/profile');
+			goto('/my-page/quiz');
 		}}
 	>
-		<div class="user-name"><a style="color: inherit;" href="/profile">{user?.nickname}</a></div>
+		<div class="user-name">
+			<a style="color: inherit;width: fit-content" href="/profile">{user?.nickname}</a>
+		</div>
 
 		<div class="user-rank">
 			랭킹
@@ -34,19 +36,42 @@
 
 			<DotIcon /> 정답률 {statistics?.accuracy}
 		</div>
-		<div class="next-icon-wrapper">
+		<div
+			class="next-icon-wrapper"
+			on:click={(e) => {
+				e.stopPropagation();
+				goto('/my-page/quiz');
+			}}
+			on:keydown={() => {}}
+		>
 			<NextIcon />
 		</div>
 	</div>
 	<div class="quiz-card">
 		<div class="quiz-card-wrapper">
 			<div class="correct-quiz-text">맞은 퀴즈</div>
-			<div class="correct-quiz-count">{statistics?.correctAnswers}</div>
+			<div
+				class="correct-quiz-count"
+				on:click={() => {
+					goto('/my-page/quiz?correct');
+				}}
+				on:keydown={() => {}}
+			>
+				{statistics?.correctAnswers}
+			</div>
 		</div>
 		<DividerVertical />
 		<div class="quiz-card-wrapper">
 			<div class="incorrect-quiz-text">틀린 퀴즈</div>
-			<div class="incorrect-quiz-count">{statistics?.incorrectAnswers}</div>
+			<div
+				class="incorrect-quiz-count"
+				on:click={() => {
+					goto('/my-page/quiz?in-correct');
+				}}
+				on:keydown={() => {}}
+			>
+				{statistics?.incorrectAnswers}
+			</div>
 		</div>
 	</div>
 	<div class="card-container">
@@ -57,10 +82,12 @@
 				<Spinner />
 			{:then value}
 				{#each value as rank, index}
-					<div class="ranking-list-item">
+					<div class="ranking-list-item" class:isMe={rank.userId === user.id}>
 						<div class="rank">{index + 1}</div>
 						<div class="rank-name">{rank.userNickname}</div>
-						<div class="correct-ratio">정답률 {rank.userAccuracy.toFixed(0)}%</div>
+						<div class="correct-ratio" class:isMe={rank.userId === user.id}>
+							정답률 {rank.userAccuracy.toFixed(0)}%
+						</div>
 					</div>
 				{/each}
 			{/await}
@@ -72,7 +99,6 @@
 
 <style>
 	.rank {
-		color: #424242;
 		text-align: center;
 		font-family: Pretendard;
 		font-size: 17px;
@@ -83,25 +109,8 @@
 		flex: 0.12;
 		margin-right: 5px;
 	}
-	.overlay {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background-color: rgba(255, 255, 255, 0.8); /* 흰색 배경에 80% 투명도 */
-		z-index: 10;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: 16px;
-		color: gray;
-		border-radius: 16px;
-		margin-bottom: 64px;
-	}
 
 	.rank-name {
-		color: #424242;
 		font-family: Pretendard;
 		font-size: 12px;
 		font-style: normal;
@@ -232,6 +241,7 @@
 		font-family: Pretendard;
 		font-size: 22px;
 		font-style: normal;
+		text-decoration: underline;
 		font-weight: 600;
 		line-height: 22px; /* 100% */
 		letter-spacing: -0.408px;
@@ -260,7 +270,12 @@
 		font-size: 22px;
 		font-style: normal;
 		font-weight: 600;
+		text-decoration: underline;
 		line-height: 22px; /* 100% */
 		letter-spacing: -0.408px;
+	}
+	.isMe {
+		background-color: #5387f7;
+		color: white;
 	}
 </style>

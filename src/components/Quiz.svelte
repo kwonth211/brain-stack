@@ -334,7 +334,7 @@
 		padding: 10px;
 
 		font-family: Pretendard;
-		font-size: 15px;
+		font-size: 14px;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 22px;
