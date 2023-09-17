@@ -22,7 +22,7 @@
 </script>
 
 <div
-	class="my-quiz-card {isCorrect ? 'correct' : 'inCorrect'}"
+	class="my-quiz-card {isCorrect ? 'my-correct' : 'my-inCorrect'}"
 	on:click={() => (isOpen = !isOpen)}
 	on:keydown={() => {}}
 >
@@ -35,10 +35,18 @@
 
 	{#if isOpen}
 		<div class="details" transition:slide>
-			<div class={`option ${getOptionClass(0)}`}>1. {option1}</div>
-			<div class={`option ${getOptionClass(1)}`}>2. {option2}</div>
-			<div class={`option ${getOptionClass(2)}`}>3. {option3}</div>
-			<div class={`option ${getOptionClass(3)}`}>4. {option4}</div>
+			{#if option1}
+				<div class={`option ${getOptionClass(0)}`}>1. {option1}</div>
+			{/if}
+			{#if option2}
+				<div class={`option ${getOptionClass(1)}`}>2. {option2}</div>
+			{/if}
+			{#if option3}
+				<div class={`option ${getOptionClass(2)}`}>3. {option3}</div>
+			{/if}
+			{#if option4}
+				<div class={`option ${getOptionClass(3)}`}>4. {option4}</div>
+			{/if}
 			<div
 				class="view-answer"
 				on:keydown={() => {}}
@@ -77,10 +85,10 @@
 		display: flex;
 		justify-content: space-between;
 	}
-	.correct {
+	.my-correct {
 		background: #dfe9fe;
 	}
-	.inCorrect {
+	.my-inCorrect {
 		background: #f8f4f4;
 	}
 	.info-icon {
