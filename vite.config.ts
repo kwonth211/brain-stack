@@ -37,6 +37,9 @@ export default defineConfig(({ mode }) => {
 			// 	}
 			// })
 			SvelteKitPWA({
+				workbox: {
+					cleanupOutdatedCaches: false
+				},
 				srcDir: './src',
 				mode: 'development',
 				strategies: 'generateSW',

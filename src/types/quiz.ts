@@ -9,4 +9,5 @@ export interface Quiz {
 	answer: string;
 	explanation: string;
 	difficulty: 'Easy' | 'Medium' | 'Hard';
+	hint: string;
 }

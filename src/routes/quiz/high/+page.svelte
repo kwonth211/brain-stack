@@ -1,7 +1,7 @@
 <!-- QuizPage.svelte -->
 <script lang="ts">
 	import Header from '$components/Header.svelte';
-	import Quiz from '$components/Quiz.svelte';
+	import type { Quiz as QuizType } from '$types/quiz';
 	import { writable } from 'svelte/store';
 	import { goto } from '$app/navigation';
 	import QuizComplete from '$components/QuizComplete.svelte';
@@ -17,7 +17,11 @@
 
 	let solvedCount = _solvedCount ?? 0;
 	let correctCount = _correctCount ?? 0;
+	let showFeedbackModal = false;
 
+	const handleFeedbackClick = () => {
+		showFeedbackModal = true;
+	};
 	const currentQuiz = writable<QuizType | null>(null);
 
 	let unsolvedIndexes = Array.from({ length: unsolvedQuizzes?.length ?? 0 }, (_, i) => i);
@@ -49,8 +53,18 @@
 	<Header
 		onClick={() => {
 			goto('/main');
-		}}>상식 퀴즈</Header
-	>
+		}}
+		>넌센스 퀴즈
+		<span
+			style="position: absolute; top: 10px; right: 10px; cursor: pointer;"
+			on:click={handleFeedbackClick}
+			on:keydown={(e) => {
+				if (e.key === 'Enter') {
+					handleFeedbackClick();
+				}
+			}}
+		/>
+	</Header>
 
 	{#if $currentQuiz}
 		<HighQUiz
@@ -69,5 +83,17 @@
 		/>
 	{:else}
 		<QuizComplete />
+	{/if}
+
+	{#if showFeedbackModal}
+		<div
+			style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;"
+		>
+			<div style="background: white; padding: 20px; border-radius: 5px;">
+				<h2>문제 신고하기</h2>
+				<textarea placeholder="문제에 대한 설명을 입력해주세요." />
+				<button on:click={() => (showFeedbackModal = false)}>제출</button>
+			</div>
+		</div>
 	{/if}
 </div>

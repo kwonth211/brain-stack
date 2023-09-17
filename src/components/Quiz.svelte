@@ -290,9 +290,11 @@
 		color: #66bb6a;
 	}
 	.difficulty-chip.medium {
+		padding: 0 2px;
 		/* background-color: #fff4e5; */
 		border: 1px solid #ffa64d;
 		color: #ffa64d;
+		font-size: 10px;
 	}
 	.difficulty-chip.hard {
 		/* background-color: #ffeef0; */
