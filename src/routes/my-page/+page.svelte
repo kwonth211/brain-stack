@@ -23,7 +23,13 @@
 		}}
 	>
 		<div class="user-name">
-			<a style="color: inherit;width: fit-content" href="/profile">{user?.nickname}</a>
+			<a
+				style="color: inherit;width: fit-content"
+				href="/profile"
+				on:click={(e) => {
+					e.stopPropagation();
+				}}>{user?.nickname}</a
+			>
 		</div>
 
 		<div class="user-rank">
