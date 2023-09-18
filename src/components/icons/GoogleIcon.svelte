@@ -12,7 +12,6 @@
 	{style}
 >
 	<!-- Generator: Sketch 3.3.3 (12081) - http://www.bohemiancoding.com/sketch -->
-	<title>btn_google_light_normal_ios</title>
 	<desc>Created with Sketch.</desc>
 	<defs>
 		<filter

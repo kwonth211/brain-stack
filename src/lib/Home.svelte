@@ -9,19 +9,25 @@
 	import KakaoLogo from '../components/icons/KakaoIcon.svelte';
 	import NonMemberModal from '$components/NonMemberModal.svelte';
 	import NaverLogo from '$components/icons/NaverIcon.svelte';
-	import KaKaoFit from '$components/KaKaoAddFit.svelte';
-	import Seo from './Seo.svelte';
 	import { goto } from '$app/navigation';
 	const store = writable('home');
 	let userEmail = '';
 	let password = '';
 	let NonMemberModalOpen = false;
+	const messages = [
+		'지식을 키워줄 퀴즈가 기다리고 있어요<br />로그인하고 도전해보세요',
+		'지식의 향연을 시작하려면<br />로그인을 눌러주세요',
+		'오늘은 어떤 흥미진진한 퀴즈와 마주칠지<br />로그인하고 확인해보세요',
+		'놓치면 후회할 퀴즈의 세계<br />로그인하고 지식을 늘려보세요',
+		'당신의 지식을 키워줄 퀴즈가 기다리고 있어요<br />로그인하고 함께 도전해보세요',
+		'놀라운 퀴즈로 당신의 지식을 테스트해보고 싶다면 로그인을 해주세요',
+		'200여개의 퀴즈가 당신을 기다리고 있어요<br />로그인하고 함께 도전해보세요'
+	];
 
-	// 	<div>지식의 향연을 시작하려면<br /> 로그인을 눌러주세요</div>
-	// <div>오늘 어떤 흥미진진한 퀴즈와 마주칠지<br /> 로그인하고 확인해보세요</div>
-	// <div>놓치면 후회할 퀴즈의 세계<br /> 로그인하고 지식을 늘려보세요</div>
-	// <div>당신의 지식을 키워줄 퀴즈가 기다리고 있어요<br /> 로그인하고 함께 도전해보세요</div>
-	// <div>놀라운 퀴즈로 당신의 지식을 테스트해보고 싶다면<br /> 로그인을 해주세요</div>
+	const randomMessage = () => {
+		const randomIndex = Math.floor(Math.random() * messages.length);
+		return messages[randomIndex];
+	};
 	const handleLogin = async (platform: string) => {
 		await signIn(platform, {
 			redirect: false
@@ -34,7 +40,9 @@
 		<!-- Existing content goes here -->
 		<div class="title">
 			<LogoIcon />
-			<div>지식을 키워줄 퀴즈가 기다리고 있어요<br /> 로그인하고 도전해보세요</div>
+			<div>
+				{@html randomMessage()}
+			</div>
 		</div>
 		<Input placeholder="이메일 입력" bind:value={userEmail} />
 		<Input placeholder="비밀번호 입력" bind:value={password} type="password" />
