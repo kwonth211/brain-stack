@@ -8,6 +8,8 @@
 	import { fade, fly } from 'svelte/transition';
 	import { axios } from '$lib/axios';
 	import { page } from '$app/stores';
+	import Modal from '$components/Modal.svelte';
+	import GoogleAdsWidget from './GoogleAdsWidget.svelte';
 
 	export let quiz: Quiz;
 
@@ -19,6 +21,7 @@
 	const options = [quiz.option1, quiz.option2, quiz.option3, quiz.option4];
 	let selectedOption: string | null = null;
 	let correctRate: number | null = null;
+	let showGoogleAdModal = false;
 
 	let displayQuestion = '';
 	let index = 0;
@@ -43,6 +46,10 @@
 		setTimeout(() => {
 			optionsShown = options;
 		}, quiz.question.length * 50);
+
+		if (Math.random() < 1) {
+			showGoogleAdModal = true;
+		}
 	});
 
 	let isModalOpen = false;
@@ -107,6 +114,14 @@
 		loadCorrectRate();
 	}
 </script>
+
+<svelte:head>
+	<script
+		async
+		src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415763008354504"
+		crossorigin="anonymous"
+	></script>
+</svelte:head>
 
 <div in:fade class="container">
 	<div class="status-wrapper">
