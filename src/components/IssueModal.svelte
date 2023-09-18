@@ -64,19 +64,19 @@
 	}
 	.quiz-subscription {
 		width: 100%;
-		height: 100%;
+		height: 166px;
 		border-radius: 6px;
 		border-color: #bdbdbd;
 		padding: 10px;
 		box-sizing: border-box;
 	}
 	:global(.quiz-submit-button) {
-		height: 100px;
+		height: 40px;
 	}
 	.modal-container {
 		gap: 10px;
-		height: 202px;
-		padding: 20px;
+		height: fit-content;
+		padding: 15px;
 		border-radius: 5px;
 		display: flex;
 		flex-direction: column;
