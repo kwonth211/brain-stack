@@ -347,7 +347,6 @@
 		font-size: 14px;
 		top: 56%;
 		transform: translateY(-50%);
-		z-index: 2;
 		padding: 8px 12px;
 		cursor: pointer;
 		transition: background-color 0.3s;
