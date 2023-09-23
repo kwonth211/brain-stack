@@ -19,4 +19,8 @@
 </div>
 
 <style>
+	.ads-widget-container {
+		width: 300px;
+		height: 250px;
+	}
 </style>

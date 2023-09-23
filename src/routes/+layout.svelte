@@ -3,6 +3,8 @@
 	import { onMount } from 'svelte';
 	import '../app.css';
 	import { pwaInfo } from 'virtual:pwa-info';
+	import GoogleAdsense from '$lib/GoogleAdSense.svelte';
+	import { writable } from 'svelte/store';
 
 	const documentHeight = () => {
 		if (typeof window === 'undefined') {
@@ -39,8 +41,10 @@
 	});
 
 	$: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : '';
+	export const promotionEnabled = writable(true);
 </script>
 
+<GoogleAdsense enabled={$promotionEnabled} />
 <head>
 	{@html webManifest}
 </head>
