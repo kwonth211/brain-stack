@@ -59,7 +59,6 @@
 		if (selectedOption) {
 			return;
 		}
-
 		answerIsCorrect = _selectedOption === quiz.answer;
 		selectedOption = _selectedOption;
 
@@ -75,7 +74,6 @@
 			userEmail: $page.data.session?.user?.email,
 			quizId: quiz.id,
 			answer: _selectedOption,
-			isCorrect: answerIsCorrect,
 			point: quizPoint[quiz.difficulty]
 		});
 		onCheckAnswer(answerIsCorrect);
@@ -183,6 +181,7 @@
 			isCorrect={answerIsCorrect}
 			explanation={quiz.explanation}
 			close={closeModal}
+			{quiz}
 			answer={quiz.answer}
 		/>
 	{/if}

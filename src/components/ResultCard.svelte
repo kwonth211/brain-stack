@@ -1,15 +1,26 @@
 <script lang="ts">
+	import axios from 'axios';
 	import type { Quiz } from '../types/quiz';
 	import CheckAnimationIcon from './icons/CheckAnimationIcon.svelte';
 	import CircleIcon from './icons/CircleIcon.svelte';
 	import XIcon from './icons/XIcon.svelte';
+	import Spinner from './Spinner.svelte';
 
 	let showCardBack = false;
+	export let quiz: Quiz;
 	export let isCorrect: boolean;
 	export let answer: Quiz['answer'];
-	export let explanation: Quiz['explanation'];
+	let explanation: Quiz['explanation'];
 
-	const toggleShowBack = () => (showCardBack = !showCardBack);
+	let loading = false;
+
+	const toggleShowBack = async () => {
+		showCardBack = !showCardBack;
+		loading = true;
+		const { data } = await axios.get(`/api/quiz/${quiz.id}/question`);
+		explanation = data.explanation;
+		loading = false;
+	};
 </script>
 
 <div class="flip-box">
@@ -46,7 +57,11 @@
 				정답은 {answer}번 이에요.
 			</div>
 			<div class="description">
-				{explanation}
+				{#if loading}
+					AI에게 설명을 부탁하고 있어요...<Spinner size={20} />
+				{:else}
+					{explanation}
+				{/if}
 			</div>
 			<!-- <div class="manner-text">지식이 +1 늘었어요.</div> -->
 			<div class="manner-text">지식 +1</div>
@@ -152,6 +167,11 @@
 	}
 
 	.description {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 3px;
 		color: black;
 		text-align: center;
 		font-family: Pretendard;

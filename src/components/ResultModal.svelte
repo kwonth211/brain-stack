@@ -5,6 +5,7 @@
 	export let isCorrect: boolean;
 	export let close: () => void;
 	export let answer: string;
+	export let quiz: Quiz;
 	let modal: EventTarget;
 	export let explanation: Quiz['explanation'];
 </script>
@@ -17,7 +18,7 @@
 		if (e.target === modal) close();
 	}}
 >
-	<ResultCard {answer} {isCorrect} {explanation} />
+	<ResultCard {answer} {isCorrect} {quiz} />
 </div>
 
 <style>
