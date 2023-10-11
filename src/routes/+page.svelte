@@ -1,15 +1,10 @@
 <script lang="ts">
+	import Main from '$lib/Main.svelte';
 	import { fade } from 'svelte/transition';
-	import Home from '$lib/Home.svelte';
 </script>
 
 <div class="container" in:fade>
-	<Home on:click={() => {}} />
-
-	<!-- {#each data?.cart as { id, quantity } (id)}
-		<div>{id} - {quantity}</div>
-	{/each} -->
-	<!-- <Footer /> -->
+	<Main />
 </div>
 
 <style>

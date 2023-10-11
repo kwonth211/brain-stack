@@ -57,7 +57,7 @@
 <div style="height: 100%;">
 	<Header
 		onClick={() => {
-			goto('/main');
+			goto('/');
 		}}
 		>상식 퀴즈
 		<span
@@ -76,9 +76,8 @@
 	{#if $currentQuiz}
 		<Quiz
 			onNext={handleNext}
-			{solvedCount}
-			totalCount={totalCount ?? 0}
 			correctCount={correctCount ?? 0}
+			unSolvedCount={unsolvedQuizzes?.length ?? 0}
 			onCheckAnswer={(isCorrect) => {
 				solvedCount++;
 

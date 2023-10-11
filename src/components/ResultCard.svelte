@@ -5,11 +5,13 @@
 	import CircleIcon from './icons/CircleIcon.svelte';
 	import XIcon from './icons/XIcon.svelte';
 	import Spinner from './Spinner.svelte';
+	import TimerIcon from './icons/TimerIcon.svelte';
 
 	let showCardBack = false;
 	export let quiz: Quiz;
 	export let isCorrect: boolean;
 	export let answer: Quiz['answer'];
+	export let isTimeout: boolean;
 	let explanation: Quiz['explanation'];
 
 	let loading = false;
@@ -27,14 +29,17 @@
 	<div class="flip-box-inner" class:flip-it={showCardBack}>
 		<div class={isCorrect ? 'flip-box-front bounce' : 'flip-box-front shake'}>
 			<div>
-				{#if isCorrect}
+				{#if isTimeout}
+					<TimerIcon color="#ff7971" />
+				{:else if isCorrect}
 					<CircleIcon />
 				{:else}
 					<XIcon />
 				{/if}
 			</div>
 			<div class={isCorrect ? 'correct-text' : 'incorrect-text'}>
-				{isCorrect ? '정답이에요!' : '오답이에요'}
+				<!-- {isCorrect ? '정답이에요!' : '오답이에요'} -->
+				{isTimeout ? '시간초과!' : isCorrect ? '정답이에요!' : '오답이에요'}
 			</div>
 			<div class={'is-correct-sub-text'}>
 				{isCorrect ? '잘했어요! 확인해볼까요?' : '괜찮아요. 지식이 생길거에요.'}

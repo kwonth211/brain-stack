@@ -1,11 +1,11 @@
-import { json } from '@sveltejs/kit';
+import { json, redirect } from '@sveltejs/kit';
 import { sql } from '@vercel/postgres';
 import type { User } from '../../types/user';
 
 export async function load({ locals }) {
 	const session = await locals.getSession();
 	if (!session?.user) {
-		throw new Error('Unauthorized');
+		throw redirect(307, '/signin');
 	}
 
 	const { rows: existingUsers } = await sql`SELECT * FROM users WHERE email=${session.user.email}`;

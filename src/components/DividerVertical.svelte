@@ -1,12 +1,12 @@
 <script>
 	export let color = '#DCDCDC';
+	export let height = '100%';
 </script>
 
-<div class="divider" style="background-color: {color};" />
+<div class="divider" style="background-color: {color}; height: {height}" />
 
 <style>
 	.divider {
-		height: 100%;
 		width: 1px;
 		background-color: #dcdcdc;
 	}

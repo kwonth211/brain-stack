@@ -1,10 +1,11 @@
 import { sql } from '@vercel/postgres';
 import type { User } from '../../types/user';
+import { redirect } from '@sveltejs/kit';
 
 export async function load({ locals }) {
 	const session = await locals.getSession();
 	if (!session?.user) {
-		throw new Error('Unauthorized');
+		throw redirect(307, '/signin');
 	}
 
 	try {

@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import Divider from './Divider.svelte';
 	import BackIcon from './icons/BackIcon.svelte';
+	import Hamburger from './icons/Hamburger.svelte';
 
 	export let hasBack = true;
 	export let onClick = () => {
@@ -14,15 +15,8 @@
 
 <header class="header" on:click={onClick} on:keydown={() => {}}>
 	<div class="container">
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		{#if hasBack}
-			<div class="back-icon" on:click={goBack}>
-				<BackIcon />
-			</div>
-		{/if}
-		<div class="title">
-			<slot />
-		</div>
+		<slot />
+		<Hamburger />
 	</div>
 	<Divider />
 </header>
@@ -40,20 +34,10 @@
 	.container {
 		display: flex;
 		align-items: center;
+		justify-content: flex-end;
 		height: var(--header-height);
 		padding-left: 10px;
-		padding-right: 10px;
-	}
-	.title {
-		width: 100%;
-		text-align: center;
-		color: #000;
-		text-align: center;
-		font-family: Pretendard;
-		font-size: 17px;
-		font-style: normal;
-		font-weight: 600;
-		line-height: normal;
+		padding-right: 21px;
 	}
 	.header-placeholder {
 		height: var(--header-height);

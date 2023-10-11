@@ -10,25 +10,31 @@
 	import { page } from '$app/stores';
 	import Modal from '$components/Modal.svelte';
 	import GoogleAdsWidget from './GoogleAdsWidget.svelte';
+	import Divider from './Divider.svelte';
+	import DividerVertical from './DividerVertical.svelte';
 
 	export let quiz: Quiz;
 
 	export let onNext = () => {};
 	export let onCheckAnswer = (isCorrect: boolean) => {};
-	export let solvedCount: number;
-	export let totalCount: number;
+	export let unSolvedCount: number;
 	export let correctCount: number;
 	const options = [quiz.option1, quiz.option2, quiz.option3, quiz.option4];
 	let selectedOption: string | null = null;
 	let correctRate: number | null = null;
 	let showGoogleAdModal = false;
 
+	let timeLimit = 15 * 100;
+	let remainingTime = timeLimit;
+	let timerInterval: NodeJS.Timer;
+
 	let displayQuestion = '';
 	let index = 0;
+	$: isShortTime = remainingTime <= 500;
 
-	onMount(() => {
-		typeQuestion();
-	});
+	// onMount(() => {
+	// 	typeQuestion();
+	// });
 
 	const typeQuestion = () => {
 		if (index < quiz.question.length) {
@@ -43,21 +49,40 @@
 
 	onMount(() => {
 		typeQuestion();
+
 		setTimeout(() => {
 			optionsShown = options;
+			//FIXME 임시 처리
+			setTimeout(() => {
+				startTimer();
+			}, 2000);
 		}, quiz.question.length * 50);
 
-		if (Math.random() < 1) {
-			showGoogleAdModal = true;
-		}
+		// if (Math.random() < 1) {
+		// 	showGoogleAdModal = true;
+		// }
 	});
 
+	const startTimer = () => {
+		timerInterval = setInterval(() => {
+			remainingTime -= 1;
+			if (remainingTime <= 0) {
+				checkAnswer('timeout');
+			}
+		}, 10); // 10ms 간격으로 감소
+	};
 	let isModalOpen = false;
 	let answerIsCorrect = false;
+	let answerIsTimeout = false;
 
 	const checkAnswer = (_selectedOption: string) => {
+		clearInterval(timerInterval);
+
 		if (selectedOption) {
 			return;
+		}
+		if (_selectedOption === 'timeout') {
+			answerIsTimeout = true;
 		}
 		answerIsCorrect = _selectedOption === quiz.answer;
 		selectedOption = _selectedOption;
@@ -123,32 +148,33 @@
 
 <div in:fade class="container">
 	<div class="status-wrapper">
-		<div class="progressbar-container">
-			<ProgressBar primary progress={(solvedCount / totalCount) * 100} />
-			<div
-				class={`${
-					quiz.difficulty === 'Easy'
-						? 'easy'
-						: quiz.difficulty === 'Medium'
-						? 'medium'
-						: quiz.difficulty === 'Hard'
-						? 'hard'
-						: ''
-				} difficulty-chip`}
-			>
-				{quiz.difficulty}
-			</div>
-		</div>
-		<div class="count-text">
-			{solvedCount ?? 0}/{totalCount ?? 0}
+		<div class="quiz-info-wrapper">
 			<div class="correct-text">
-				맞은개수 <span class="correct-text-count">{correctCount}개</span>
+				남은 개수 <div class="remain-text-count">{unSolvedCount}개</div>
 			</div>
-			{#if correctRate !== null}
+			<DividerVertical height={'60%'} />
+			<div class="correct-text">
+				맞은 개수 <div class="correct-text-count">{correctCount}개</div>
+			</div>
+			<DividerVertical height={'60%'} />
+			<div class="correct-text">
+				현재 등수 <div class="rank-text">? 등</div>
+			</div>
+			<!-- {#if correctRate !== null}
 				<div class="correct-rate">
 					정답률 <span class="correct-rate-text">{correctRate}%</span>
 				</div>
-			{/if}
+			{/if} -->
+		</div>
+		<div class="progressbar-container">
+			<div class="remain-time-text" class:isShortTime>남은시간</div>
+			<!-- <ProgressBar primary progress={(solvedCount / totalCount) * 100} /> -->
+			<ProgressBar
+				primary={!isShortTime}
+				wrong={isShortTime}
+				progress={(remainingTime / timeLimit) * 100}
+				isShake={isShortTime && remainingTime > 0}
+			/>
 		</div>
 	</div>
 	<div class="question-container">
@@ -179,6 +205,7 @@
 	{#if isModalOpen}
 		<ResultModal
 			isCorrect={answerIsCorrect}
+			isTimeout={answerIsTimeout}
 			explanation={quiz.explanation}
 			close={closeModal}
 			{quiz}
@@ -211,7 +238,6 @@
 		right: 16px;
 		top: 50%;
 		transform: translateY(-50%);
-		z-index: 2;
 		padding: 8px 12px;
 		cursor: pointer;
 		transition: background-color 0.3s;
@@ -221,6 +247,7 @@
 	.question.chat-style {
 		padding: 10px;
 		border-radius: 15px;
+		line-height: 1;
 		display: inline-flex;
 		align-items: center;
 		position: relative;
@@ -263,7 +290,7 @@
 		font-size: 22px;
 		font-style: normal;
 		font-weight: 500;
-		line-height: 22px;
+		line-height: 17px;
 		letter-spacing: -0.408px;
 		justify-content: flex-start; /* 추가 */
 	}
@@ -289,7 +316,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin-bottom: 10px;
+		justify-content: center;
 		width: 100%;
 		gap: 8px;
 		height: 45%;
@@ -298,50 +325,21 @@
 	}
 	.progressbar-container {
 		display: flex;
+		margin-top: 7px;
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
 		width: 100%;
 		gap: 8px;
 	}
-	.difficulty-chip {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 36px;
-		height: 26px;
 
-		font-family: Pretendard;
-		font-size: 11px;
-		font-style: normal;
-		font-weight: 400;
-		line-height: 22px;
-		border-radius: 13px;
-	}
-	.difficulty-chip.easy {
-		/* background-color: #e8f5e9; */
-		border: 1px solid #66bb6a;
-		color: #66bb6a;
-	}
-	.difficulty-chip.medium {
-		padding: 0 2px;
-		/* background-color: #fff4e5; */
-		border: 1px solid #ffa64d;
-		color: #ffa64d;
-		font-size: 10px;
-	}
-	.difficulty-chip.hard {
-		/* background-color: #ffeef0; */
-		border: 1px solid #ff4c4c;
-		color: #ff4c4c;
-	}
 	.status-wrapper {
 		display: flex;
 		flex-direction: column;
 		width: 100%;
 	}
 	.button-container :global(.btn) {
-		min-height: 60px;
+		min-height: 55px;
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
@@ -378,16 +376,42 @@
 		align-items: center;
 	}
 	.correct-text {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 		font-size: 13px;
 		margin-bottom: 2px;
+
+		color: #858585;
+		font-family: Pretendard;
+		font-size: 11px;
+		font-style: normal;
+		line-height: 14px;
+		letter-spacing: -0.408px;
 	}
 	.correct-text-count {
 		color: #5387f7;
 		font-family: Pretendard;
 		font-size: 13px;
 		font-style: normal;
-		font-weight: 500;
-		line-height: 22px;
+		font-weight: 600;
+		letter-spacing: -0.408px;
+	}
+	.rank-text {
+		color: #ff7971;
+		font-family: Pretendard;
+		font-size: 13px;
+		font-style: normal;
+		font-weight: 600;
+		letter-spacing: -0.408px;
+	}
+	.remain-text-count {
+		color: #717171;
+		text-align: center;
+		font-family: Pretendard;
+		font-size: 13px;
+		font-style: normal;
+		font-weight: 600;
 		letter-spacing: -0.408px;
 	}
 
@@ -438,5 +462,30 @@
 		position: absolute;
 		right: 16px;
 		font-size: 13px;
+	}
+
+	.quiz-info-wrapper {
+		/* padding: 8px 0px;
+		box-sizing: border-box; */
+		display: flex;
+		align-items: center;
+		gap: 40px;
+		justify-content: center;
+		border-radius: 4px;
+		background: rgba(223, 233, 254, 0.51);
+		height: 42px;
+	}
+	.remain-time-text {
+		color: #5387f7;
+		font-family: Pretendard;
+		font-size: 12px;
+		font-style: normal;
+		font-weight: 500;
+		line-height: 22px; /* 183.333% */
+		letter-spacing: -0.408px;
+	}
+
+	.isShortTime {
+		color: var(--wrong);
 	}
 </style>

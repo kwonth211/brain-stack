@@ -6,6 +6,7 @@
 	export let close: () => void;
 	export let answer: string;
 	export let quiz: Quiz;
+	export let isTimeout: boolean;
 	let modal: EventTarget;
 	export let explanation: Quiz['explanation'];
 </script>
@@ -18,7 +19,7 @@
 		if (e.target === modal) close();
 	}}
 >
-	<ResultCard {answer} {isCorrect} {quiz} />
+	<ResultCard {answer} {isCorrect} {isTimeout} {quiz} />
 </div>
 
 <style>
