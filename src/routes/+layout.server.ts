@@ -9,7 +9,7 @@ export const load: LayoutServerLoad = async (event) => {
 		throw redirect(303, '/');
 	}
 	if (!session && ONLY_ACCESS_USER_PATHS.includes(event.url.pathname)) {
-		throw redirect(303, '/');
+		throw redirect(303, '/signin');
 	}
 
 	return {
