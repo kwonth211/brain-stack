@@ -31,7 +31,7 @@
 		class={`icon-container ${active === 'home' ? 'active' : ''}`}
 		on:keydown={() => {}}
 		on:click={() => {
-			goto('/main');
+			goto('/');
 		}}
 	>
 		<HomeIcon color={active === 'home' ? '#5387F7' : '#BDBDBD'} />

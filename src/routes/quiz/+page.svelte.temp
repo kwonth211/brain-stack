@@ -2,7 +2,7 @@
 <script lang="ts">
 	import Header from '$components/Header.svelte';
 	import Quiz from '$components/Quiz.svelte';
-	import type { Quiz as QuizType } from '../../types/quiz';
+	import type { Quiz as Quiz../../types/quiz.js../types/quiz';
 	import { writable } from 'svelte/store';
 	import { goto } from '$app/navigation';
 	import QuizComplete from '$components/QuizComplete.svelte';
@@ -21,6 +21,7 @@
 
 	let solvedCount = _solvedCount ?? 0;
 	let correctCount = _correctCount ?? 0;
+	let unSolvedCount = unsolvedQuizzes?.length ?? 0;
 	let showFeedbackModal = false;
 	let showAdminFeedbackModal = false;
 	const currentQuiz = writable<QuizType | null>(null);
@@ -77,9 +78,10 @@
 		<Quiz
 			onNext={handleNext}
 			correctCount={correctCount ?? 0}
-			unSolvedCount={unsolvedQuizzes?.length ?? 0}
+			{unSolvedCount}
 			onCheckAnswer={(isCorrect) => {
 				solvedCount++;
+				unSolvedCount--;
 
 				if (isCorrect) {
 					correctCount++;

@@ -2,11 +2,7 @@
 	import { fade } from 'svelte/transition';
 	import Footer from '$components/Footer.svelte';
 	import { goto } from '$app/navigation';
-	import DotIcon from '$components/icons/DotIcon.svelte';
-	import DividerVertical from '$components/DividerVertical.svelte';
-	import KaKaoAddFit from '$components/KaKaoAddFit.svelte';
-	import NextIcon from '$components/icons/NextIcon.svelte';
-	import KaKaoMiniAddFit from '$components/KaKaoMiniAddFit.svelte';
+	import NonMemberModal from '$components/NonMemberModal.svelte';
 	import Spinner from '$components/Spinner.svelte';
 	import Header from '$components/Header.svelte';
 	import CommonQuizIcon2 from '$components/icons/CommonQuizIcon2.svelte';
@@ -15,9 +11,21 @@
 	import GoldenMedal from '$components/icons/GoldenMedal.svelte';
 	import SilverMedal from '$components/icons/SilverMedal.svelte';
 	import BronzeMedal from '$components/icons/BronzeMedal.svelte';
+	import { page } from '$app/stores';
+
 	export let data;
-	const { streamed } = data;
+	let NonMemberModalOpen = false;
+
+	console.log();
 </script>
+
+<svelte:head>
+	<title>상식 퀴즈 - dual-brain</title>
+	<meta
+		name="description"
+		content="상식 퀴즈를 풀어보세요. 상식 퀴즈를 풀면서 지식을 쌓아보세요."
+	/>
+</svelte:head>
 
 <div in:fade class="container">
 	<Header
@@ -65,12 +73,24 @@
 			primary
 			classes="start"
 			onclick={() => {
+				if (!$page?.data?.session?.user) {
+					NonMemberModalOpen = true;
+					return;
+				}
 				goto('/categories');
 			}}>시작하기</Button
 		>
 	</div>
 
 	<!-- <KaKaoAddFit /> -->
+
+	{#if NonMemberModalOpen}
+		<NonMemberModal
+			close={() => {
+				NonMemberModalOpen = false;
+			}}
+		/>
+	{/if}
 </div>
 
 <style>

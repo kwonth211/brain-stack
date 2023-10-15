@@ -19,7 +19,8 @@ const config = {
 			$components: path.resolve('./src/components'),
 			$mock: path.resolve('./src/mocks'),
 			$lib: path.resolve('./src/lib'),
-			$types: path.resolve('./src/types')
+			$types: path.resolve('./src/types'),
+			$utils: path.resolve('./src/utils')
 		},
 		// files: {
 		// 	serviceWorker: 'src/service-worker.ts'

@@ -19,7 +19,7 @@
 	import Header from '$components/Header.svelte';
 	import KaKaoFit from '$components/KaKaoAddFit.svelte';
 	import Seo from '$lib/Seo.svelte';
-	const { categories } = data;
+	const { categories, remainingQuizzes } = data;
 </script>
 
 <Seo
@@ -41,11 +41,21 @@
 					class="quiz-card {category.name.toLowerCase().replace(' & ', '').replace(/ /g, '-')}"
 					title={category.description}
 					on:click={() => {
-						if (category.id === 0) {
-							goto(`/quiz`);
+						const categoryQuizzes =
+							category.id === 0
+								? remainingQuizzes
+								: remainingQuizzes.filter((quiz) => quiz.category_id == category.id);
+
+						if (categoryQuizzes.length === 0) {
+							goto(`/quiz/complete?category=${category.id}`);
 							return;
 						}
-						goto(`/quiz?category=${category.id}`);
+						const nextQuiz = categoryQuizzes[0];
+						if (category.id === 0) {
+							goto(`/quiz/${nextQuiz.id}`);
+							return;
+						}
+						goto(`/quiz/${nextQuiz.id}?category=${category.id}`);
 					}}
 				>
 					{category.name}

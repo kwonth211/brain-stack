@@ -12,6 +12,8 @@
 	import GoogleAdsWidget from './GoogleAdsWidget.svelte';
 	import Divider from './Divider.svelte';
 	import DividerVertical from './DividerVertical.svelte';
+	import ShareIcon from './icons/ShareIcon.svelte';
+	import ShareModal from './ShareModal.svelte';
 
 	export let quiz: Quiz;
 
@@ -19,8 +21,10 @@
 	export let onCheckAnswer = (isCorrect: boolean) => {};
 	export let unSolvedCount: number;
 	export let correctCount: number;
+
 	const options = [quiz.option1, quiz.option2, quiz.option3, quiz.option4];
 	let selectedOption: string | null = null;
+	let shareModalOpen = false;
 	let correctRate: number | null = null;
 	let showGoogleAdModal = false;
 
@@ -138,13 +142,13 @@
 	}
 </script>
 
-<svelte:head>
+<!-- <svelte:head>
 	<script
 		async
 		src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415763008354504"
 		crossorigin="anonymous"
 	></script>
-</svelte:head>
+</svelte:head> -->
 
 <div in:fade class="container">
 	<div class="status-wrapper">
@@ -176,6 +180,15 @@
 				isShake={isShortTime && remainingTime > 0}
 			/>
 		</div>
+		<div
+			class="share-container"
+			on:click={() => {
+				shareModalOpen = true;
+			}}
+		>
+			<ShareIcon style="margin-top:3px;" />
+			공유하기
+		</div>
 	</div>
 	<div class="question-container">
 		<div class="question chat-style">
@@ -192,9 +205,10 @@
 			class="next-button-wrapper"
 			in:fade
 			on:click={() => {
-				setTimeout(() => {
-					onNext();
-				}, 500);
+				console.log('clicked');
+				onNext();
+				// setTimeout(() => {
+				// }, 500);
 			}}
 			on:keydown={() => {}}
 		>
@@ -210,6 +224,15 @@
 			close={closeModal}
 			{quiz}
 			answer={quiz.answer}
+		/>
+	{/if}
+
+	{#if shareModalOpen}
+		<ShareModal
+			{quiz}
+			close={() => {
+				shareModalOpen = false;
+			}}
 		/>
 	{/if}
 
@@ -242,6 +265,7 @@
 		cursor: pointer;
 		transition: background-color 0.3s;
 		color: #797979;
+		z-index: 2;
 	}
 
 	.question.chat-style {
@@ -487,5 +511,17 @@
 
 	.isShortTime {
 		color: var(--wrong);
+	}
+	.share-container {
+		display: flex;
+		gap: 5px;
+		justify-content: flex-end;
+		color: #999;
+		font-family: Pretendard;
+		font-size: 12px;
+		font-style: normal;
+		font-weight: 500;
+		line-height: 22px; /* 183.333% */
+		letter-spacing: -0.408px;
 	}
 </style>

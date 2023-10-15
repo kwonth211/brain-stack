@@ -4,11 +4,6 @@
 
 	export let close: () => void;
 	let modal: EventTarget;
-
-	function continueAsGuest() {
-		close();
-		goto('/categories');
-	}
 </script>
 
 <div
@@ -22,8 +17,23 @@
 	<div class="container">
 		<p>잠깐! 퀴즈의 진행 상황은 <br />저장되지 않아요. <br /><br />그래도 계속 진행하시겠어요?</p>
 		<div class="button-container">
-			<Button classes="submit" primary onclick={continueAsGuest}>계속</Button>
-			<Button classes="cancel" gray type="filled" onclick={close}>취소</Button>
+			<Button
+				classes="submit"
+				primary
+				onclick={() => {
+					close();
+					goto('/signin');
+				}}>로그인</Button
+			>
+			<Button
+				classes="cancel"
+				gray
+				type="filled"
+				onclick={() => {
+					close();
+					goto('/categories');
+				}}>계속</Button
+			>
 		</div>
 	</div>
 </div>
