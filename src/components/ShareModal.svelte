@@ -1,12 +1,18 @@
 <script lang="ts">
+	import { page } from '$app/stores';
+	import type { CATEGORY } from '$types/categories';
 	import type { Quiz } from '$types/quiz';
 	import Divider from './Divider.svelte';
 	import Input from './Input.svelte';
 	import ModalCloseIcon from './icons/ModalCloseIcon.svelte';
 
+	const categoryId = $page.url.searchParams.get('category') as keyof typeof CATEGORY;
 	export let close: () => void;
 	export let quiz: Quiz;
 	let modal: EventTarget;
+	const sharedLink = `https://dual-brain.com/quiz/${quiz.id}${
+		categoryId && `?category=${categoryId}`
+	}`;
 </script>
 
 <div
@@ -27,7 +33,7 @@
 		</div>
 		<div class="title">공유하기</div>
 		<Divider />
-		<Input placeholder="https://" value={`https://dual-brain.com/quiz/${quiz.id}`} />
+		<Input placeholder="https://" value={sharedLink} />
 	</div>
 </div>
 
