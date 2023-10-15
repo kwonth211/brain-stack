@@ -165,9 +165,7 @@
 				현재 등수 <div class="rank-text">? 등</div>
 			</div>
 			<!-- {#if correctRate !== null}
-				<div class="correct-rate">
-					정답률 <span class="correct-rate-text">{correctRate}%</span>
-				</div>
+				
 			{/if} -->
 		</div>
 		<div class="progressbar-container">
@@ -180,14 +178,25 @@
 				isShake={isShortTime && remainingTime > 0}
 			/>
 		</div>
+
 		<div
-			class="share-container"
+			class="bottom-container"
+			on:keydown={() => {}}
 			on:click={() => {
 				shareModalOpen = true;
 			}}
 		>
-			<ShareIcon style="margin-top:3px;" />
-			공유하기
+			<div class="correct-rate">
+				정답률 {#if correctRate === null}
+					<span class="correct-rate-text">??%</span>
+				{:else}
+					<span class="correct-rate-text">{correctRate}%</span>
+				{/if}
+			</div>
+			<div class="share-container">
+				<ShareIcon style="margin-top:3px;" />
+				공유하기
+			</div>
 		</div>
 	</div>
 	<div class="question-container">
@@ -483,9 +492,6 @@
 		animation: slideRight 0.5s forwards;
 	}
 	.correct-rate {
-		position: absolute;
-		right: 16px;
-		font-size: 13px;
 	}
 
 	.quiz-info-wrapper {
@@ -512,10 +518,10 @@
 	.isShortTime {
 		color: var(--wrong);
 	}
-	.share-container {
+	.bottom-container {
 		display: flex;
 		gap: 5px;
-		justify-content: flex-end;
+		justify-content: space-between;
 		color: #999;
 		font-family: Pretendard;
 		font-size: 12px;
@@ -523,5 +529,12 @@
 		font-weight: 500;
 		line-height: 22px; /* 183.333% */
 		letter-spacing: -0.408px;
+	}
+	.share-container {
+		display: flex;
+		gap: 5px;
+	}
+	.correct-rate-text {
+		font-weight: 500;
 	}
 </style>

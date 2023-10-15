@@ -36,7 +36,7 @@
 
 	<div class="title">
 		<CommonQuizIcon2 />
-		상식 퀴즈
+		상식 랭킹
 		<CommonQuizIconReverse2 />
 	</div>
 
