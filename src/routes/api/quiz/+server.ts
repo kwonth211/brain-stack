@@ -1,10 +1,11 @@
 import { json } from '@sveltejs/kit';
 import { sql } from '@vercel/postgres';
 
+// TODO: Point 추가
 export async function POST({ request }: { request: Request }) {
-	const { userEmail, quizId, answer, point } = await request.json();
+	const { userEmail, quizId, answer } = await request.json();
 
-	if (!userEmail || !quizId || answer === undefined || !point) {
+	if (!userEmail || !quizId || answer === undefined) {
 		return json({ error: 'Bad Request.' }, { status: 400 });
 	}
 
@@ -24,8 +25,8 @@ export async function POST({ request }: { request: Request }) {
 	const isCorrect = String(quizzes[0].answer) === String(answer);
 
 	await sql`
-        INSERT INTO user_quizzes (user_id, quiz_id, answer, is_correct, point, created_at)
-        VALUES (${user_id}, ${quizId}, ${answer}, ${isCorrect}, ${point}, NOW())
+        INSERT INTO user_quizzes (user_id, quiz_id, answer, is_correct, created_at)
+        VALUES (${user_id}, ${quizId}, ${answer}, ${isCorrect}, NOW())
     `;
 
 	return json({ message: '퀴즈 결과가 저장되었습니다.' }, { status: 201 });

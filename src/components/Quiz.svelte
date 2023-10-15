@@ -93,17 +93,10 @@
 
 		isModalOpen = true;
 
-		const quizPoint = {
-			Easy: 1,
-			Medium: 2,
-			Hard: 3
-		};
-
 		axios.post('/api/quiz', {
 			userEmail: $page.data.session?.user?.email,
 			quizId: quiz.id,
-			answer: _selectedOption,
-			point: quizPoint[quiz.difficulty]
+			answer: _selectedOption
 		});
 		onCheckAnswer(answerIsCorrect);
 	};
