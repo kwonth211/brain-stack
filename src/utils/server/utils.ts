@@ -40,8 +40,8 @@ export const getSolvedQuizzes = async ({
 	userId?: string | null;
 }) => {
 	const { rows: solvedQuizzes } = categoryId
-		? await sql`SELECT quiz_id, is_correct FROM user_quizzes WHERE user_id = (SELECT id FROM users WHERE email=${userId}) AND quiz_id IN (SELECT id FROM quizzes WHERE category_id=${categoryId})`
-		: await sql`SELECT quiz_id, is_correct FROM user_quizzes WHERE user_id = (SELECT id FROM users WHERE email=${userId})`;
+		? await sql`SELECT quiz_id, is_correct, answer FROM user_quizzes WHERE user_id = (SELECT id FROM users WHERE email=${userId}) AND quiz_id IN (SELECT id FROM quizzes WHERE category_id=${categoryId})`
+		: await sql`SELECT quiz_id, is_correct, answer FROM user_quizzes WHERE user_id = (SELECT id FROM users WHERE email=${userId})`;
 
 	return solvedQuizzes;
 };

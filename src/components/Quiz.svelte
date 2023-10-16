@@ -8,9 +8,6 @@
 	import { fade, fly } from 'svelte/transition';
 	import { axios } from '$lib/axios';
 	import { page } from '$app/stores';
-	import Modal from '$components/Modal.svelte';
-	import GoogleAdsWidget from './GoogleAdsWidget.svelte';
-	import Divider from './Divider.svelte';
 	import DividerVertical from './DividerVertical.svelte';
 	import ShareIcon from './icons/ShareIcon.svelte';
 	import ShareModal from './ShareModal.svelte';
@@ -21,7 +18,8 @@
 	export let onCheckAnswer = (isCorrect: boolean) => {};
 	export let unSolvedCount: number;
 	export let correctCount: number;
-
+	export let isAlreadySolved: boolean;
+	export let userAnswer: string | null;
 	const options = [quiz.option1, quiz.option2, quiz.option3, quiz.option4];
 	let selectedOption: string | null = null;
 	let shareModalOpen = false;
@@ -36,10 +34,6 @@
 	let displayQuestion = '';
 	let index = 0;
 	$: isShortTime = remainingTime <= 500;
-
-	// onMount(() => {
-	// 	typeQuestion();
-	// });
 
 	const typeQuestion = () => {
 		if (index < quiz.question.length) {
@@ -57,15 +51,15 @@
 
 		setTimeout(() => {
 			optionsShown = options;
+			if (isAlreadySolved && userAnswer) {
+				checkAnswer(userAnswer);
+				return;
+			}
 			//FIXME 임시 처리
 			setTimeout(() => {
 				startTimer();
 			}, 2000);
 		}, quiz.question.length * 50);
-
-		// if (Math.random() < 1) {
-		// 	showGoogleAdModal = true;
-		// }
 	});
 
 	const startTimer = () => {
@@ -74,7 +68,7 @@
 			if (remainingTime <= 0) {
 				checkAnswer('timeout');
 			}
-		}, 10); // 10ms 간격으로 감소
+		}, 10);
 	};
 	let isModalOpen = false;
 	let answerIsCorrect = false;
@@ -96,11 +90,13 @@
 
 		selectedOption = _selectedOption;
 		try {
-			await axios.post('/api/quiz', {
-				userEmail: $page.data.session?.user?.email,
-				quizId: quiz.id,
-				answer: _selectedOption
-			});
+			if (!isAlreadySolved) {
+				await axios.post('/api/quiz', {
+					userEmail: $page.data.session?.user?.email,
+					quizId: quiz.id,
+					answer: _selectedOption
+				});
+			}
 		} catch (error) {
 		} finally {
 			loadingNext = false;
@@ -244,7 +240,13 @@
 				<Button
 					primary
 					type="outlined"
-					onclick={() => checkAnswer(String(index + 1))}
+					onclick={() => {
+						if (isAlreadySolved) {
+							return;
+						}
+
+						checkAnswer(String(index + 1));
+					}}
 					classes={getButtonClassName(index)}
 				>
 					<div class="button-content">

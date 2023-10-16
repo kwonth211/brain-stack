@@ -30,6 +30,8 @@ export async function load({ url, params, locals }) {
 		return {
 			currentQuiz: currentQuiz[0] as Quiz,
 			nextQuiz: nextQuiz as Quiz,
+			isAlreadySolved: solvedQuizzes.some((q) => q.quiz_id === quizId),
+			userAnswer: solvedQuizzes.find((q) => q.quiz_id === quizId)?.answer,
 			unSolvedCount: remainingQuizzes.length,
 			solvedCount: solvedQuizzes.length,
 			correctCount: correctCount

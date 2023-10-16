@@ -16,7 +16,9 @@
 		nextQuiz,
 		solvedCount: _solvedCount,
 		unSolvedCount: _unsolvedCount,
-		correctCount: _correctCount
+		correctCount: _correctCount,
+		isAlreadySolved,
+		userAnswer
 	} = data;
 
 	let solvedCount = _solvedCount ?? 0;
@@ -84,6 +86,8 @@
 			onNext={handleNext}
 			{correctCount}
 			{unSolvedCount}
+			{isAlreadySolved}
+			{userAnswer}
 			onCheckAnswer={(isCorrect) => {
 				solvedCount++;
 				unSolvedCount--;
