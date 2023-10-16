@@ -53,7 +53,7 @@
 	<DrawerHeader
 		hasBack={false}
 		onClick={() => {
-			goto('/main');
+			goto('/');
 		}}
 	/>
 

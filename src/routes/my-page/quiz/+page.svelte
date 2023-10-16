@@ -12,7 +12,7 @@
 <div style="height: 100%;">
 	<Header
 		onClick={() => {
-			goto('/main');
+			goto('/');
 		}}>푼 퀴즈</Header
 	>
 

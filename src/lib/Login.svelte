@@ -57,7 +57,7 @@
 					email: userEmail,
 					password: password
 				});
-				goto('/main');
+				goto('/');
 			}}>로그인하기</Button
 		>
 		<a

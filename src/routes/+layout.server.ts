@@ -12,6 +12,10 @@ export const load: LayoutServerLoad = async (event) => {
 		throw redirect(303, '/signin');
 	}
 
+	if (event.url.pathname === '/main') {
+		throw redirect(303, '/');
+	}
+
 	return {
 		session
 	};

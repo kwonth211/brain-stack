@@ -52,7 +52,7 @@
 <div style="height: 100%;">
 	<Header
 		onClick={() => {
-			goto('/main');
+			goto('/');
 		}}
 		>넌센스 퀴즈
 		<span

@@ -8,7 +8,7 @@
 <div style="height: 100%;">
 	<Header
 		onClick={() => {
-			goto('/main');
+			goto('/');
 		}}>퀴즈 출제하기</Header
 	>
 
