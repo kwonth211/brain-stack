@@ -47,6 +47,21 @@
 	// 		return moreThan100[Math.floor(Math.random() * moreThan100.length)];
 	// 	}
 	// };
+
+	const messages = [
+		'<b>지식을 키워줄 퀴즈!</b><br />오늘도 지식을 함께 키워보아요.',
+		'<b>지식의 향연!</b><br />새로운 지식의 세계를 함께 탐험해보세요.',
+		'<b>오늘의 흥미진진한 퀴즈!</b><br />무슨 퀴즈가 준비되어 있는지 확인해보세요.',
+		'<b>놓치면 후회할 퀴즈의 세계!</b><br />다양한 퀴즈로 지식을 늘려보세요.',
+		'<b>당신을 위한 퀴즈!</b><br />함께 퀴즈를 즐겨보세요.',
+		'<b>놀라운 퀴즈의 세계!</b><br />다양한 퀴즈로 당신의 지식을 테스트해보세요.',
+		'<b>200여개의 퀴즈가 준비되어 있어요!</b><br />어떤 퀴즈부터 시작하실지 선택해보세요.'
+	];
+
+	const randomMessage = () => {
+		const randomIndex = Math.floor(Math.random() * messages.length);
+		return messages[randomIndex];
+	};
 </script>
 
 <div in:fade class="container">
@@ -60,9 +75,7 @@
 	<div class="card-container">
 		<div class="quiz-container">
 			<div class="cheer-up-text">
-				<b>언제나 재미있는 퀴즈!</b>
-				<br />
-				오늘도 재밌게 퀴즈 풀어봐요~
+				{@html randomMessage()}
 				<!-- {getCheerUpText()} -->
 			</div>
 			<div
