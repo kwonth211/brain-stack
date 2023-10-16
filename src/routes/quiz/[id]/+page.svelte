@@ -53,7 +53,11 @@
 
 	<meta property="og:title" content={pageTitle} />
 	<meta property="og:description" content={metaDescription} />
-	<!-- <meta property="og:image" content="path/to/your/image.jpg" /> -->
+	<script
+		async
+		src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415763008354504"
+		crossorigin="anonymous"
+	></script>
 </svelte:head>
 
 <div style="height: 100%;">

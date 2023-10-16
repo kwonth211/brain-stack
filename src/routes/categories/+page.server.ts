@@ -21,7 +21,6 @@ export async function load({ url, params, locals }) {
 			solvedQuizzes
 		});
 
-		const nextQuiz = remainingQuizzes[Math.floor(Math.random() * remainingQuizzes.length)];
 		return {
 			solvedQuizzes,
 			remainingQuizzes: remainingQuizzes as Quiz[],

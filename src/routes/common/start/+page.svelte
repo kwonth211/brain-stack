@@ -15,8 +15,6 @@
 
 	export let data;
 	let NonMemberModalOpen = false;
-
-	console.log();
 </script>
 
 <svelte:head>

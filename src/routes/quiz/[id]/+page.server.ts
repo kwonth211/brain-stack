@@ -21,7 +21,9 @@ export async function load({ url, params, locals }) {
 			categoryId,
 			solvedQuizzes
 		});
-		const nextQuiz = remainingQuizzes[Math.floor(Math.random() * remainingQuizzes.length)];
+		const nextQuizzes = remainingQuizzes.filter((q) => q.id !== quizId);
+
+		const nextQuiz = nextQuizzes[Math.floor(Math.random() * nextQuizzes.length)];
 
 		const correctCount = solvedQuizzes.filter((q) => q.is_correct).length;
 

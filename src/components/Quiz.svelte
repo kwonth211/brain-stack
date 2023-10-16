@@ -26,6 +26,7 @@
 	let selectedOption: string | null = null;
 	let shareModalOpen = false;
 	let correctRate: number | null = null;
+	let loadingNext = false;
 	let showGoogleAdModal = false;
 
 	let timeLimit = 15 * 100;
@@ -79,7 +80,8 @@
 	let answerIsCorrect = false;
 	let answerIsTimeout = false;
 
-	const checkAnswer = (_selectedOption: string) => {
+	const checkAnswer = async (_selectedOption: string) => {
+		loadingNext = true;
 		clearInterval(timerInterval);
 
 		if (selectedOption) {
@@ -89,15 +91,20 @@
 			answerIsTimeout = true;
 		}
 		answerIsCorrect = _selectedOption === quiz.answer;
-		selectedOption = _selectedOption;
 
 		isModalOpen = true;
 
-		axios.post('/api/quiz', {
-			userEmail: $page.data.session?.user?.email,
-			quizId: quiz.id,
-			answer: _selectedOption
-		});
+		selectedOption = _selectedOption;
+		try {
+			await axios.post('/api/quiz', {
+				userEmail: $page.data.session?.user?.email,
+				quizId: quiz.id,
+				answer: _selectedOption
+			});
+		} catch (error) {
+		} finally {
+			loadingNext = false;
+		}
 		onCheckAnswer(answerIsCorrect);
 	};
 	const closeModal = () => {
@@ -135,13 +142,7 @@
 	}
 </script>
 
-<!-- <svelte:head>
-	<script
-		async
-		src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415763008354504"
-		crossorigin="anonymous"
-	></script>
-</svelte:head> -->
+<!--  -->
 
 <div in:fade class="container">
 	<div class="status-wrapper">
@@ -202,12 +203,11 @@
 		</div>
 	</div>
 
-	{#if selectedOption}
+	{#if selectedOption && !loadingNext}
 		<div
 			class="next-button-wrapper"
 			in:fade
 			on:click={() => {
-				console.log('clicked');
 				onNext();
 				// setTimeout(() => {
 				// }, 500);
