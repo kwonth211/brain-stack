@@ -27,7 +27,7 @@
 			objectType: 'feed',
 			content: {
 				title: '퀴즈 공유하기',
-				description: `#퀴즈 #공유 #도전 #지식 #듀얼브레인 - 정답률: ${correctRate}%`,
+				description: `${quiz.question} - #퀴즈 #공유 #지식 - 정답률: ${correctRate}%`,
 				imageUrl: 'https://dual-brain.s3.ap-northeast-2.amazonaws.com/logo.png',
 				link: {
 					mobileWebUrl: sharedLink,
