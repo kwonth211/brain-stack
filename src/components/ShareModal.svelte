@@ -27,30 +27,13 @@
 			objectType: 'feed',
 			content: {
 				title: '퀴즈 공유하기',
-				description: `#퀴즈 #dual-brain #지식퀴즈 #공유 #도전 #듀얼 브레인 - 정답률: ${correctRate}%`,
-				imageUrl:
-					'http://k.kakaocdn.net/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png', // 해당 이미지 URL은 적절한 이미지로 교체해 주세요.
+				description: `#퀴즈 #공유 #도전 #지식 #듀얼브레인 - 정답률: ${correctRate}%`,
+				imageUrl: 'https://dual-brain.s3.ap-northeast-2.amazonaws.com/logo.png',
 				link: {
 					mobileWebUrl: sharedLink,
 					webUrl: sharedLink
 				}
-			},
-			buttons: [
-				{
-					title: '웹에서 퀴즈 확인하기',
-					link: {
-						mobileWebUrl: sharedLink,
-						webUrl: sharedLink
-					}
-				},
-				{
-					title: '앱에서 퀴즈 확인하기',
-					link: {
-						mobileWebUrl: sharedLink,
-						webUrl: sharedLink
-					}
-				}
-			]
+			}
 		});
 	};
 
