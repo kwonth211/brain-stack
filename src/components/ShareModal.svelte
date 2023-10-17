@@ -2,17 +2,78 @@
 	import { page } from '$app/stores';
 	import type { CATEGORY } from '$types/categories';
 	import type { Quiz } from '$types/quiz';
+	import { onMount } from 'svelte';
 	import Divider from './Divider.svelte';
 	import Input from './Input.svelte';
 	import ModalCloseIcon from './icons/ModalCloseIcon.svelte';
+	import axios from 'axios';
+	import Facebook from '$lib/assets/Facebook.png';
+	import X from '$lib/assets/Twitter-x-logo.png';
 
 	const categoryId = $page.url.searchParams.get('category') as keyof typeof CATEGORY;
 	export let close: () => void;
 	export let quiz: Quiz;
 	let modal: EventTarget;
+	let correctRate: number | null = null;
 	const sharedLink = `https://dual-brain.com/quiz/${quiz.id}${
-		categoryId && `?category=${categoryId}`
+		categoryId ? `?category=${categoryId}` : ''
 	}`;
+
+	const kakaoShareInit = () => {
+		window.Kakao.init('6a32f23b45df6970e8df76d98d39cee4');
+
+		window.Kakao.Share.createDefaultButton({
+			container: '#kakaotalk-sharing-btn',
+			objectType: 'feed',
+			content: {
+				title: '퀴즈 공유하기',
+				description: `#퀴즈 #dual-brain #지식퀴즈 #공유 #도전 #듀얼 브레인 - 정답률: ${correctRate}%`,
+				imageUrl:
+					'http://k.kakaocdn.net/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png', // 해당 이미지 URL은 적절한 이미지로 교체해 주세요.
+				link: {
+					mobileWebUrl: sharedLink,
+					webUrl: sharedLink
+				}
+			},
+			buttons: [
+				{
+					title: '웹에서 퀴즈 확인하기',
+					link: {
+						mobileWebUrl: sharedLink,
+						webUrl: sharedLink
+					}
+				},
+				{
+					title: '앱에서 퀴즈 확인하기',
+					link: {
+						mobileWebUrl: sharedLink,
+						webUrl: sharedLink
+					}
+				}
+			]
+		});
+	};
+
+	onMount(() => {
+		if (typeof window !== 'undefined') {
+			loadCorrectRate().then(() => {
+				kakaoShareInit();
+			});
+		}
+	});
+
+	const loadCorrectRate = async () => {
+		try {
+			const response = await axios.get(`/api/quiz/${quiz.id}`);
+			correctRate = response.data.correctRate ?? 0;
+		} catch (error) {
+			console.error('Failed to load correct rate:', error);
+		}
+	};
+
+	$: if (quiz) {
+		loadCorrectRate();
+	}
 </script>
 
 <div
@@ -31,13 +92,48 @@
 				}}
 			/>
 		</div>
+
 		<div class="title">공유하기</div>
+		<div class="share-container">
+			<a id="kakaotalk-sharing-btn" href="javascript:;">
+				<img
+					src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
+					alt="카카오톡 공유 보내기 버튼"
+				/>
+			</a>
+			<a href={`https://www.facebook.com/sharer/sharer.php?u=${sharedLink}`} target="_blank">
+				<img
+					src={Facebook}
+					alt="Facebook Share"
+					style="margin-left: 10px; width: 48px; height: 48px;"
+				/>
+			</a>
+			<a
+				href={`https://twitter.com/intent/tweet?text=퀴즈에 도전해보실래요?&url=${sharedLink}`}
+				target="_blank"
+			>
+				<img
+					src={X}
+					alt="트위터로 공유하기"
+					style="margin-left: 10px; width: 48px; height: 48px;"
+				/>
+			</a>
+		</div>
 		<Divider />
 		<Input placeholder="https://" value={sharedLink} />
 	</div>
 </div>
 
 <style>
+	.share-container {
+		display: flex;
+		justify-content: center;
+	}
+	#kakaotalk-sharing-btn img {
+		width: 48px;
+		height: 48px;
+	}
+
 	.title {
 		display: flex;
 		align-items: center;
