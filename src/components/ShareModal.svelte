@@ -92,8 +92,9 @@
 				}}
 			/>
 		</div>
-
 		<div class="title">공유하기</div>
+		<Divider />
+
 		<div class="share-container">
 			<a id="kakaotalk-sharing-btn" href="javascript:;">
 				<img
@@ -136,7 +137,6 @@
 
 	.title {
 		display: flex;
-		align-items: center;
 		gap: 2px;
 		font-weight: 600;
 		color: #000;
@@ -147,6 +147,7 @@
 		text-align: center;
 		justify-content: center;
 		line-height: 126.336%; /* 25.267px */
+		margin: 10px 0px;
 	}
 	.modal {
 		position: fixed;
@@ -171,9 +172,12 @@
 		flex-direction: column;
 		justify-content: center;
 		background-color: white;
+		position: relative;
 	}
 	.modal-close {
 		display: flex;
-		justify-content: flex-end;
+		position: absolute;
+		right: 15px;
+		top: 15px;
 	}
 </style>
