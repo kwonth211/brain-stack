@@ -26,8 +26,8 @@
 			container: '#kakaotalk-sharing-btn',
 			objectType: 'feed',
 			content: {
-				title: '퀴즈 공유',
-				description: `${quiz.question} - #듀얼브레인 #공유 #지식 - 정답률: ${correctRate}%`,
+				title: quiz.question,
+				description: `#듀얼브레인 #공유 #지식 - 정답률: ${correctRate}%`,
 				imageUrl: 'https://dual-brain.s3.ap-northeast-2.amazonaws.com/logo.png',
 				link: {
 					mobileWebUrl: sharedLink,

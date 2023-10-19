@@ -11,6 +11,7 @@
 	import DividerVertical from './DividerVertical.svelte';
 	import ShareIcon from './icons/ShareIcon.svelte';
 	import ShareModal from './ShareModal.svelte';
+	import LoginModal from './LoginModal.svelte';
 
 	export let quiz: Quiz;
 
@@ -34,6 +35,7 @@
 	let displayQuestion = '';
 	let index = 0;
 	$: isShortTime = remainingTime <= 500;
+	$: isLoggedIn = $page.data.session && $page.data.session.user;
 
 	const typeQuestion = () => {
 		if (index < quiz.question.length) {
@@ -73,6 +75,7 @@
 	let isModalOpen = false;
 	let answerIsCorrect = false;
 	let answerIsTimeout = false;
+	let isLoginModalOpen = false;
 
 	const checkAnswer = async (_selectedOption: string) => {
 		loadingNext = true;
@@ -143,20 +146,30 @@
 <div in:fade class="container">
 	<div class="status-wrapper">
 		<div class="quiz-info-wrapper">
+			{#if !isLoggedIn}
+				<div
+					class="overlay"
+					on:click={() => {
+						isLoginModalOpen = true;
+					}}
+					on:keydown={() => {
+						isLoginModalOpen = true;
+					}}
+				>
+					<p>로그인을 해야 볼 수 있어요.</p>
+				</div>
+			{/if}
 			<div class="correct-text">
-				남은 개수 <div class="remain-text-count">{unSolvedCount}개</div>
+				남은 개수 <div class="remain-text-count">{!isLoggedIn ? '??' : unSolvedCount}개</div>
 			</div>
 			<DividerVertical height={'60%'} />
 			<div class="correct-text">
-				맞은 개수 <div class="correct-text-count">{correctCount}개</div>
+				맞은 개수 <div class="correct-text-count">{!isLoggedIn ? '??' : correctCount}개</div>
 			</div>
 			<DividerVertical height={'60%'} />
 			<div class="correct-text">
-				현재 등수 <div class="rank-text">? 등</div>
+				현재 등수 <div class="rank-text">{!isLoggedIn ? '??' : '??'}등</div>
 			</div>
-			<!-- {#if correctRate !== null}
-				
-			{/if} -->
 		</div>
 		<div class="progressbar-container">
 			<div class="remain-time-text" class:isShortTime>남은시간</div>
@@ -230,6 +243,14 @@
 			{quiz}
 			close={() => {
 				shareModalOpen = false;
+			}}
+		/>
+	{/if}
+
+	{#if isLoginModalOpen}
+		<LoginModal
+			close={() => {
+				isLoginModalOpen = false;
 			}}
 		/>
 	{/if}
@@ -486,12 +507,9 @@
 	.next-button-wrapper:hover {
 		animation: slideRight 0.5s forwards;
 	}
-	.correct-rate {
-	}
 
 	.quiz-info-wrapper {
-		/* padding: 8px 0px;
-		box-sizing: border-box; */
+		position: relative;
 		display: flex;
 		align-items: center;
 		gap: 40px;
@@ -531,5 +549,25 @@
 	}
 	.correct-rate-text {
 		font-weight: 500;
+	}
+
+	.overlay {
+		position: absolute;
+		cursor: pointer;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgb(216 207 207 / 70%);
+		display: flex;
+		justify-content: center;
+		border-radius: 4px;
+		align-items: center;
+		z-index: 10;
+	}
+	.overlay p {
+		color: white;
+		font-size: 16px;
+		text-decoration: underline;
 	}
 </style>
