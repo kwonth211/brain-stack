@@ -21,6 +21,7 @@
 			<Button
 				classes="submit"
 				primary
+				size="sm"
 				onclick={() => {
 					close();
 					goto('/signin');
@@ -29,6 +30,7 @@
 			<Button
 				classes="cancel"
 				gray
+				size="sm"
 				type="filled"
 				onclick={() => {
 					onConfirm();

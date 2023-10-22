@@ -192,4 +192,13 @@
 		justify-content: center;
 		align-items: center;
 	}
+
+	:global(.normal-login) {
+		font-family: 'Roboto-Medium', sans-serif;
+		text-align: center;
+		position: relative;
+		justify-content: center;
+		height: var(--button-height);
+		margin-top: 10px;
+	}
 </style>
