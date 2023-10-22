@@ -13,6 +13,7 @@
 	import DrawerHeader from '$components/DrawerHeader.svelte';
 	import BalanceQuiz from '$components/BalanceQuiz.svelte';
 	import VsIcon from '$components/VSIcon.svelte';
+	import Lightning from '$components/icons/Lightning.svelte';
 
 	// export let data;
 
@@ -110,7 +111,7 @@
 				</div>
 			</div>
 
-			<div
+			<!-- <div
 				class="balance-quiz-card"
 				on:click={() => {
 					goto('/balance/start');
@@ -120,9 +121,26 @@
 				}}
 			>
 				<BalanceQuiz />
-				<VsIcon style="position: absolute;left: 26px;" />
-				<span class="balance-text">밸런스</span>
-				<span class="balance-quiz-text">퀴즈</span>
+		
+			</div> -->
+
+			<div
+				class="balance-quiz-card"
+				on:click={() => {
+					goto('/balance/start');
+				}}
+				on:keydown={() => {
+					goto('/balance/start');
+				}}
+			>
+				<div class="balance-text-center">
+					<div class="balance-text">밸런스</div>
+					<div class="balance-quiz-text">&nbsp;퀴즈</div>
+				</div>
+				<div class="trapezoid-left" />
+				<div class="trapezoid-right" />
+				<VsIcon style="position: absolute;left: 26px;top: 40%;" />
+				<Lightning style="position: absolute;right: 26px;top: 30%;" />
 			</div>
 		</div>
 	</div>
@@ -132,16 +150,18 @@
 </div>
 
 <style>
-	.balance-text {
+	.balance-text-center {
 		position: absolute;
-		left: 35%;
-		top: 45%;
+		left: 49%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		display: flex;
+		z-index: 1;
+	}
+	.balance-text {
 		color: black;
 	}
 	.balance-quiz-text {
-		position: absolute;
-		left: 50%;
-		top: 45%;
 		color: white;
 	}
 	.container {
@@ -190,31 +210,7 @@
 		gap: 10px;
 		margin-bottom: 50px;
 	}
-	.select-quiz {
-		margin-top: 10px;
-	}
-	.create-container {
-		display: flex;
-		flex-direction: row;
-		gap: 10px;
-	}
-	.create-quiz-card {
-		width: 100%;
-		border-radius: 10px;
-		background: #f3f4f6;
-		height: 59px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		color: #434343;
-		text-align: center;
-		font-family: Pretendard;
-		font-size: 16px;
-		font-style: normal;
-		font-weight: 500;
-		line-height: 22px; /* 137.5% */
-		letter-spacing: -0.408px;
-	}
+
 	.common-sense-card {
 		width: 100%;
 		height: 121px;
@@ -245,20 +241,7 @@
 		z-index: 2;
 		background-color: #dfe9fe;
 	}
-	.balance-quiz-card {
-		position: relative;
-		border-radius: 15px;
-		width: 100%;
-		height: 121px;
-		flex-shrink: 0;
-		color: white;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		box-sizing: border-box;
-		z-index: 2;
-		background-color: #dfe9fe;
-	}
+
 	.outer-container {
 		width: 100%;
 		height: 66%;
@@ -290,5 +273,39 @@
 		line-height: 27px;
 		letter-spacing: -0.408px;
 		margin-bottom: 12px;
+	}
+
+	.balance-quiz-card {
+		position: relative;
+		height: 121px;
+		border-radius: 15px;
+		position: relative;
+		background-color: #ffe27a; /* 이것은 뒷면의 사다리꼴 색상입니다. */
+		overflow: hidden;
+		z-index: 2;
+	}
+
+	.trapezoid-left {
+		content: '';
+		display: block;
+		width: 60%; /* 왼쪽 사다리꼴의 너비를 조정하여 절반에 가깝게 만듭니다. */
+		height: 100%;
+		background-color: #ffe27a;
+		clip-path: polygon(0% 0%, 100% 0%, 0% 100%, 0% 100%);
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	.trapezoid-right {
+		content: '';
+		display: block;
+		width: 60%; /* 오른쪽 사다리꼴의 너비를 조정하여 절반에 가깝게 만듭니다. */
+		height: 100%;
+		background-color: #5387f7;
+		clip-path: polygon(100% 0%, 100% 258%, 0% 0%, 100% 0%);
+		position: absolute;
+		top: 0;
+		right: 0;
 	}
 </style>

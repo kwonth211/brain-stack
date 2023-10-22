@@ -1,5 +1,4 @@
 import type { User } from '$types/user';
-import { json } from '@sveltejs/kit';
 import { sql } from '@vercel/postgres';
 
 export async function load({ locals }) {
@@ -37,7 +36,7 @@ export async function load({ locals }) {
 	return {
 		// user: user as User,
 		streamed: {
-			ranking: await getTopFiveRanking()
+			ranking: getTopFiveRanking()
 		}
 		// statistics: {
 		// 	totalQuizzes,
@@ -47,25 +46,47 @@ export async function load({ locals }) {
 		// }
 	};
 }
-
 const getTopFiveRanking = async () => {
-	const { rows: rankingData } = await sql`
-		WITH UserScores AS (
-			SELECT 
-				users.id AS "userId",
-				users.nickname AS "userNickname",
-				COALESCE(SUM(user_quizzes.point), 0) AS "totalPoints",
-				COALESCE(SUM(CASE WHEN user_quizzes.is_correct THEN 1 ELSE 0 END), 0) AS "totalCorrect",
-				COUNT(user_quizzes.is_correct) AS "totalAttempts",
-				COALESCE(100.0 * SUM(CASE WHEN user_quizzes.is_correct THEN 1 ELSE 0 END) / NULLIF(COUNT(user_quizzes.is_correct), 0), 0) AS "userAccuracy"
-			FROM users
-			LEFT JOIN user_quizzes ON users.id = user_quizzes.user_id
-			GROUP BY users.id
-		)
-		SELECT * FROM UserScores
-		ORDER BY "totalPoints" DESC, "userAccuracy" DESC, "totalAttempts" DESC
-		LIMIT 5;
-	`;
+	const { rows: allUsers } = await sql`SELECT id, nickname, email FROM users`;
+	const rankingData = [];
 
-	return rankingData;
+	for (const user of allUsers) {
+		const { rows: userQuizResults } = await sql`
+                SELECT uq.is_correct 
+                FROM user_quizzes uq
+                JOIN quizzes q ON uq.quiz_id = q.id
+                WHERE uq.user_id=${user.id} AND q.category_id != 12`;
+
+		let totalCorrect = 0;
+
+		for (const result of userQuizResults) {
+			if (result.is_correct) {
+				totalCorrect++;
+			}
+		}
+
+		const totalAttempts = userQuizResults.length;
+		const userAccuracy = totalAttempts === 0 ? 0 : (totalCorrect / totalAttempts) * 100;
+
+		rankingData.push({
+			userId: user.id,
+			userEmail: user.email,
+			userNickname: user.nickname,
+			totalPoints: totalCorrect,
+			userAccuracy,
+			totalAttempts
+		});
+	}
+
+	rankingData.sort((a, b) => {
+		if (a.totalPoints !== b.totalPoints) {
+			return b.totalPoints - a.totalPoints;
+		}
+		if (a.userAccuracy !== b.userAccuracy) {
+			return b.userAccuracy - a.userAccuracy;
+		}
+		return b.totalAttempts - a.totalAttempts;
+	});
+
+	return rankingData.slice(0, 5);
 };

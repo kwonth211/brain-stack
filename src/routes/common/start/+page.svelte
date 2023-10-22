@@ -5,8 +5,6 @@
 	import NonMemberModal from '$components/NonMemberModal.svelte';
 	import Spinner from '$components/Spinner.svelte';
 	import Header from '$components/Header.svelte';
-	import CommonQuizIcon2 from '$components/icons/CommonQuizIcon2.svelte';
-	import CommonQuizIconReverse2 from '$components/icons/CommonQuizIcon2Reverse.svelte';
 	import Button from '$components/Button.svelte';
 	import GoldenMedal from '$components/icons/GoldenMedal.svelte';
 	import SilverMedal from '$components/icons/SilverMedal.svelte';
@@ -32,17 +30,25 @@
 		}}>상식퀴즈</Header
 	>
 
-	<div class="title">
-		<CommonQuizIcon2 />
-		상식 랭킹
-		<CommonQuizIconReverse2 />
+	<div class="title-container">
+		<!-- <CommonQuizIcon2 /> -->
+		<div class="title">
+			상식 게임
+			<div class="sub-title">
+				퀴즈를 통해 나의 지식을 확장하고, <br />
+				랭킹 1등에 도전해보세요.
+			</div>
+		</div>
+		<!-- <CommonQuizIconReverse2 /> -->
 	</div>
 
 	<div class="card-container">
 		<div>랭킹</div>
 		<div class="create-container">
 			{#await data.streamed.ranking}
-				<Spinner />
+				<div class="spinner-container">
+					<Spinner />
+				</div>
 			{:then value}
 				{#each value as rank, index}
 					<div class="ranking-list-item" class:isMe={rank.userId === 'user.id'}>
@@ -59,7 +65,7 @@
 						</div>
 						<div class="rank-name">{rank.userNickname}</div>
 						<div class="correct-ratio" class:isMe={rank.userId === 'user.id'}>
-							정답률 {Number(rank.userAccuracy)?.toFixed?.(0)}%
+							{rank.totalPoints}개 ({rank.userAccuracy.toFixed(0)}%)
 						</div>
 					</div>
 				{/each}
@@ -140,52 +146,7 @@
 		line-height: 22px; /* 95.652% */
 		letter-spacing: -0.408px;
 	}
-	.user-rank {
-		color: #5387f7;
-		font-family: Pretendard;
-		font-size: 15px;
-		font-style: normal;
-		font-weight: 400;
-		line-height: 22px; /* 146.667% */
-		letter-spacing: -0.408px;
-		display: flex;
-		align-items: center;
-		gap: 4px;
-	}
-	.quiz-card-wrapper {
-		width: 100%;
-		gap: 3px;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-	}
-	.user-card {
-		margin-top: 40px;
-		height: 118px;
-		border-radius: 16px;
-		background: #fff;
-		margin-left: 15px;
-		margin-right: 15px;
-		display: flex;
-		justify-content: center;
-		flex-direction: column;
-		padding: 15px;
-		box-sizing: border-box;
-		gap: 9px;
-		position: relative;
-	}
-	.quiz-card {
-		height: 65px;
-		border-radius: 16px;
-		background: #fff;
-		margin: 0px 15px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-direction: row;
-		padding: 13px;
-	}
+
 	.container {
 		height: 100%;
 		position: relative;
@@ -201,6 +162,7 @@
 		justify-content: center;
 		align-items: center;
 		gap: 10px;
+		height: 100%;
 	}
 	.ranking-list-item {
 		position: relative;
@@ -228,20 +190,22 @@
 		background: #fff;
 		gap: 10px;
 		max-height: 360px;
+		height: 100%;
 	}
 	.isMe {
 		background-color: #a2bdf8;
 		color: white;
 	}
+	.title-container {
+		display: flex;
+	}
 	.title {
 		display: flex;
-		justify-content: center;
-		align-items: center;
-		gap: 19px;
+		flex-direction: column;
+		padding-left: 17px;
+		gap: 4px;
 		margin-top: 50px;
-		margin-bottom: 20px;
 		box-sizing: border-box;
-
 		color: #424242;
 		font-family: Pretendard;
 		font-size: 21px;
@@ -250,11 +214,28 @@
 		line-height: 22px; /* 88% */
 		letter-spacing: -0.408px;
 	}
+
+	.sub-title {
+		color: #424242;
+		font-family: Pretendard;
+		font-size: 14px;
+		font-style: normal;
+		font-weight: 500;
+		line-height: 17px; /* 88% */
+		letter-spacing: -0.408px;
+	}
 	.start-container {
 		margin: 20px 30px;
 	}
 	:global(.start) {
 		width: 100%;
 		height: var(--button-height);
+	}
+	.spinner-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 100%;
 	}
 </style>
