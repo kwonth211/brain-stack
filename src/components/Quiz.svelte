@@ -16,6 +16,7 @@
 	export let quiz: Quiz;
 
 	export let onNext = () => {};
+	let isLocal = import.meta.env.DEV;
 	export let onCheckAnswer = (isCorrect: boolean) => {};
 	export let unSolvedCount: number;
 	export let correctCount: number;
@@ -76,7 +77,6 @@
 	let answerIsCorrect = false;
 	let answerIsTimeout = false;
 	let isLoginModalOpen = false;
-
 	const checkAnswer = async (_selectedOption: string) => {
 		loadingNext = true;
 		clearInterval(timerInterval);
@@ -93,7 +93,7 @@
 
 		selectedOption = _selectedOption;
 		try {
-			if (!isAlreadySolved) {
+			if (!isAlreadySolved && !isLocal) {
 				await axios.post('/api/quiz', {
 					userEmail: $page.data.session?.user?.email,
 					quizId: quiz.id,

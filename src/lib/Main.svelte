@@ -11,6 +11,8 @@
 	import NonSenseQuizReverseIcon from '$components/icons/NonSenseQuizReverseIcon.svelte';
 	import Hamburger from '$components/icons/Hamburger.svelte';
 	import DrawerHeader from '$components/DrawerHeader.svelte';
+	import BalanceQuiz from '$components/BalanceQuiz.svelte';
+	import VsIcon from '$components/VSIcon.svelte';
 
 	// export let data;
 
@@ -101,26 +103,26 @@
 					goto('/quiz/high');
 				}}
 			>
-				<div class="quiz-content">
+				<div class="high-quiz-content">
 					<NonSenseQuizIcon />
 					<div>넌센스 퀴즈</div>
 					<NonSenseQuizReverseIcon />
 				</div>
 			</div>
+
 			<div
 				class="balance-quiz-card"
 				on:click={() => {
-					goto('/quiz/high');
+					goto('/balance/start');
 				}}
 				on:keydown={() => {
-					goto('/quiz/high');
+					goto('/balance/start');
 				}}
 			>
-				<div class="quiz-content">
-					<NonSenseQuizIcon />
-					<div>밸런스 퀴즈</div>
-					<NonSenseQuizReverseIcon />
-				</div>
+				<BalanceQuiz />
+				<VsIcon style="position: absolute;left: 26px;" />
+				<span class="balance-text">밸런스</span>
+				<span class="balance-quiz-text">퀴즈</span>
 			</div>
 		</div>
 	</div>
@@ -130,6 +132,18 @@
 </div>
 
 <style>
+	.balance-text {
+		position: absolute;
+		left: 35%;
+		top: 45%;
+		color: black;
+	}
+	.balance-quiz-text {
+		position: absolute;
+		left: 50%;
+		top: 45%;
+		color: white;
+	}
 	.container {
 		height: 100%;
 		display: flex;
@@ -143,6 +157,21 @@
 		align-items: center;
 
 		color: #fff;
+		font-family: Pretendard;
+		font-size: 16px;
+		font-style: normal;
+		font-weight: 700;
+		line-height: 22px; /* 137.5% */
+		letter-spacing: -0.408px;
+	}
+
+	.high-quiz-content {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+
+		color: #5387f7;
 		font-family: Pretendard;
 		font-size: 16px;
 		font-style: normal;
@@ -216,6 +245,20 @@
 		z-index: 2;
 		background-color: #dfe9fe;
 	}
+	.balance-quiz-card {
+		position: relative;
+		border-radius: 15px;
+		width: 100%;
+		height: 121px;
+		flex-shrink: 0;
+		color: white;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		box-sizing: border-box;
+		z-index: 2;
+		background-color: #dfe9fe;
+	}
 	.outer-container {
 		width: 100%;
 		height: 66%;
@@ -247,21 +290,5 @@
 		line-height: 27px;
 		letter-spacing: -0.408px;
 		margin-bottom: 12px;
-	}
-
-	.balance-quiz-card {
-		background-color: #ffe27a;
-		border-radius: 15px;
-		width: 100%;
-		height: 121px;
-		flex-shrink: 0;
-		color: white;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		box-sizing: border-box;
-		padding-right: 20px;
-		padding-left: 20px;
-		z-index: 2;
 	}
 </style>

@@ -84,6 +84,10 @@
 
 	{#if NonMemberModalOpen}
 		<NonMemberModal
+			onConfirm={() => {
+				NonMemberModalOpen = false;
+				goto('/categories');
+			}}
 			close={() => {
 				NonMemberModalOpen = false;
 			}}

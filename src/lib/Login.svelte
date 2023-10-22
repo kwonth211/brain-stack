@@ -106,12 +106,14 @@
 			>
 				<KakaoLogo style="position:absolute;left:11px;" />카카오 로그인</Button
 			>
-
-			<!-- <Kakao /> -->
 		</div>
 
 		{#if NonMemberModalOpen}
 			<NonMemberModal
+				onConfirm={() => {
+					NonMemberModalOpen = false;
+					goto('/categories');
+				}}
 				close={() => {
 					NonMemberModalOpen = false;
 				}}

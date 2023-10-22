@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 
 	export let close: () => void;
+	export let onConfirm: () => void;
 	let modal: EventTarget;
 </script>
 
@@ -30,8 +31,7 @@
 				gray
 				type="filled"
 				onclick={() => {
-					close();
-					goto('/categories');
+					onConfirm();
 				}}>계속</Button
 			>
 		</div>
