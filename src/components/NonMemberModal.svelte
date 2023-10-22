@@ -19,15 +19,6 @@
 		<p>잠깐! 퀴즈의 진행 상황은 <br />저장되지 않아요. <br /><br />그래도 계속 진행하시겠어요?</p>
 		<div class="button-container">
 			<Button
-				classes="submit"
-				primary
-				size="sm"
-				onclick={() => {
-					close();
-					goto('/signin');
-				}}>로그인</Button
-			>
-			<Button
 				classes="cancel"
 				gray
 				size="sm"
@@ -35,6 +26,15 @@
 				onclick={() => {
 					onConfirm();
 				}}>계속</Button
+			>
+			<Button
+				classes="submit"
+				primary
+				size="sm"
+				onclick={() => {
+					close();
+					goto('/signin');
+				}}>로그인</Button
 			>
 		</div>
 	</div>
@@ -74,6 +74,10 @@
 		float: right;
 		gap: 10px;
 		width: 130px;
+		height: 39px;
+	}
+	:global(.submit) {
+		width: 160px !important;
 		height: 39px;
 	}
 </style>
