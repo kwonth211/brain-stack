@@ -1,5 +1,6 @@
 import type { Quiz } from '$types/quiz.js';
 import { getRemainingQuizzes, getSolvedQuizzes, getTopTenRanking } from '$utils/server/utils.js';
+import { error } from '@sveltejs/kit';
 import { sql } from '@vercel/postgres';
 
 export async function load({ url, params, locals }) {
@@ -9,38 +10,37 @@ export async function load({ url, params, locals }) {
 	const session = await locals.getSession();
 	const userId = session?.user?.email;
 
-	try {
-		const { rows: currentQuiz } = await sql`SELECT * FROM quizzes WHERE id=${quizId}`;
+	const { rows: currentQuiz } = await sql`SELECT * FROM quizzes WHERE id=${quizId}`;
 
-		const solvedQuizzes = await getSolvedQuizzes({
-			categoryId,
-			userId
+	if (currentQuiz.length === 0) {
+		throw error(404, {
+			message: 'Not found'
 		});
-
-		const remainingQuizzes = await getRemainingQuizzes({
-			categoryId,
-			solvedQuizzes
-		});
-		const nextQuizzes = remainingQuizzes.filter((q) => q.id !== quizId);
-
-		const nextQuiz = nextQuizzes[Math.floor(Math.random() * nextQuizzes.length)];
-
-		const correctCount = solvedQuizzes.filter((q) => q.is_correct).length;
-		return {
-			currentQuiz: currentQuiz[0] as Quiz,
-			nextQuiz: nextQuiz as Quiz,
-			isAlreadySolved: solvedQuizzes.some((q) => q.quiz_id === quizId),
-			userAnswer: solvedQuizzes.find((q) => q.quiz_id === quizId)?.answer,
-			unSolvedCount: remainingQuizzes.length,
-			solvedCount: solvedQuizzes.length,
-			correctCount: correctCount,
-			streamed: {
-				ranking: getTopTenRanking()
-			}
-		};
-	} catch (error: unknown) {
-		if (error instanceof Error) {
-			throw new Error(error.message);
-		}
 	}
+	const solvedQuizzes = await getSolvedQuizzes({
+		categoryId,
+		userId
+	});
+
+	const remainingQuizzes = await getRemainingQuizzes({
+		categoryId,
+		solvedQuizzes
+	});
+	const nextQuizzes = remainingQuizzes.filter((q) => q.id !== quizId);
+
+	const nextQuiz = nextQuizzes[Math.floor(Math.random() * nextQuizzes.length)];
+
+	const correctCount = solvedQuizzes.filter((q) => q.is_correct).length;
+	return {
+		currentQuiz: currentQuiz[0] as Quiz,
+		nextQuiz: nextQuiz as Quiz,
+		isAlreadySolved: solvedQuizzes.some((q) => q.quiz_id === quizId),
+		userAnswer: solvedQuizzes.find((q) => q.quiz_id === quizId)?.answer,
+		unSolvedCount: remainingQuizzes.length,
+		solvedCount: solvedQuizzes.length,
+		correctCount: correctCount,
+		streamed: {
+			ranking: getTopTenRanking()
+		}
+	};
 }
