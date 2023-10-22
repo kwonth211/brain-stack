@@ -1,5 +1,5 @@
 import type { Quiz } from '$types/quiz.js';
-import { getRemainingQuizzes, getSolvedQuizzes } from '$utils/server/utils.js';
+import { getRemainingQuizzes, getSolvedQuizzes, getTopTenRanking } from '$utils/server/utils.js';
 import { sql } from '@vercel/postgres';
 
 export async function load({ url, params, locals }) {
@@ -26,7 +26,6 @@ export async function load({ url, params, locals }) {
 		const nextQuiz = nextQuizzes[Math.floor(Math.random() * nextQuizzes.length)];
 
 		const correctCount = solvedQuizzes.filter((q) => q.is_correct).length;
-
 		return {
 			currentQuiz: currentQuiz[0] as Quiz,
 			nextQuiz: nextQuiz as Quiz,
@@ -34,7 +33,10 @@ export async function load({ url, params, locals }) {
 			userAnswer: solvedQuizzes.find((q) => q.quiz_id === quizId)?.answer,
 			unSolvedCount: remainingQuizzes.length,
 			solvedCount: solvedQuizzes.length,
-			correctCount: correctCount
+			correctCount: correctCount,
+			streamed: {
+				ranking: getTopTenRanking()
+			}
 		};
 	} catch (error: unknown) {
 		if (error instanceof Error) {

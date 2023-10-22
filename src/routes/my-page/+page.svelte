@@ -92,7 +92,8 @@
 						<div class="rank">{index + 1}</div>
 						<div class="rank-name">{rank.userNickname}</div>
 						<div class="correct-ratio" class:isMe={rank.userId === user.id}>
-							정답률 {rank.userAccuracy.toFixed(0)}%
+							<!-- 맞은문제 {rank.userAccuracy.toFixed(0)}% / 정답률 {rank.userAccuracy.toFixed(0)}% -->
+							{rank.totalPoints}개 ({rank.userAccuracy.toFixed(0)}%)
 						</div>
 					</div>
 				{/each}

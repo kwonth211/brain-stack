@@ -18,6 +18,7 @@
 		unSolvedCount: _unsolvedCount,
 		correctCount: _correctCount,
 		isAlreadySolved,
+		streamed,
 		userAnswer
 	} = data;
 
@@ -88,6 +89,7 @@
 			{unSolvedCount}
 			{isAlreadySolved}
 			{userAnswer}
+			ranking={streamed?.ranking}
 			onCheckAnswer={(isCorrect) => {
 				solvedCount++;
 				unSolvedCount--;

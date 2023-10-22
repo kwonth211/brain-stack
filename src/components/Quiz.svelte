@@ -14,6 +14,7 @@
 	import LoginModal from './LoginModal.svelte';
 
 	export let quiz: Quiz;
+	export let ranking: Promise<any[]>;
 
 	export let onNext = () => {};
 	let isLocal = import.meta.env.DEV;
@@ -168,7 +169,19 @@
 			</div>
 			<DividerVertical height={'60%'} />
 			<div class="correct-text">
-				현재 등수 <div class="rank-text">{!isLoggedIn ? '??' : '??'}등</div>
+				현재 등수 <div class="rank-text">
+					{#if !isLoggedIn}
+						??위
+					{:else}
+						{#await ranking}
+							??위
+						{:then value}
+							{value?.findIndex((rank) => {
+								return rank.userEmail === $page.data.session?.user?.email;
+							}) + 1 || '??'}위
+						{/await}
+					{/if}
+				</div>
 			</div>
 		</div>
 		<div class="progressbar-container">
