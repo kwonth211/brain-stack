@@ -21,7 +21,7 @@ export async function GET(request) {
 		const options = [quiz.option1, quiz.option2, quiz.option3, quiz.option4];
 		const prompt = `${quiz.question} 의 정답이 ${
 			options[quiz.answer - 1]
-		}인 이유에대해서 정답에 대한 설명은 필요없고, 친절한말투로 이유에 대해서만 설명해주고 1~2문장으로 짧게 요약해서 설명해줘  `;
+		}인 이유에대해서 정답에 대한 설명은 필요없고, 친절한말투로 이유에 대해서만 설명해줘 틀리지 않는 정보를 주는게 중요해. `;
 		const chatCompletion = await openai.chat.completions.create({
 			messages: [
 				{

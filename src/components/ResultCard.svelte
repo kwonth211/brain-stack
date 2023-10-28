@@ -6,8 +6,10 @@
 	import XIcon from './icons/XIcon.svelte';
 	import Spinner from './Spinner.svelte';
 	import TimerIcon from './icons/TimerIcon.svelte';
+	import Button from './Button.svelte';
 
 	let showCardBack = false;
+	export let onNext: () => void;
 	export let quiz: Quiz;
 	export let isCorrect: boolean;
 	export let answer: Quiz['answer'];
@@ -28,48 +30,56 @@
 <div class="flip-box">
 	<div class="flip-box-inner" class:flip-it={showCardBack}>
 		<div class={isCorrect ? 'flip-box-front bounce' : 'flip-box-front shake'}>
-			<div>
-				{#if isTimeout}
-					<TimerIcon color="#ff7971" />
-				{:else if isCorrect}
-					<CircleIcon />
-				{:else}
-					<XIcon />
-				{/if}
+			<div class="flip-box-content">
+				<div>
+					{#if isTimeout}
+						<TimerIcon color="#ff7971" />
+					{:else if isCorrect}
+						<CircleIcon />
+					{:else}
+						<XIcon />
+					{/if}
+				</div>
+				<div class={isCorrect ? 'correct-text' : 'incorrect-text'}>
+					{isTimeout ? '시간초과!' : isCorrect ? '정답이에요!' : '오답이에요'}
+				</div>
+				<div class={'is-correct-sub-text'}>
+					{isCorrect ? '잘했어요! 확인해볼까요?' : '괜찮아요. 지식이 생길거에요.'}
+				</div>
+				<span
+					class="more-info"
+					on:keydown={() => {}}
+					on:click={(e) => {
+						toggleShowBack();
+					}}>설명 보기</span
+				>
 			</div>
-			<div class={isCorrect ? 'correct-text' : 'incorrect-text'}>
-				<!-- {isCorrect ? '정답이에요!' : '오답이에요'} -->
-				{isTimeout ? '시간초과!' : isCorrect ? '정답이에요!' : '오답이에요'}
-			</div>
-			<div class={'is-correct-sub-text'}>
-				{isCorrect ? '잘했어요! 확인해볼까요?' : '괜찮아요. 지식이 생길거에요.'}
-			</div>
-			<span
-				class="more-info"
-				on:keydown={() => {}}
-				on:click={(e) => {
-					toggleShowBack();
-				}}>설명 보기</span
+			<Button classes="next-button" primary={isCorrect} error={!isCorrect} onclick={onNext}
+				>다음 문제</Button
 			>
 		</div>
 
 		<div class="flip-box-back" class:conceal-answer={showCardBack}>
-			<div class={isCorrect ? 'correct-answer' : 'incorrect-answer'}>
-				<CheckAnimationIcon
-					animate={showCardBack}
-					color={isCorrect ? 'var(--primary)' : '#ff7971'}
-				/>
-				정답은 {answer}번 이에요.
+			<div class="flip-box-content">
+				<div class={isCorrect ? 'correct-answer' : 'incorrect-answer'}>
+					<CheckAnimationIcon
+						animate={showCardBack}
+						color={isCorrect ? 'var(--primary)' : '#ff7971'}
+					/>
+					정답은 {answer}번 이에요.
+					<div class="manner-text">지식 +1</div>
+				</div>
+				<div class="description">
+					{#if loading}
+						AI에게 설명을 부탁하고 있어요...<Spinner size={20} />
+					{:else}
+						{explanation}
+					{/if}
+				</div>
 			</div>
-			<div class="description">
-				{#if loading}
-					AI에게 설명을 부탁하고 있어요...<Spinner size={20} />
-				{:else}
-					{explanation}
-				{/if}
-			</div>
-			<!-- <div class="manner-text">지식이 +1 늘었어요.</div> -->
-			<div class="manner-text">지식 +1</div>
+			<Button primary={isCorrect} error={!isCorrect} classes="next-button" onclick={onNext}
+				>다음 문제</Button
+			>
 		</div>
 	</div>
 </div>
@@ -77,12 +87,15 @@
 <style>
 	.flip-box {
 		background-color: transparent;
-		width: 200px;
-		height: 100px;
+		width: 280px;
+		height: 200px;
 		perspective: 1000px;
+		position: absolute;
+		top: 23%;
 	}
 	.manner-text {
-		width: 100%;
+		position: absolute;
+		right: 18px;
 		text-align: right;
 		color: black;
 		font-family: Pretendard;
@@ -103,7 +116,7 @@
 	}
 	.is-correct-sub-text {
 		color: #7d7979;
-		font-size: 12px;
+		font-size: 14px;
 	}
 
 	.flip-it {
@@ -120,30 +133,23 @@
 		background: #fff;
 		box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
 
-		padding: 15px;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 		text-align: center;
-		border-radius: 8px;
-
 		font-family: Pretendard;
-		font-size: 18px;
+		font-size: 20px;
 		font-style: normal;
 		font-weight: 500;
 		line-height: 22px; /* 122.222% */
 		letter-spacing: -0.408px;
 		background-color: white;
-
-		width: 160px;
-		min-height: 106px;
 		height: auto;
 		flex-shrink: 0;
 		border-radius: 8px;
 		background: #fff;
 		box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
-		gap: 5px;
 	}
 
 	.flip-box-front {
@@ -163,7 +169,7 @@
 	.more-info {
 		color: rgb(69, 68, 68);
 		font-family: Pretendard;
-		font-size: 12px;
+		font-size: 14px;
 		font-style: normal;
 		font-weight: 500;
 		line-height: 22px; /* 183.333% */
@@ -180,7 +186,7 @@
 		color: black;
 		text-align: center;
 		font-family: Pretendard;
-		font-size: 13px;
+		font-size: 14px;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 16.5px; /* 137.5% */
@@ -196,10 +202,10 @@
 	.incorrect-answer {
 		display: flex;
 		align-items: center;
+		justify-content: center;
 		width: 100%;
 		font-size: 16px;
 		margin-top: 5px;
-		gap: 6px;
 	}
 
 	.incorrect-text {
@@ -251,5 +257,18 @@
 
 	.shake {
 		animation: shake 0.8s;
+	}
+	.flip-box-content {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		width: 100%;
+		padding: 15px;
+		position: relative;
+		box-sizing: border-box;
+	}
+	:global(.next-button) {
+		height: 40px;
+		border-radius: 0px 0px 8px 8px !important;
 	}
 </style>

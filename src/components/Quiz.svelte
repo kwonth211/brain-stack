@@ -225,14 +225,12 @@
 		</div>
 	</div>
 
-	{#if selectedOption && !loadingNext}
+	{#if selectedOption && !isModalOpen}
 		<div
 			class="next-button-wrapper"
 			in:fade
 			on:click={() => {
 				onNext();
-				// setTimeout(() => {
-				// }, 500);
 			}}
 			on:keydown={() => {}}
 		>
@@ -244,7 +242,7 @@
 		<ResultModal
 			isCorrect={answerIsCorrect}
 			isTimeout={answerIsTimeout}
-			explanation={quiz.explanation}
+			{onNext}
 			close={closeModal}
 			{quiz}
 			answer={quiz.answer}

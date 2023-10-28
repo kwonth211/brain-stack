@@ -1,6 +1,7 @@
 <script lang="ts">
 	export let primary = false;
 	export let type: 'filled' | 'outlined' = 'filled';
+	export let error = false;
 	export let white = false;
 	export let gray = false;
 	export let high = false;
@@ -16,9 +17,9 @@
 	on:click={onclick}
 	id={id ?? null}
 	type={buttonType}
-	class="{classes} btn {primary ? 'primary' : ''} {white ? 'white' : ''} {size} {gray
-		? 'gray'
-		: ''} {high ? 'high' : ''}
+	class="{classes} btn {primary ? 'primary' : ''} {error ? 'error' : ''} {white
+		? 'white'
+		: ''} {size} {gray ? 'gray' : ''} {high ? 'high' : ''}
 	
 	{type === 'filled' ? 'filled' : ''}
 	{type === 'outlined' ? 'outlined' : ''}
@@ -93,6 +94,11 @@
 	}
 	.high.disabled {
 		background-color: #ddd;
+		color: white;
+	}
+
+	.error.filled {
+		background-color: #ff7971;
 		color: white;
 	}
 </style>
