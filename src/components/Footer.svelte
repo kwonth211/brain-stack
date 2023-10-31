@@ -6,11 +6,6 @@
 	import MyPageIcon from './icons/MyPageIcon.svelte';
 
 	let active = 'home';
-	// export let user;
-	// export let session;
-
-	// console.log($session);
-	// console.log(session);
 
 	page.subscribe((_page) => {
 		const { id } = _page.route;
