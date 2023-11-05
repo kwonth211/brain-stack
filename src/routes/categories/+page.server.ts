@@ -9,7 +9,9 @@ export async function load({ url, params, locals }) {
 	const userEmail = session?.user?.email;
 
 	try {
-		const { rows: categories } = await db.query('SELECT * FROM categories where id != 12');
+		const { rows: categories } = await db.query(
+			'SELECT * FROM categories where id != 12 and id != 13'
+		);
 
 		const remainingQuizzes = await getRemainingQuizzes({
 			userEmail
