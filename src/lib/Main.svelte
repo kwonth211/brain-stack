@@ -14,6 +14,7 @@
 	import BalanceQuiz from '$components/BalanceQuiz.svelte';
 	import VsIcon from '$components/VSIcon.svelte';
 	import Lightning from '$components/icons/Lightning.svelte';
+	import { each } from 'svelte/internal';
 
 	// export let data;
 
@@ -65,6 +66,29 @@
 		const randomIndex = Math.floor(Math.random() * messages.length);
 		return messages[randomIndex];
 	};
+
+	const quizList = [
+		{
+			title: '상식 Brain',
+			icon: '🧠',
+			path: '/common/start'
+		},
+		{
+			title: '넌센스 Brain',
+			icon: '💫',
+			path: '/quiz/high'
+		},
+		{
+			title: '사자성어 Brain',
+			icon: '📖',
+			path: '/idiom/start'
+		}
+		// {
+		// 	title: '맞춤법 Brain',
+		// 	icon: '📝',
+		// 	path: '/quiz/high'
+		// }
+	];
 </script>
 
 <div in:fade class="container">
@@ -81,88 +105,37 @@
 				{@html randomMessage()}
 				<!-- {getCheerUpText()} -->
 			</div>
-			<div
-				class="common-sense-card"
-				on:click={() => {
-					// goto('/categories')
-					goto('/common/start');
-				}}
-				on:keydown={() => {}}
-			>
-				<div class="quiz-content">
-					<CommonQuizIcon />
-					<div>상식 퀴즈</div>
-					<CommonQuizIconReverse />
-				</div>
-			</div>
-			<div
-				class="high-sense-card"
-				on:click={() => {
-					goto('/quiz/high');
-				}}
-				on:keydown={() => {
-					goto('/quiz/high');
-				}}
-			>
-				<div class="high-quiz-content">
-					<NonSenseQuizIcon />
-					<div>넌센스 퀴즈</div>
-					<NonSenseQuizReverseIcon />
-				</div>
-			</div>
 
-			<!-- <div
-				class="balance-quiz-card"
-				on:click={() => {
-					goto('/balance/start');
-				}}
-				on:keydown={() => {
-					goto('/balance/start');
-				}}
-			>
-				<BalanceQuiz />
-		
-			</div> -->
+			<!-- quizList 돌리기 -->
+			{#each quizList as quiz}
+				<div
+					class="common-sense-card"
+					on:click={() => {
+						goto(quiz.path);
+					}}
+					on:keydown={() => {
+						goto(quiz.path);
+					}}
+				>
+					<div class="quiz-content">
+						<div class="icon-content">{quiz.icon}</div>
 
-			<div
-				class="balance-quiz-card"
-				on:click={() => {
-					goto('/balance/start');
-				}}
-				on:keydown={() => {
-					goto('/balance/start');
-				}}
-			>
-				<div class="balance-text-center">
-					<div class="balance-text">밸런스</div>
-					<div class="balance-quiz-text">&nbsp;퀴즈</div>
+						<div>{quiz.title}</div>
+					</div>
 				</div>
-				<div class="trapezoid-left" />
-				<div class="trapezoid-right" />
-				<VsIcon style="position: absolute;left: 26px;top: 40%;" />
-				<Lightning style="position: absolute;right: 26px;top: 30%;" />
-			</div>
+			{/each}
 		</div>
 	</div>
-	<div class="outer-container" />
+	<!-- <div class="outer-container" /> -->
 	<!-- <KaKaoAddFit /> -->
 	<Footer />
 </div>
 
 <style>
-	.balance-text-center {
+	.icon-content {
 		position: absolute;
-		left: 49%;
-		top: 50%;
-		transform: translate(-50%, -50%);
-		display: flex;
-		z-index: 1;
-	}
-	.balance-text {
-		color: black;
-	}
-	.balance-quiz-text {
-		color: white;
+		left: 20px;
+		font-size: 30px;
 	}
 	.container {
 		height: 100%;
@@ -173,42 +146,26 @@
 	.quiz-content {
 		display: flex;
 		flex-direction: row;
-		justify-content: space-between;
+		justify-content: center;
 		align-items: center;
-
-		color: #fff;
+		position: relative;
 		font-family: Pretendard;
-		font-size: 16px;
+		font-size: 18px;
 		font-style: normal;
 		font-weight: 700;
 		line-height: 22px; /* 137.5% */
 		letter-spacing: -0.408px;
 	}
 
-	.high-quiz-content {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-
-		color: #5387f7;
-		font-family: Pretendard;
-		font-size: 16px;
-		font-style: normal;
-		font-weight: 700;
-		line-height: 22px; /* 137.5% */
-		letter-spacing: -0.408px;
-	}
 	.quiz-container {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		height: 100%;
 		background-color: #dfe9fe;
-		padding-left: 40px;
-		padding-right: 40px;
+		padding-left: 14px;
+		padding-right: 14px;
 		gap: 10px;
-		margin-bottom: 50px;
 	}
 
 	.common-sense-card {
@@ -217,39 +174,14 @@
 		flex-shrink: 0;
 		border-radius: 15px;
 		justify-content: center;
-		background: #5387f7;
-		padding-left: 20px;
-		padding-right: 20px;
-		color: white;
+		background: white;
+		color: black;
 		display: flex;
 		flex-direction: column;
 		box-sizing: border-box;
-		z-index: 2;
-	}
-	.high-sense-card {
-		border-radius: 15px;
-		width: 100%;
-		height: 121px;
-		flex-shrink: 0;
-		color: white;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		box-sizing: border-box;
-		padding-right: 20px;
-		padding-left: 20px;
-		z-index: 2;
-		background-color: #dfe9fe;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 	}
 
-	.outer-container {
-		width: 100%;
-		height: 66%;
-		bottom: 0;
-		position: absolute;
-		border-radius: 212.5px 212.5px 0px 0px;
-		background: #f1f6ff;
-	}
 	.card-container {
 		display: flex;
 		flex-direction: column;
@@ -259,53 +191,15 @@
 		gap: 10px;
 	}
 	.cheer-up-text {
-		font-size: 15px;
-		font-style: normal;
-		letter-spacing: -0.108px;
-		line-height: 18px;
-		margin-top: 3px;
-		font-weight: 400;
-
-		color: #000;
-		font-family: Pretendard;
 		font-size: 21px;
-		font-style: normal;
-		line-height: 27px;
-		letter-spacing: -0.408px;
-		margin-bottom: 12px;
-	}
-
-	.balance-quiz-card {
-		position: relative;
-		height: 121px;
-		border-radius: 15px;
-		position: relative;
-		background-color: #ffe27a; /* 이것은 뒷면의 사다리꼴 색상입니다. */
-		overflow: hidden;
-		z-index: 2;
-	}
-
-	.trapezoid-left {
-		content: '';
-		display: block;
-		width: 60%; /* 왼쪽 사다리꼴의 너비를 조정하여 절반에 가깝게 만듭니다. */
-		height: 100%;
-		background-color: #ffe27a;
-		clip-path: polygon(0% 0%, 100% 0%, 0% 100%, 0% 100%);
-		position: absolute;
-		top: 0;
-		left: 0;
-	}
-
-	.trapezoid-right {
-		content: '';
-		display: block;
-		width: 60%; /* 오른쪽 사다리꼴의 너비를 조정하여 절반에 가깝게 만듭니다. */
-		height: 100%;
-		background-color: #5387f7;
-		clip-path: polygon(100% 0%, 100% 258%, 0% 0%, 100% 0%);
-		position: absolute;
-		top: 0;
-		right: 0;
+		font-weight: 400;
+		color: #5a5a5a;
+		font-family: 'Pretendard', sans-serif;
+		line-height: 1.3;
+		letter-spacing: 0.5px;
+		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+		border-radius: 4px;
+		padding: 10px;
+		display: inline-block;
 	}
 </style>

@@ -8,8 +8,9 @@
 	import AdminFeedbackModal from '$components/AdminFeedbackModal.svelte';
 	import axios from 'axios';
 	import { page } from '$app/stores';
-	import type { CATEGORY } from '$types/categories';
-	import { dequeueFromRemainingQuizzes, getRemainingQuizzes } from '$utils/window/utils.js';
+	import { CATEGORY } from '$types/categories';
+	import { dequeueFromRemainingQuizzes, getRemainingQuizzes } from '$utils/window/utils';
+	import { quizzes } from '$mock/quizzes.js';
 
 	export let data;
 	const {
@@ -51,6 +52,7 @@
 
 	const pageTitle = currentQuiz?.question;
 	const metaDescription = `${currentQuiz?.option1}, ${currentQuiz?.option2}, ${currentQuiz?.option3}, ${currentQuiz?.option4}. ${currentQuiz?.explanation}`;
+	const quizCategory = CATEGORY[categoryId as unknown as keyof typeof CATEGORY] ?? '상식';
 </script>
 
 <svelte:head>
@@ -71,7 +73,7 @@
 		onClick={() => {
 			goto('/');
 		}}
-		>상식 퀴즈
+		>{quizCategory} 퀴즈
 		<span
 			style="position: absolute; top: 7px; right: 10px; cursor: pointer;"
 			on:click={handleFeedbackClick}
