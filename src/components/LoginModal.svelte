@@ -11,6 +11,7 @@
 	import LogoIcon from './icons/LogoIcon.svelte';
 	import NaverIconSvg from './icons/NaverIconSvg.svelte';
 	import KakaoIconSvg from './icons/KakaoIconSvg.svelte';
+	import { clearRemainingQuizzes } from '$utils/window/utils';
 
 	export let close: () => void;
 	let modal: EventTarget;
@@ -19,6 +20,7 @@
 	onMount(() => {});
 
 	const handleLogin = async (platform: string) => {
+		clearRemainingQuizzes();
 		await signIn(platform, {
 			redirect: false
 		});

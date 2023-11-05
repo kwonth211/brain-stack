@@ -10,6 +10,8 @@
 	import NonMemberModal from '$components/NonMemberModal.svelte';
 	import NaverLogo from '$components/icons/NaverIcon.svelte';
 	import { goto } from '$app/navigation';
+	import { clearRemainingQuizzes } from '$utils/window/utils';
+
 	const store = writable('home');
 	let userEmail = '';
 	let password = '';
@@ -29,6 +31,7 @@
 		return messages[randomIndex];
 	};
 	const handleLogin = async (platform: string) => {
+		clearRemainingQuizzes();
 		await signIn(platform, {
 			redirect: false
 		});

@@ -9,11 +9,11 @@
 	import axios from 'axios';
 	import { page } from '$app/stores';
 	import type { CATEGORY } from '$types/categories';
+	import { dequeueFromRemainingQuizzes, getRemainingQuizzes } from '$utils/window/utils.js';
 
 	export let data;
 	const {
 		currentQuiz,
-		nextQuiz,
 		solvedCount: _solvedCount,
 		unSolvedCount: _unsolvedCount,
 		correctCount: _correctCount,
@@ -27,9 +27,12 @@
 	let unSolvedCount = _unsolvedCount ?? 0;
 	let showFeedbackModal = false;
 	let showAdminFeedbackModal = false;
-	const categoryId = $page.url.searchParams.get('category') as keyof typeof CATEGORY;
+	const categoryId = Number($page.url.searchParams.get('category') as keyof typeof CATEGORY);
 
-	const handleNext = () => {
+	const handleNext = async () => {
+		const nextQuiz = await dequeueFromRemainingQuizzes({
+			categoryId
+		});
 		if (!nextQuiz) {
 			goto('/quiz/complete', {
 				replaceState: true

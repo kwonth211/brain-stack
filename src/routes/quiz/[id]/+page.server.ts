@@ -8,7 +8,7 @@ export async function load({ url, params, locals }) {
 
 	const categoryId = url.searchParams.get('category');
 	const session = await locals.getSession();
-	const userId = session?.user?.email;
+	const userEmail = session?.user?.email;
 
 	const { rows: currentQuiz } = await sql`SELECT * FROM quizzes WHERE id=${quizId}`;
 
@@ -19,24 +19,20 @@ export async function load({ url, params, locals }) {
 	}
 	const solvedQuizzes = await getSolvedQuizzes({
 		categoryId,
-		userId
+		userId: userEmail
 	});
 
 	const remainingQuizzes = await getRemainingQuizzes({
 		categoryId,
-		solvedQuizzes
+		userEmail
 	});
-	const nextQuizzes = remainingQuizzes.filter((q) => q.id !== quizId);
-
-	const nextQuiz = nextQuizzes[Math.floor(Math.random() * nextQuizzes.length)];
 
 	const correctCount = solvedQuizzes.filter((q) => q.is_correct).length;
 	return {
 		currentQuiz: currentQuiz[0] as Quiz,
-		nextQuiz: nextQuiz as Quiz,
+		unSolvedCount: remainingQuizzes.length,
 		isAlreadySolved: solvedQuizzes.some((q) => q.quiz_id === quizId),
 		userAnswer: solvedQuizzes.find((q) => q.quiz_id === quizId)?.answer,
-		unSolvedCount: remainingQuizzes.length,
 		solvedCount: solvedQuizzes.length,
 		correctCount: correctCount,
 		streamed: {

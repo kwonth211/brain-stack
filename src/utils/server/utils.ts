@@ -1,35 +1,39 @@
+import type { StorageQuizType } from '$utils/window/interface';
 import { sql } from '@vercel/postgres';
 
 export const getRemainingQuizzes = async ({
 	categoryId,
-	solvedQuizzes
+	userEmail
 }: {
-	solvedQuizzes: any[];
 	categoryId?: string | null;
+	userEmail?: string | null;
 }) => {
-	const conditions = [`category_id != 12`];
+	const conditions = ['q.category_id != 12'];
+	const params = [];
 
-	const values = [];
+	if (userEmail) {
+		conditions.push(`NOT EXISTS (
+      SELECT 1
+      FROM user_quizzes uq
+      INNER JOIN users u ON u.id = uq.user_id
+      WHERE uq.quiz_id = q.id AND u.email = $${params.length + 1}
+    )`);
+		params.push(userEmail);
+	}
 
 	if (categoryId) {
-		conditions.push(`category_id=$${values.length + 1}`);
-		values.push(categoryId);
+		conditions.push(`q.category_id = $${params.length + 1}`);
+		params.push(categoryId);
 	}
 
-	if (solvedQuizzes.length > 0) {
-		const quizIds = solvedQuizzes.map((q) => q.quiz_id);
-		conditions.push(`id NOT IN (${quizIds.map((_, i) => `$${values.length + i + 1}`).join(', ')})`);
-		values.push(...quizIds);
-	}
-
-	let remainingQuizQuery = `SELECT * FROM quizzes `;
+	let query = `SELECT q.id,q.category_id FROM quizzes q`;
 	if (conditions.length > 0) {
-		remainingQuizQuery += `WHERE ${conditions.join(' AND ')} `;
+		query += ` WHERE ` + conditions.join(' AND ');
 	}
 
-	const { rows: remainingQuizzes } = await sql.query(remainingQuizQuery, values);
+	const { rows: remainingQuizzes } = await sql.query(query, params);
 
-	return remainingQuizzes;
+	return remainingQuizzes as StorageQuizType;
 };
 
 export const getSolvedQuizzes = async ({

@@ -15,11 +15,16 @@
 <script>
 	export let data;
 	import { goto } from '$app/navigation';
-	import AdsWidget from '$components/GoogleAdsWidget.svelte';
 	import Header from '$components/Header.svelte';
 	import KaKaoFit from '$components/KaKaoAddFit.svelte';
 	import Seo from '$lib/Seo.svelte';
+	import { dequeueFromRemainingQuizzes } from '$utils/window/utils';
+	import { onMount } from 'svelte';
 	const { categories, remainingQuizzes } = data;
+
+	onMount(() => {
+		localStorage.setItem('remainingQuizzes', JSON.stringify(remainingQuizzes));
+	});
 </script>
 
 <Seo
@@ -40,22 +45,19 @@
 				<button
 					class="quiz-card {category.name.toLowerCase().replace(' & ', '').replace(/ /g, '-')}"
 					title={category.description}
-					on:click={() => {
-						const categoryQuizzes =
-							category.id === 0
-								? remainingQuizzes
-								: remainingQuizzes.filter((quiz) => quiz.category_id == category.id);
-
-						if (categoryQuizzes.length === 0) {
+					on:click={async () => {
+						const quiz = await dequeueFromRemainingQuizzes({
+							categoryId: category.id
+						});
+						if (!quiz) {
 							goto(`/quiz/complete?category=${category.id}`);
 							return;
 						}
-						const nextQuiz = categoryQuizzes[0];
 						if (category.id === 0) {
-							goto(`/quiz/${nextQuiz.id}`);
+							goto(`/quiz/${quiz.id}`);
 							return;
 						}
-						goto(`/quiz/${nextQuiz.id}?category=${category.id}`);
+						goto(`/quiz/${quiz.id}?category=${category.id}`);
 					}}
 				>
 					{category.name}

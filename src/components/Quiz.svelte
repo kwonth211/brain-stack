@@ -94,7 +94,8 @@
 
 		selectedOption = _selectedOption;
 		try {
-			if (!isAlreadySolved && !isLocal) {
+			// !isLocal
+			if (!isAlreadySolved) {
 				await axios.post('/api/quiz', {
 					userEmail: $page.data.session?.user?.email,
 					quizId: quiz.id,
@@ -203,7 +204,7 @@
 			}}
 		>
 			<div class="correct-rate">
-				정답률 {#if correctRate === null}
+				문제 정답률 {#if correctRate === null}
 					<span class="correct-rate-text">??%</span>
 				{:else}
 					<span class="correct-rate-text">{correctRate}%</span>

@@ -6,6 +6,8 @@
 	import { signOut } from '@auth/sveltekit/client';
 	import axios from 'axios';
 	import { goto } from '$app/navigation';
+	import { clearRemainingQuizzes } from '$utils/window/utils';
+
 	export let data;
 	const { user } = data;
 	let nickname = user?.nickname ?? '';
@@ -46,6 +48,7 @@
 				gray
 				classes="logout"
 				onclick={() => {
+					clearRemainingQuizzes();
 					signOut();
 					goto('/');
 					// page refresh
