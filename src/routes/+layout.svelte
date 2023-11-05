@@ -5,6 +5,7 @@
 	import { pwaInfo } from 'virtual:pwa-info';
 	import GoogleAdsense from '$lib/GoogleAdSense.svelte';
 	import { writable } from 'svelte/store';
+	import Analytics from '$lib/analytics.svelte';
 
 	const documentHeight = () => {
 		if (typeof window === 'undefined') {
@@ -48,6 +49,7 @@
 <head>
 	{@html webManifest}
 </head>
+<Analytics />
 <main>
 	<slot />
 </main>

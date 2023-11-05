@@ -4,4 +4,5 @@ interface Error {
 
 interface Window {
 	Kakao?: any;
+	gtag?: (...args: any[]) => void;
 }
