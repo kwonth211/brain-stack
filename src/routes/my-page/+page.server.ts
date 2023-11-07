@@ -10,7 +10,7 @@ export async function load({ locals }) {
   }
 
   const { rows: existingUsers } =
-    await sql`SELECT id FROM users WHERE email=${session.user.email}`;
+    await sql`SELECT id, nickname FROM users WHERE email=${session.user.email}`;
 
   if (existingUsers.length === 0) {
     throw new Error("User not found");
