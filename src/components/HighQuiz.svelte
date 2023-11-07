@@ -65,11 +65,8 @@
 		};
 
 		axios.post('/api/quiz', {
-			userEmail: $page.data.session?.user?.email,
 			quizId: quiz.id,
-			answer: userAnswer,
-			isCorrect: answerIsCorrect,
-			point: quizPoint[quiz.difficulty]
+			answer: userAnswer
 		});
 
 		onCheckAnswer(answerIsCorrect);
