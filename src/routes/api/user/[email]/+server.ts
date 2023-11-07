@@ -2,14 +2,16 @@ import { json } from "@sveltejs/kit";
 import { sql } from "@vercel/postgres";
 import type { User } from "../../../../types/user";
 
-export async function PATCH({
-  request,
-  params,
-}: {
-  request: Request;
-  params: { email: string };
-}) {
-  const { email } = params;
+export async function PATCH({ request }: { request: Request }) {
+  //   const { email } = params;
+
+  const session = await request.locals.getSession();
+  const email = session?.user?.email;
+
+  if (!email) {
+    return json({ error: "Bad Request." }, { status: 400 });
+  }
+
   const { nickname } = (await request.json()) as Partial<User>;
 
   const { rows: existingUsers } =
