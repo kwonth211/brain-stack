@@ -1,14 +1,14 @@
-<script>
+<script lang="ts">
 	import { goto } from '$app/navigation';
 	import Divider from './Divider.svelte';
 	import BackIcon from './icons/BackIcon.svelte';
 
 	export let hasBack = true;
+	export let onBack = (e: Event) => {
+		window.history.back();
+	};
 	export let onClick = () => {
 		// goto('/main');
-	};
-	const goBack = () => {
-		window.history.back();
 	};
 </script>
 
@@ -16,7 +16,7 @@
 	<div class="container">
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		{#if hasBack}
-			<div class="back-icon" on:click={goBack}>
+			<div class="back-icon" on:click={onBack}>
 				<BackIcon />
 			</div>
 		{/if}

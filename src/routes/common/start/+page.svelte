@@ -25,6 +25,9 @@
 
 <div in:fade class="container">
 	<Header
+		onBack={() => {
+			goto('/');
+		}}
 		onClick={() => {
 			goto('/');
 		}}>상식퀴즈</Header
@@ -110,19 +113,21 @@
 		font-weight: 600;
 		line-height: 22px; /* 95.652% */
 		letter-spacing: -0.408px;
-		flex: 0.12;
+		flex: 0.1;
 		margin-right: 5px;
 	}
 
 	.rank-name {
 		font-family: Pretendard;
-		font-size: 13px;
-
+		font-size: 12px;
 		font-style: normal;
-		flex: 2;
+		flex: 0.9;
 		font-weight: 600;
 		line-height: 22px; /* 122.222% */
 		letter-spacing: -0.408px;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: pre;
 	}
 	.correct-ratio {
 		color: rgba(104, 104, 104, 0.6);
@@ -133,18 +138,7 @@
 		line-height: 22px; /* 169.231% */
 		letter-spacing: -0.408px;
 		text-align: right;
-		/* position: absolute;
-		right: 10px; */
-		flex: 1;
-	}
-	.user-name {
-		color: #000;
-		font-family: Pretendard;
-		font-size: 23px;
-		font-style: normal;
-		font-weight: 700;
-		line-height: 22px; /* 95.652% */
-		letter-spacing: -0.408px;
+		flex: 0.4;
 	}
 
 	.container {

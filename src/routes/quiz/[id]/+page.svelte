@@ -70,6 +70,10 @@
 
 <div style="height: 100%;">
 	<Header
+		onBack={(e) => {
+			e.stopPropagation();
+			goto('/common/start');
+		}}
 		onClick={() => {
 			goto('/');
 		}}

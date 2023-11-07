@@ -38,7 +38,7 @@
 				primary
 				classes="change-user-info"
 				onclick={async () => {
-					await axios.patch(`/api/user/${user.email}`, {
+					await axios.patch(`/api/user/me`, {
 						nickname
 					});
 					goto('/my-page');

@@ -97,7 +97,6 @@
 			// !isLocal
 			if (!isAlreadySolved) {
 				await axios.post('/api/quiz', {
-					userEmail: $page.data.session?.user?.email,
 					quizId: quiz.id,
 					answer: _selectedOption
 				});
