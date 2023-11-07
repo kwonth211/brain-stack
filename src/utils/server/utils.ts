@@ -50,7 +50,7 @@ export const getSolvedQuizzes = async ({
 	return solvedQuizzes;
 };
 export const getTopTenRanking = async () => {
-	const { rows: allUsers } = await sql`SELECT id, nickname, email FROM users`;
+	const { rows: allUsers } = await sql`SELECT id, nickname FROM users`;
 	const rankingData = [];
 
 	for (const user of allUsers) {
@@ -73,7 +73,6 @@ export const getTopTenRanking = async () => {
 
 		rankingData.push({
 			userId: user.id,
-			userEmail: user.email,
 			userNickname: user.nickname,
 			totalPoints: totalCorrect,
 			userAccuracy,
