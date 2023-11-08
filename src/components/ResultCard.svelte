@@ -21,9 +21,14 @@
 	const toggleShowBack = async () => {
 		showCardBack = !showCardBack;
 		loading = true;
-		const { data } = await axios.get(`/api/quiz/${quiz.id}/question`);
-		explanation = data.explanation;
-		loading = false;
+		try {
+			const { data } = await axios.get(`/api/quiz/${quiz.id}/question`);
+			explanation = data.explanation;
+		} catch (error) {
+			explanation = '설명을 불러오는데 실패했어요...';
+		} finally {
+			loading = false;
+		}
 	};
 </script>
 
@@ -71,7 +76,10 @@
 				</div>
 				<div class="description">
 					{#if loading}
-						AI에게 설명을 부탁하고 있어요...<Spinner size={20} />
+						AI에게 설명을 부탁하고 있어요...<Spinner
+							size={20}
+							color={isCorrect ? '#5387f7' : '#ff7971'}
+						/>
 					{:else}
 						{explanation}
 					{/if}
