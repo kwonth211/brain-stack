@@ -1,24 +1,9 @@
 <script>
 	import { fade } from 'svelte/transition';
 	import Footer from '$components/Footer.svelte';
-	import QuizIcon from '$components/icons/QuizIcon.svelte';
 	import { goto } from '$app/navigation';
-	import KaKaoAddFit from '$components/KaKaoAddFit.svelte';
-	import Header from '$components/Header.svelte';
-	import CommonQuizIcon from '$components/icons/CommonQuizIcon.svelte';
-	import CommonQuizIconReverse from '$components/icons/CommonQuizIconReverse.svelte';
-	import NonSenseQuizIcon from '$components/icons/NonSenseQuizIcon.svelte';
-	import NonSenseQuizReverseIcon from '$components/icons/NonSenseQuizReverseIcon.svelte';
-	import Hamburger from '$components/icons/Hamburger.svelte';
+
 	import DrawerHeader from '$components/DrawerHeader.svelte';
-	import BalanceQuiz from '$components/BalanceQuiz.svelte';
-	import VsIcon from '$components/VSIcon.svelte';
-	import Lightning from '$components/icons/Lightning.svelte';
-	import { each } from 'svelte/internal';
-
-	// export let data;
-
-	// const { user, totalQuizzes } = data;
 
 	const lessThan50 = [
 		'천천히 시작하는 것도 중요해요. 계속해서 더 많은 퀴즈를 풀어보면 더 많은 것을 배울 수 있어요!',
@@ -37,20 +22,6 @@
 		'와우, 정말 열심히 하셨군요! 이런 노력이면 분명 큰 성과를 얻을 수 있을 거에요.',
 		'와우, 100개 이상의 퀴즈를 풀었다니 대단해요! 이제는 퀴즈의 달인이라고 불러도 될 것 같네요.'
 	];
-
-	// const getCheerUpText = () => {
-	// 	if (!totalQuizzes && totalQuizzes !== 0) {
-	// 		return '';
-	// 	}
-
-	// 	if (totalQuizzes < 50) {
-	// 		return lessThan50[Math.floor(Math.random() * lessThan50.length)];
-	// 	} else if (totalQuizzes < 100) {
-	// 		return lessThan100[Math.floor(Math.random() * lessThan100.length)];
-	// 	} else {
-	// 		return moreThan100[Math.floor(Math.random() * moreThan100.length)];
-	// 	}
-	// };
 
 	const messages = [
 		'<b>지식을 키워줄 퀴즈!</b><br />오늘도 지식을 함께 키워보아요.',
@@ -82,12 +53,12 @@
 			title: '사자성어 Brain',
 			icon: '📖',
 			path: '/idiom/start'
+		},
+		{
+			title: '동물 Brain',
+			icon: '🐶',
+			path: '/animal/start'
 		}
-		// {
-		// 	title: '맞춤법 Brain',
-		// 	icon: '📝',
-		// 	path: '/quiz/high'
-		// }
 	];
 </script>
 
@@ -99,14 +70,11 @@
 		}}
 	/>
 
-	<div class="card-container">
-		<div class="quiz-container">
-			<div class="cheer-up-text">
-				{@html randomMessage()}
-				<!-- {getCheerUpText()} -->
-			</div>
-
-			<!-- quizList 돌리기 -->
+	<div class="quiz-container">
+		<div class="cheer-up-text">
+			{@html randomMessage()}
+		</div>
+		<div class="card-container">
 			{#each quizList as quiz}
 				<div
 					class="common-sense-card"
@@ -126,10 +94,8 @@
 			{/each}
 		</div>
 	</div>
-	<!-- <div class="outer-container" /> -->
-	<!-- <KaKaoAddFit /> -->
-	<Footer />
 </div>
+<Footer />
 
 <style>
 	.icon-content {
@@ -142,6 +108,7 @@
 		display: flex;
 		flex-direction: column;
 		background-color: #dfe9fe;
+		min-height: 100vh;
 	}
 	.quiz-content {
 		display: flex;
@@ -153,7 +120,7 @@
 		font-size: 18px;
 		font-style: normal;
 		font-weight: 700;
-		line-height: 22px; /* 137.5% */
+		line-height: 22px;
 		letter-spacing: -0.408px;
 	}
 
@@ -166,6 +133,9 @@
 		padding-left: 14px;
 		padding-right: 14px;
 		gap: 10px;
+		flex: 1;
+		overflow-y: auto;
+		padding-bottom: 70px;
 	}
 
 	.common-sense-card {
@@ -184,11 +154,8 @@
 
 	.card-container {
 		display: flex;
-		flex-direction: column;
-		background-color: white;
-		height: 100%;
-		background: #fff;
 		gap: 10px;
+		flex-direction: column;
 	}
 	.cheer-up-text {
 		font-size: 21px;
@@ -201,5 +168,6 @@
 		border-radius: 4px;
 		padding: 10px;
 		display: inline-block;
+		margin-top: 90px;
 	}
 </style>
