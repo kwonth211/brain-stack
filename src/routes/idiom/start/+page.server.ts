@@ -6,7 +6,8 @@ export async function load({ locals }) {
 	const userEmail = session?.user?.email;
 
 	const remainingQuizzes = await getRemainingQuizzes({
-		userEmail
+		userEmail,
+		categoryId: '13'
 	});
 
 	return {

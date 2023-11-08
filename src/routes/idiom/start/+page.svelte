@@ -11,10 +11,14 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { dequeueFromRemainingQuizzes } from '$utils/window/utils';
+	import Modal from '$components/Modal.svelte';
+	import QuizCompleteNormal from '$components/QuizCompleteNormal.svelte';
 
 	export let data;
 	let NonMemberModalOpen = false;
 	const { remainingQuizzes } = data;
+	const allQuizResolved = remainingQuizzes.length === 0;
+	let CompleteModalOpen = allQuizResolved;
 
 	onMount(() => {
 		localStorage.setItem('remainingQuizzes', JSON.stringify(remainingQuizzes));
@@ -71,27 +75,37 @@
 		</div>
 	</div>
 	<div class="start-container">
-		<Button
-			primary
-			classes="start"
-			onclick={async () => {
-				if (!$page?.data?.session?.user) {
-					NonMemberModalOpen = true;
-					return;
-				}
-				const quiz = await dequeueFromRemainingQuizzes({
-					categoryId: 13
-				});
-				if (!quiz) {
-					goto(`/quiz/complete?category=13`);
-					return;
-				}
-				goto(`/quiz/${quiz.id}?category=13`);
-			}}>시작하기</Button
-		>
+		{#if !allQuizResolved}
+			<Button
+				primary
+				classes="start"
+				onclick={async () => {
+					if (!$page?.data?.session?.user) {
+						NonMemberModalOpen = true;
+						return;
+					}
+					const quiz = await dequeueFromRemainingQuizzes({
+						categoryId: 13
+					});
+					if (!quiz) {
+						goto(`/quiz/complete?category=13`);
+						return;
+					}
+					goto(`/quiz/${quiz.id}?category=13`);
+				}}>시작하기</Button
+			>
+		{/if}
 	</div>
 
-	<!-- <KaKaoAddFit /> -->
+	{#if CompleteModalOpen}
+		<Modal
+			close={() => {
+				CompleteModalOpen = false;
+			}}
+		>
+			<QuizCompleteNormal title={`🎉대단해요🎉<br/>사자성어 문제를 모두 해결했어요`} />
+		</Modal>
+	{/if}
 
 	{#if NonMemberModalOpen}
 		<NonMemberModal

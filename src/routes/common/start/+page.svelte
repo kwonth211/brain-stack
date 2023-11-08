@@ -42,7 +42,6 @@
 				랭킹 1등에 도전해보세요.
 			</div>
 		</div>
-		<!-- <CommonQuizIconReverse2 /> -->
 	</div>
 
 	<div class="card-container">
@@ -88,8 +87,6 @@
 			}}>시작하기</Button
 		>
 	</div>
-
-	<!-- <KaKaoAddFit /> -->
 
 	{#if NonMemberModalOpen}
 		<NonMemberModal

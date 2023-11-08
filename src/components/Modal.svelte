@@ -19,10 +19,13 @@
 		position: fixed;
 		bottom: 25%;
 		left: 0;
+		top: 0;
 		width: 100%;
 		height: 100%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		z-index: 100;
+		background: rgba(0, 0, 0, 0.4);
 	}
 </style>

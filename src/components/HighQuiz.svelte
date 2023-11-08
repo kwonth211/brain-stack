@@ -58,11 +58,6 @@
 				y: -100
 			};
 		}
-		const quizPoint = {
-			Easy: 1,
-			Medium: 2,
-			Hard: 3
-		};
 
 		axios.post('/api/quiz', {
 			quizId: quiz.id,
