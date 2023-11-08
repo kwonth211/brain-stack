@@ -94,8 +94,8 @@
 			{/each}
 		</div>
 	</div>
+	<Footer />
 </div>
-<Footer />
 
 <style>
 	.icon-content {
@@ -104,6 +104,7 @@
 		font-size: 30px;
 	}
 	.container {
+		position: relative;
 		height: 100%;
 		display: flex;
 		flex-direction: column;
