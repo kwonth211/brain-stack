@@ -99,6 +99,7 @@
 			}}
 		/>
 	{/if}
+	<Footer />
 </div>
 
 <style>

@@ -16,7 +16,7 @@
 <header class="header" on:click={onClick} on:keydown={() => {}}>
 	<div class="container">
 		<slot />
-		<Hamburger />
+		<!-- <Hamburger /> -->
 	</div>
 	<Divider />
 </header>

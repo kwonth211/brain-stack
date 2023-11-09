@@ -30,7 +30,8 @@
 		width: 230px;
 		height: 150px;
 		padding: 8px;
-		border-radius: 6px;
+		border-radius: 22px;
+		border: 1px solid #e5e5e5;
 		background-color: white;
 	}
 	.button-container {

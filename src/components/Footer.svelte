@@ -51,11 +51,12 @@
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
-		height: 42px;
+		height: var(--footer-height);
 		border-top: 1px solid #e0e0e0;
 		padding-top: 9px;
-		bottom: 0px;
-		position: absolute;
+		position: fixed;
+		bottom: 0;
+		width: 100%;
 	}
 	.icon-container {
 		display: flex;

@@ -13,6 +13,7 @@
 	import { dequeueFromRemainingQuizzes } from '$utils/window/utils';
 	import Modal from '$components/Modal.svelte';
 	import QuizCompleteNormal from '$components/QuizCompleteNormal.svelte';
+	import Footer from '$components/Footer.svelte';
 
 	export let data;
 	let NonMemberModalOpen = false;
@@ -103,7 +104,7 @@
 				CompleteModalOpen = false;
 			}}
 		>
-			<QuizCompleteNormal title={`🎉대단해요🎉<br/>사자성어 문제를 모두 해결했어요`} />
+			<QuizCompleteNormal title={`🎉 대단해요 🎉<br/>사자성어 문제를 모두 해결했어요`} />
 		</Modal>
 	{/if}
 
@@ -118,6 +119,7 @@
 			}}
 		/>
 	{/if}
+	<Footer />
 </div>
 
 <style>

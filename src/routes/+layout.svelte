@@ -58,11 +58,10 @@
 	:global(body),
 	:global(html) {
 		height: 100vh;
-		height: var(--doc-height);
 		margin: 0;
 	}
 	main {
-		height: 100%;
 		position: relative;
+		height: 100%;
 	}
 </style>
