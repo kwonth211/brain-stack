@@ -216,7 +216,7 @@
 		flex-direction: column;
 		padding-left: 17px;
 		gap: 4px;
-		margin-top: 50px;
+		margin-top: 25px;
 		box-sizing: border-box;
 		color: #424242;
 		font-family: Pretendard;

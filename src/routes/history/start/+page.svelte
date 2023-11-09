@@ -27,21 +27,21 @@
 </script>
 
 <svelte:head>
-	<title>사자성어 퀴즈 - dual-brain</title>
-	<meta name="description" content="사자성어 퀴즈를 풀어보세요, 많이 풀수록 랭킹에 올라갑니다." />
+	<title>역사 퀴즈 - dual-brain</title>
+	<meta name="description" content="역사 퀴즈를 풀어보세요, 많이 풀수록 랭킹에 올라갑니다." />
 </svelte:head>
 
 <div in:fade class="container">
 	<Header
 		onClick={() => {
 			goto('/');
-		}}>사자성어 퀴즈</Header
+		}}>역사 퀴즈</Header
 	>
 
 	<div class="title-container">
 		<div class="title">
-			사자성어 게임
-			<div class="sub-title">사자상어, 누가 더 잘 알고 있을까요?</div>
+			역사 퀴즈
+			<div class="sub-title">역사학자는 누가될까요?</div>
 		</div>
 	</div>
 
@@ -86,13 +86,13 @@
 						return;
 					}
 					const quiz = await dequeueFromRemainingQuizzes({
-						categoryId: 13
+						categoryId: 1
 					});
 					if (!quiz) {
-						goto(`/quiz/complete?category=13`);
+						goto(`/quiz/complete?category=2`);
 						return;
 					}
-					goto(`/quiz/${quiz.id}?category=13`);
+					goto(`/quiz/${quiz.id}?category=2`);
 				}}>시작하기</Button
 			>
 		{/if}
@@ -104,7 +104,7 @@
 				CompleteModalOpen = false;
 			}}
 		>
-			<QuizCompleteNormal title={`🎉 대단해요 🎉<br/>사자성어 문제를 모두 해결했어요`} />
+			<QuizCompleteNormal title={`🎉 대단해요 🎉<br/>역사 문제를 모두 해결했어요`} />
 		</Modal>
 	{/if}
 

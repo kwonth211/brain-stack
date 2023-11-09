@@ -26,9 +26,14 @@
 			path: '/common/start'
 		},
 		{
-			title: '넌센스 Brain',
-			icon: '💫',
-			path: '/quiz/high'
+			title: '과학 Brain',
+			icon: '🔬',
+			path: '/science/start'
+		},
+		{
+			title: '역사 Brain',
+			icon: '📜',
+			path: '/history/start'
 		},
 		{
 			title: '사자성어 Brain',

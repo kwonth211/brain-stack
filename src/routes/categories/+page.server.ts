@@ -10,7 +10,7 @@ export async function load({ url, params, locals }) {
 
 	try {
 		const { rows: categories } = await db.query(
-			'SELECT * FROM categories where id != 12 and id != 13'
+			'SELECT * FROM categories where id != 12 and id != 13 and id != 14 and id != 1 and id != 2'
 		);
 
 		const remainingQuizzes = await getRemainingQuizzes({
