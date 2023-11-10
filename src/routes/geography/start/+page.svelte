@@ -23,7 +23,6 @@
 	const categoryId = 8;
 
 	onMount(() => {
-		console.log(remainingQuizzes);
 		localStorage.setItem('remainingQuizzes', JSON.stringify(remainingQuizzes));
 	});
 </script>

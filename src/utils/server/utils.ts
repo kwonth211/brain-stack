@@ -82,7 +82,6 @@ export const getAllRanking = async () => {
 			userAccuracy: Number(user.userAccuracy)
 		};
 	});
-	console.log(formattedRankingData);
 	return formattedRankingData;
 };
 
