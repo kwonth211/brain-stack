@@ -20,7 +20,7 @@
 	const { remainingQuizzes } = data;
 	const allQuizResolved = remainingQuizzes.length === 0;
 	let CompleteModalOpen = allQuizResolved;
-
+	const categoryId = 2;
 	onMount(() => {
 		localStorage.setItem('remainingQuizzes', JSON.stringify(remainingQuizzes));
 	});
@@ -68,7 +68,7 @@
 						</div>
 						<div class="rank-name">{rank.userNickname}</div>
 						<div class="correct-ratio" class:isMe={rank.userId === 'user.id'}>
-							{rank.totalPoints}개 ({rank.userAccuracy.toFixed(0)}%)
+							{rank.totalCorrect}개 ({Number(rank.userAccuracy).toFixed(0)}%)
 						</div>
 					</div>
 				{/each}
@@ -86,13 +86,13 @@
 						return;
 					}
 					const quiz = await dequeueFromRemainingQuizzes({
-						categoryId: 1
+						categoryId
 					});
 					if (!quiz) {
-						goto(`/quiz/complete?category=2`);
+						goto(`/quiz/complete?category=${categoryId}`);
 						return;
 					}
-					goto(`/quiz/${quiz.id}?category=2`);
+					goto(`/quiz/${quiz.id}?category=${categoryId}`);
 				}}>시작하기</Button
 			>
 		{/if}

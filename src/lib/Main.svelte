@@ -41,9 +41,24 @@
 			path: '/idiom/start'
 		},
 		{
+			title: '지리 Brain',
+			icon: '🌍',
+			path: '/geography/start'
+		},
+		{
+			title: '기술 및 컴퓨터 Brain',
+			icon: '💻',
+			path: '/tech/start'
+		},
+		{
 			title: '동물 Brain',
 			icon: '🐶',
 			path: '/animal/start'
+		},
+		{
+			title: '스포츠 Brain',
+			icon: '🏃‍♂️',
+			path: '/sport/start'
 		}
 	];
 </script>

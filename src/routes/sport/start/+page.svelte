@@ -20,6 +20,7 @@
 	const { remainingQuizzes } = data;
 	const allQuizResolved = remainingQuizzes.length === 0;
 	let CompleteModalOpen = allQuizResolved;
+	const categoryId = 4;
 
 	onMount(() => {
 		localStorage.setItem('remainingQuizzes', JSON.stringify(remainingQuizzes));
@@ -27,21 +28,21 @@
 </script>
 
 <svelte:head>
-	<title>사자성어 퀴즈 - dual-brain</title>
-	<meta name="description" content="사자성어 퀴즈를 풀어보세요, 많이 풀수록 랭킹에 올라갑니다." />
+	<title>스포츠 퀴즈 - dual-brain</title>
+	<meta name="description" content="스포츠 퀴즈를 풀어보세요, 많이 풀수록 랭킹에 올라갑니다." />
 </svelte:head>
 
 <div in:fade class="container">
 	<Header
 		onClick={() => {
 			goto('/');
-		}}>사자성어 퀴즈</Header
+		}}>스포츠 퀴즈</Header
 	>
 
 	<div class="title-container">
 		<div class="title">
-			사자성어 게임
-			<div class="sub-title">사자상어, 누가 더 잘 알고 있을까요?</div>
+			스포츠 퀴즈
+			<div class="sub-title">스포츠 박사는 누구일까요?</div>
 		</div>
 	</div>
 
@@ -86,13 +87,13 @@
 						return;
 					}
 					const quiz = await dequeueFromRemainingQuizzes({
-						categoryId: 13
+						categoryId: categoryId
 					});
 					if (!quiz) {
-						goto(`/quiz/complete?category=13`);
+						goto(`/quiz/complete?category=${categoryId}`);
 						return;
 					}
-					goto(`/quiz/${quiz.id}?category=13`);
+					goto(`/quiz/${quiz.id}?category=${categoryId}`);
 				}}>시작하기</Button
 			>
 		{/if}
@@ -104,7 +105,7 @@
 				CompleteModalOpen = false;
 			}}
 		>
-			<QuizCompleteNormal title={`🎉 대단해요 🎉<br/>사자성어 문제를 모두 해결했어요`} />
+			<QuizCompleteNormal title={`🎉 대단해요 🎉<br/>스포츠 문제를 모두 해결했어요`} />
 		</Modal>
 	{/if}
 

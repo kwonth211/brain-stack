@@ -68,7 +68,7 @@
 						</div>
 						<div class="rank-name">{rank.userNickname}</div>
 						<div class="correct-ratio" class:isMe={rank.userId === 'user.id'}>
-							{rank.totalPoints}개 ({rank.userAccuracy.toFixed(0)}%)
+							{rank.totalCorrect}개 ({Number(rank.userAccuracy).toFixed(0)}%)
 						</div>
 					</div>
 				{/each}

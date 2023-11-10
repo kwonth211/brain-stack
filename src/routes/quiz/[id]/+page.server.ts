@@ -1,5 +1,5 @@
 import type { Quiz } from '$types/quiz.js';
-import { getRemainingQuizzes, getSolvedQuizzes, getTopTenRanking } from '$utils/server/utils.js';
+import { getRemainingQuizzes, getSolvedQuizzes, getAllRanking } from '$utils/server/utils.js';
 import { error } from '@sveltejs/kit';
 import { sql } from '@vercel/postgres';
 
@@ -36,7 +36,7 @@ export async function load({ url, params, locals }) {
 		solvedCount: solvedQuizzes.length,
 		correctCount: correctCount,
 		streamed: {
-			ranking: getTopTenRanking()
+			ranking: getAllRanking()
 		}
 	};
 }

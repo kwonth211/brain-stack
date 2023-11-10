@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { fade } from 'svelte/transition';
 	import Footer from '$components/Footer.svelte';
 	import { goto } from '$app/navigation';
@@ -6,11 +6,34 @@
 	import DividerVertical from '$components/DividerVertical.svelte';
 	import KaKaoAddFit from '$components/KaKaoAddFit.svelte';
 	import NextIcon from '$components/icons/NextIcon.svelte';
-	import KaKaoMiniAddFit from '$components/KaKaoMiniAddFit.svelte';
 	import Spinner from '$components/Spinner.svelte';
+	import { onMount } from 'svelte';
+	import type { User } from '$types/user';
+	import axios from 'axios';
 
 	export let data;
-	const { user, statistics, streamed } = data;
+	let user: User | null = null;
+	let userAccuracy: string | null = null;
+	let userCorrectAnswers: number | null = null;
+	let userIncorrectAnswers: number | null = null;
+	const { streamed } = data;
+
+	const { ranking } = streamed;
+
+	onMount(async () => {
+		const response = await axios.get('/api/user/me');
+		user = response.data.user;
+		const rankResolved = await ranking;
+
+		const userStatistics = rankResolved.find((ranking) => ranking.userId === user?.id);
+
+		if (!userStatistics) {
+			return;
+		}
+		userCorrectAnswers = userStatistics?.totalCorrect;
+		userIncorrectAnswers = userStatistics?.totalAttempts - userStatistics?.totalCorrect;
+		userAccuracy = userStatistics?.userAccuracy.toFixed(2);
+	});
 </script>
 
 <div in:fade class="container">
@@ -28,7 +51,7 @@
 				href="/profile"
 				on:click={(e) => {
 					e.stopPropagation();
-				}}>{user?.nickname}</a
+				}}>{user?.nickname ?? '-'}</a
 			>
 		</div>
 
@@ -37,10 +60,10 @@
 			{#await data.streamed.ranking}
 				??위
 			{:then value}
-				{value?.findIndex((ranking) => ranking.userId === user.id) + 1}위
+				{value?.findIndex((ranking) => ranking.userId === user?.id) + 1}위
 			{/await}
 
-			<DotIcon /> 정답률 {statistics?.accuracy}
+			<DotIcon /> 정답률 {userAccuracy ?? 0}%
 		</div>
 		<div
 			class="next-icon-wrapper"
@@ -63,7 +86,7 @@
 				}}
 				on:keydown={() => {}}
 			>
-				{statistics?.correctAnswers}
+				{userCorrectAnswers ?? 0}
 			</div>
 		</div>
 		<DividerVertical />
@@ -76,24 +99,23 @@
 				}}
 				on:keydown={() => {}}
 			>
-				{statistics?.incorrectAnswers}
+				{userIncorrectAnswers ?? 0}
 			</div>
 		</div>
 	</div>
 	<div class="card-container">
 		<div>랭킹</div>
-		<!-- <div class="overlay">준비 중이에요...</div> -->
 		<div class="create-container">
 			{#await data.streamed.ranking}
 				<Spinner />
 			{:then value}
 				{#each value as rank, index}
-					<div class="ranking-list-item" class:isMe={rank.userId === user.id}>
+					<div class="ranking-list-item" class:isMe={rank.userId === user?.id}>
 						<div class="rank">{index + 1}</div>
 						<div class="rank-name">{rank.userNickname}</div>
-						<div class="correct-ratio" class:isMe={rank.userId === user.id}>
+						<div class="correct-ratio" class:isMe={rank.userId === user?.id}>
 							<!-- 맞은문제 {rank.userAccuracy.toFixed(0)}% / 정답률 {rank.userAccuracy.toFixed(0)}% -->
-							{rank.totalPoints}개 ({rank.userAccuracy.toFixed(0)}%)
+							{rank.totalCorrect}개 ({rank.userAccuracy.toFixed(0)}%)
 						</div>
 					</div>
 				{/each}

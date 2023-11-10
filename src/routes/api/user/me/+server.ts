@@ -2,6 +2,30 @@ import { json } from '@sveltejs/kit';
 import { sql } from '@vercel/postgres';
 import type { User } from '../../../../types/user';
 
+export async function GET({ locals }) {
+	const session = await locals.getSession();
+	if (!session?.user) {
+		return json({ error: 'Bad Request.' }, { status: 400 });
+	}
+	const email = session.user.email;
+
+	try {
+		const { rows: existingUsers } = await sql`SELECT * FROM users WHERE email=${email}`;
+
+		if (existingUsers.length === 0) {
+			return json({ error: '존재하지 않는 이메일 주소입니다.' }, { status: 404 });
+		}
+
+		const user = existingUsers[0];
+
+		return json({ user: user as User }, { status: 200 });
+	} catch (error) {
+		if (error instanceof Error) {
+			return json({ error: error.message }, { status: 500 });
+		}
+	}
+}
+
 export async function PATCH({ request, locals }) {
 	const session = await locals.getSession();
 	const email = session?.user?.email;

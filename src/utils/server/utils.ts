@@ -1,3 +1,4 @@
+import { serveToClient } from '$utils/convert';
 import type { StorageQuizType } from '$utils/window/interface';
 import { sql } from '@vercel/postgres';
 
@@ -49,46 +50,59 @@ export const getSolvedQuizzes = async ({
 
 	return solvedQuizzes;
 };
-export const getTopTenRanking = async () => {
-	const { rows: allUsers } = await sql`SELECT id, nickname FROM users`;
-	const rankingData = [];
 
-	for (const user of allUsers) {
-		const { rows: userQuizResults } = await sql`
-                SELECT uq.is_correct 
-                FROM user_quizzes uq
-                JOIN quizzes q ON uq.quiz_id = q.id
-                WHERE uq.user_id=${user.id} AND q.category_id != 12`;
+export const getAllRanking = async () => {
+	const { rows } = await sql`
+    SELECT
+      u.id as user_id,
+      u.nickname as user_nickname,
+      COUNT(uq.is_correct) FILTER (WHERE uq.is_correct = true) as total_correct,
+      COUNT(uq.is_correct) as total_attempts,
+      CASE 
+        WHEN COUNT(uq.is_correct) > 0 THEN 
+          COUNT(uq.is_correct) FILTER (WHERE uq.is_correct = true) * 100.0 / COUNT(uq.is_correct)
+        ELSE 0 
+      END as user_accuracy
+    FROM 
+      users u
+    LEFT JOIN user_quizzes uq on u.id = uq.user_id
+    LEFT JOIN quizzes q on uq.quiz_id = q.id
+    WHERE q.category_id != 12
+    GROUP BY u.id
+    ORDER BY total_correct DESC, user_accuracy DESC, total_attempts DESC
+  `;
 
-		let totalCorrect = 0;
-
-		for (const result of userQuizResults) {
-			if (result.is_correct) {
-				totalCorrect++;
-			}
-		}
-
-		const totalAttempts = userQuizResults.length;
-		const userAccuracy = totalAttempts === 0 ? 0 : (totalCorrect / totalAttempts) * 100;
-
-		rankingData.push({
-			userId: user.id,
-			userNickname: user.nickname,
-			totalPoints: totalCorrect,
-			userAccuracy,
-			totalAttempts
-		});
-	}
-
-	rankingData.sort((a, b) => {
-		if (a.totalPoints !== b.totalPoints) {
-			return b.totalPoints - a.totalPoints;
-		}
-		if (a.userAccuracy !== b.userAccuracy) {
-			return b.userAccuracy - a.userAccuracy;
-		}
-		return b.totalAttempts - a.totalAttempts;
+	const rankingData = serveToClient(rows);
+	const formattedRankingData = rankingData.map((user) => {
+		return {
+			userId: user.userId,
+			userNickname: user.userNickname,
+			totalCorrect: Number(user.totalCorrect),
+			totalAttempts: Number(user.totalAttempts),
+			userAccuracy: Number(user.userAccuracy)
+		};
 	});
+	console.log(formattedRankingData);
+	return formattedRankingData;
+};
 
-	return rankingData;
+export const getTopFiveRanking = async ({ categoryId }: { categoryId: string }) => {
+	const { rows } = await sql`
+    SELECT
+      u.id as user_id,
+      u.nickname as user_nickname,
+      u.email as user_email,
+      COUNT(uq.is_correct) FILTER (WHERE uq.is_correct = true) as total_correct,
+      COUNT(uq.is_correct) as total_attempts,
+      CASE WHEN COUNT(uq.is_correct) > 0 THEN COUNT(uq.is_correct) FILTER (WHERE uq.is_correct = true) * 100.0 / COUNT(uq.is_correct) ELSE 0 END as user_accuracy
+    FROM
+      users u
+    LEFT JOIN user_quizzes uq on u.id = uq.user_id
+    LEFT JOIN quizzes q on uq.quiz_id = q.id AND q.category_id = ${categoryId}
+    GROUP BY u.id
+    ORDER BY total_correct DESC, user_accuracy DESC, total_attempts DESC
+    LIMIT 5
+  `;
+
+	return serveToClient(rows);
 };
