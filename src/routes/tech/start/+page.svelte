@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation';
 	import NonMemberModal from '$components/NonMemberModal.svelte';
 	import Spinner from '$components/Spinner.svelte';
-	import Header from '$components/Header.svelte';
+
 	import Button from '$components/Button.svelte';
 	import GoldenMedal from '$components/icons/GoldenMedal.svelte';
 	import SilverMedal from '$components/icons/SilverMedal.svelte';
@@ -14,6 +14,7 @@
 	import Modal from '$components/Modal.svelte';
 	import QuizCompleteNormal from '$components/QuizCompleteNormal.svelte';
 	import Footer from '$components/Footer.svelte';
+	import DrawerHeader from '$components/DrawerHeader.svelte';
 
 	export let data;
 	let NonMemberModalOpen = false;
@@ -35,10 +36,10 @@
 </svelte:head>
 
 <div in:fade class="container">
-	<Header
+	<DrawerHeader
 		onClick={() => {
 			goto('/');
-		}}>공학 퀴즈</Header
+		}}>공학 퀴즈</DrawerHeader
 	>
 
 	<div class="title-container">

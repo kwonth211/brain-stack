@@ -10,6 +10,7 @@
 	import { onMount } from 'svelte';
 	import type { User } from '$types/user';
 	import axios from 'axios';
+	import DrawerHeader from '$components/DrawerHeader.svelte';
 
 	export let data;
 	let user: User | null = null;
@@ -37,6 +38,12 @@
 </script>
 
 <div in:fade class="container">
+	<DrawerHeader
+		onClick={() => {
+			goto('/');
+		}}
+		>마이페이지
+	</DrawerHeader>
 	<div
 		class="user-card"
 		on:keydown={() => {}}

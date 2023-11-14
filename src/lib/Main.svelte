@@ -65,7 +65,6 @@
 
 <div in:fade class="container">
 	<DrawerHeader
-		hasBack={false}
 		onClick={() => {
 			goto('/');
 		}}

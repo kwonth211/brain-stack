@@ -1,12 +1,13 @@
 <script>
 	import Button from '$components/Button.svelte';
-	import Header from '$components/Header.svelte';
+
 	import { fade } from 'svelte/transition';
 	import Input from '$components/Input.svelte';
 	import { signOut } from '@auth/sveltekit/client';
 	import axios from 'axios';
 	import { goto } from '$app/navigation';
 	import { clearRemainingQuizzes } from '$utils/window/utils';
+	import DrawerHeader from '$components/DrawerHeader.svelte';
 
 	export let data;
 	const { user } = data;
@@ -14,7 +15,11 @@
 </script>
 
 <div in:fade>
-	<Header>계정정보</Header>
+	<DrawerHeader
+		onClick={() => {
+			goto('/');
+		}}>계정정보</DrawerHeader
+	>
 
 	{#if user}
 		<form>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import Header from '$components/Header.svelte';
+
 	import IssueModal from '$components/IssueModal.svelte';
 	import Quiz from '$components/Quiz.svelte';
 	import QuizComplete from '$components/QuizComplete.svelte';
@@ -11,6 +11,7 @@
 	import { CATEGORY } from '$types/categories';
 	import { dequeueFromRemainingQuizzes, getRemainingQuizzes } from '$utils/window/utils';
 	import { quizzes } from '$mock/quizzes.js';
+	import DrawerHeader from '$components/DrawerHeader.svelte';
 
 	export let data;
 	const {
@@ -69,27 +70,16 @@
 </svelte:head>
 
 <div style="height: 100%;">
-	<Header
-		onBack={(e) => {
+	<!-- onBack={(e) => {
 			e.stopPropagation();
 			goto('/common/start');
-		}}
+		}} -->
+	<DrawerHeader
 		onClick={() => {
 			goto('/');
 		}}
 		>{quizCategory} 퀴즈
-		<span
-			style="position: absolute; top: 7px; right: 10px; cursor: pointer;"
-			on:click={handleFeedbackClick}
-			on:keydown={(e) => {
-				if (e.key === 'Enter') {
-					handleFeedbackClick(e);
-				}
-			}}
-		>
-			<QuestionIcon />
-		</span>
-	</Header>
+	</DrawerHeader>
 
 	{#if currentQuiz}
 		<Quiz

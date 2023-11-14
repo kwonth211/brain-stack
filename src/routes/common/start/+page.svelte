@@ -4,12 +4,13 @@
 	import { goto } from '$app/navigation';
 	import NonMemberModal from '$components/NonMemberModal.svelte';
 	import Spinner from '$components/Spinner.svelte';
-	import Header from '$components/Header.svelte';
+
 	import Button from '$components/Button.svelte';
 	import GoldenMedal from '$components/icons/GoldenMedal.svelte';
 	import SilverMedal from '$components/icons/SilverMedal.svelte';
 	import BronzeMedal from '$components/icons/BronzeMedal.svelte';
 	import { page } from '$app/stores';
+	import DrawerHeader from '$components/DrawerHeader.svelte';
 
 	export let data;
 	let NonMemberModalOpen = false;
@@ -24,13 +25,10 @@
 </svelte:head>
 
 <div in:fade class="container">
-	<Header
-		onBack={() => {
-			goto('/');
-		}}
+	<DrawerHeader
 		onClick={() => {
 			goto('/');
-		}}>상식퀴즈</Header
+		}}>상식퀴즈</DrawerHeader
 	>
 
 	<div class="title-container">

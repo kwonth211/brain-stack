@@ -3,9 +3,9 @@ import nodemailer from 'nodemailer';
 import { NAVER_LOGIN_ID, NAVER_LOGIN_PW } from '$env/static/private';
 
 export async function POST({ request }: { request: Request }) {
-	const { quizId, content } = await request.json();
+	const { email, message, selectedOption } = await request.json();
 
-	if (!quizId || !content) {
+	if (!email || !message || !selectedOption) {
 		return json({ error: '필수값을 입력해주세요.' }, { status: 400 });
 	}
 
@@ -17,13 +17,11 @@ export async function POST({ request }: { request: Request }) {
 		}
 	});
 
-	// todo 실제 유저인지 파악하기
-
 	const mailOptions = {
 		from: 'kwonth211@naver.com',
 		to: 'kwonth211@naver.com',
 		subject: '피드백이 도착했어요.',
-		text: `새로운 퀴즈가 생성되었습니다.\n\n문제ID: ${quizId}\n내용: ${content}`
+		text: `새로운 퀴즈가 생성되었습니다.\n\n이메일: ${email}\n내용: ${message}\n선택한 옵션: ${selectedOption}`
 	};
 
 	try {

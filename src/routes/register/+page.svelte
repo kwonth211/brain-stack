@@ -1,9 +1,11 @@
 <script lang="ts">
 	import Button from '$components/Button.svelte';
-	import Header from '$components/Header.svelte';
+
 	import { fade } from 'svelte/transition';
 	import Input from '$components/Input.svelte';
 	import { signIn } from '@auth/sveltekit/client';
+	import DrawerHeader from '$components/DrawerHeader.svelte';
+	import { goto } from '$app/navigation';
 
 	let name = '';
 	let email = '';
@@ -85,7 +87,11 @@
 </script>
 
 <div in:fade>
-	<Header>회원가입</Header>
+	<DrawerHeader
+		onClick={() => {
+			goto('/');
+		}}>회원가입</DrawerHeader
+	>
 
 	<form on:submit|preventDefault={handleSubmit}>
 		<Input

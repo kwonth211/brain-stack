@@ -1,8 +1,8 @@
 <!-- QuizPage.svelte -->
 <script lang="ts">
-	import Header from '$components/Header.svelte';
 	import { goto } from '$app/navigation';
 	import MyQuizCard from '$components/MyQuizCard.svelte';
+	import DrawerHeader from '$components/DrawerHeader.svelte';
 
 	export let data;
 
@@ -10,10 +10,10 @@
 </script>
 
 <div style="height: 100%;">
-	<Header
+	<DrawerHeader
 		onClick={() => {
-			goto('/');
-		}}>푼 퀴즈</Header
+			goto('/my-page');
+		}}>푼 퀴즈</DrawerHeader
 	>
 
 	<div class="my-quiz-card-container">

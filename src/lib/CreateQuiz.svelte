@@ -62,10 +62,10 @@
 			class="question-input"
 		/>
 		<div class="correct-option-container">
-			<input type="text" placeholder="옵션 1" bind:value={option1} class="option-input" />
-			<input type="text" placeholder="옵션 2" bind:value={option2} class="option-input" />
-			<input type="text" placeholder="옵션 3" bind:value={option3} class="option-input" />
-			<input type="text" placeholder="옵션 4" bind:value={option4} class="option-input" />
+			<input type="text" placeholder="보기 1" bind:value={option1} class="option-input" />
+			<input type="text" placeholder="보기 2" bind:value={option2} class="option-input" />
+			<input type="text" placeholder="보기 3" bind:value={option3} class="option-input" />
+			<input type="text" placeholder="보기 4" bind:value={option4} class="option-input" />
 			<input
 				type="text"
 				placeholder="정답 번호(1~4까지 입력해주세요)"
@@ -141,9 +141,6 @@
 		border: 1px solid #ccc;
 		box-sizing: border-box;
 		font-weight: 400;
-	}
-	.correct-option-input {
-		border: 1px solid var(--primary);
 	}
 
 	:global(.create-quiz-button) {

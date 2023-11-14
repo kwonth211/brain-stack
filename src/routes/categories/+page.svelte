@@ -15,7 +15,8 @@
 <script>
 	export let data;
 	import { goto } from '$app/navigation';
-	import Header from '$components/Header.svelte';
+	import DrawerHeader from '$components/DrawerHeader.svelte';
+
 	import KaKaoFit from '$components/KaKaoAddFit.svelte';
 	import Seo from '$lib/Seo.svelte';
 	import { dequeueFromRemainingQuizzes } from '$utils/window/utils';
@@ -32,10 +33,10 @@
 	description="다양한 퀴즈 카테고리를 탐색하고 원하는 주제로 퀴즈를 시작하세요. 과학, 역사, 엔터테인먼트, 스포츠, 문학, 기술 및 컴퓨터,철학 ,비지니스, 경제 등 다양한 주제를 제공합니다."
 />
 
-<Header
+<DrawerHeader
 	onClick={() => {
 		goto('/');
-	}}>카테고리</Header
+	}}>카테고리</DrawerHeader
 >
 <div class="container">
 	<div class="quiz-prompt">퀴즈 유형을 골라주세요!</div>
