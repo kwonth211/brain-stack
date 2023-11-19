@@ -106,8 +106,18 @@
 					</li>
 
 					<!-- <li><QuestionIcon style="margin-left: 2px;" />듀얼 브레인이란?</li> -->
-					<li>
+					<li style="flex-direction: column; position:relative;">
 						<BuyCoffee />
+						<div
+							class="dot-container"
+							on:click={(e) => {
+								e.stopPropagation();
+								goto('/back-office/start');
+							}}
+							on:keydown={() => {}}
+						>
+							<div class="tiny-dot" />
+						</div>
 					</li>
 				</ul>
 			</div>
@@ -117,6 +127,17 @@
 <div class="header-placeholder" />
 
 <style>
+	.dot-container {
+		width: 100%;
+	}
+	.tiny-dot {
+		width: 5px;
+		height: 5px;
+		background-color: black;
+		border-radius: 50%;
+		top: 0px;
+		right: 7px;
+	}
 	.header {
 		position: fixed;
 		top: 0;

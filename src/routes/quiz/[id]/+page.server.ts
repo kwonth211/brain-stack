@@ -12,6 +12,11 @@ export async function load({ url, params, locals }) {
 
 	const { rows: currentQuiz } = await sql`SELECT * FROM quizzes WHERE id=${quizId}`;
 
+	if (categoryId === '999' && !session?.user) {
+		throw error(404, {
+			message: 'Not found'
+		});
+	}
 	if (currentQuiz.length === 0) {
 		throw error(404, {
 			message: 'Not found'

@@ -9,7 +9,7 @@ export const getRemainingQuizzes = async ({
 	categoryId?: string | null;
 	userEmail?: string | null;
 }) => {
-	const conditions = ['q.category_id != 12'];
+	const conditions = ['q.category_id != 12 AND q.category_id != 999'];
 	const params = [];
 
 	if (userEmail) {

@@ -1,8 +1,7 @@
 <script lang="ts">
 	let scriptTag: any;
 
-	export let enabled = false;
-	$: if (enabled && scriptTag)
+	$: if (scriptTag)
 		scriptTag.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
 </script>
 

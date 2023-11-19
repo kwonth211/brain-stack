@@ -2,10 +2,6 @@
 	import { dev } from '$app/environment';
 </script>
 
-<svelte:head>
-	<script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
-</svelte:head>
-
 <ins
 	class="kakao_ad_area {dev ? 'dev-style' : ''}"
 	style="display:none;"
