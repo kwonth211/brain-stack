@@ -268,25 +268,27 @@
 
 	<div class="button-container">
 		{#each optionsShown as option, index}
-			<div style="width: 100%;" in:fly={{ y: 100, delay: index * 500 }}>
-				<Button
-					primary
-					type="outlined"
-					onclick={() => {
-						if (isAlreadySolved) {
-							return;
-						}
+			{#if option !== null}
+				<div style="width: 100%;" in:fly={{ y: 100, delay: index * 500 }}>
+					<Button
+						primary
+						type="outlined"
+						onclick={() => {
+							if (isAlreadySolved) {
+								return;
+							}
 
-						checkAnswer(String(index + 1));
-					}}
-					classes={getButtonClassName(index)}
-				>
-					<div class="button-content">
-						<span class="number">{index + 1}.</span>
-						<span class="text">{option}</span>
-					</div>
-				</Button>
-			</div>
+							checkAnswer(String(index + 1));
+						}}
+						classes={getButtonClassName(index)}
+					>
+						<div class="button-content">
+							<span class="number">{index + 1}.</span>
+							<span class="text">{option}</span>
+						</div>
+					</Button>
+				</div>
+			{/if}
 		{/each}
 	</div>
 </div>
