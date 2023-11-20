@@ -277,6 +277,9 @@
 							if (isAlreadySolved) {
 								return;
 							}
+							if (Math.random() < 0.3 && !isLoggedIn) {
+								isLoginModalOpen = true;
+							}
 
 							checkAnswer(String(index + 1));
 						}}

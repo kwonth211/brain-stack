@@ -131,5 +131,4 @@
 	{/if}
 
 	<GoogleAdsense />
-
 </div>

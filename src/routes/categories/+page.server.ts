@@ -18,13 +18,7 @@ export async function load({ url, params, locals }) {
 		});
 		return {
 			remainingQuizzes: remainingQuizzes,
-			categories: [
-				...categories,
-				{
-					id: 0,
-					name: '랜덤'
-				}
-			] as Categories[]
+			categories: [...categories] as Categories[]
 		};
 	} catch (error: any) {
 		throw new Error(error.message);

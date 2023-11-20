@@ -48,7 +48,7 @@
 		<div class="wrapper">
 			<div class="title">
 				<LogoIcon />
-				로그인이 필요해요.
+				로그인 하고,<br /> 더 많은 기능을 이용하세요!
 			</div>
 			<Input placeholder="이메일 입력" bind:value={userEmail} />
 			<Input placeholder="비밀번호 입력" bind:value={password} type="password" />
