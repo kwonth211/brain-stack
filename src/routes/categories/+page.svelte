@@ -16,6 +16,7 @@
 	export let data;
 	import { goto } from '$app/navigation';
 	import DrawerHeader from '$components/DrawerHeader.svelte';
+	import Footer from '$components/Footer.svelte';
 
 	import KaKaoFit from '$components/KaKaoAddFit.svelte';
 	import Seo from '$lib/Seo.svelte';
@@ -67,6 +68,7 @@
 		</div>
 	</div>
 	<KaKaoFit />
+	<Footer />
 </div>
 
 <style>

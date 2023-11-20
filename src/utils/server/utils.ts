@@ -90,7 +90,6 @@ export const getTopFiveRanking = async ({ categoryId }: { categoryId: string }) 
     SELECT
       u.id as user_id,
       u.nickname as user_nickname,
-      u.email as user_email,
       COUNT(uq.is_correct) FILTER (WHERE uq.is_correct = true) as total_correct,
       COUNT(uq.is_correct) as total_attempts,
       CASE WHEN COUNT(uq.is_correct) > 0 THEN 
@@ -102,7 +101,7 @@ export const getTopFiveRanking = async ({ categoryId }: { categoryId: string }) 
     LEFT JOIN user_quizzes uq on u.id = uq.user_id
     LEFT JOIN quizzes q on uq.quiz_id = q.id
     WHERE q.category_id = ${categoryId}  
-    GROUP BY u.id, u.nickname, u.email    
+    GROUP BY u.id, u.nickname
     ORDER BY total_correct DESC, user_accuracy DESC, total_attempts DESC
     LIMIT 5
   `;
