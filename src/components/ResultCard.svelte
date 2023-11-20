@@ -15,7 +15,6 @@
 	export let answer: Quiz['answer'];
 	export let isTimeout: boolean;
 	let explanation: Quiz['explanation'];
-
 	let loading = false;
 
 	const toggleShowBack = async () => {
@@ -51,13 +50,15 @@
 				<div class={'is-correct-sub-text'}>
 					{isCorrect ? '잘했어요! 확인해볼까요?' : '괜찮아요. 지식이 생길거에요.'}
 				</div>
-				<span
-					class="more-info"
-					on:keydown={() => {}}
-					on:click={(e) => {
-						toggleShowBack();
-					}}>설명 보기</span
-				>
+				{#if quiz.category_id !== 999}
+					<span
+						class="more-info"
+						on:keydown={() => {}}
+						on:click={(e) => {
+							toggleShowBack();
+						}}>설명 보기</span
+					>
+				{/if}
 			</div>
 			<Button classes="next-button" primary={isCorrect} error={!isCorrect} onclick={onNext}
 				>다음 문제</Button

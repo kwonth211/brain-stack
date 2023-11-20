@@ -45,7 +45,7 @@
 	export const promotionEnabled = writable(true);
 </script>
 
-<GoogleAdsense enabled={$promotionEnabled} />
+<GoogleAdsense />
 <head>
 	{@html webManifest}
 </head>

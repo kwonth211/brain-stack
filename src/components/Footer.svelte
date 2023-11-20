@@ -4,6 +4,7 @@
 	import { page } from '$app/stores';
 	import HomeIcon from './icons/HomeIcon.svelte';
 	import MyPageIcon from './icons/MyPageIcon.svelte';
+	import RankingIcon from './icons/RankingIcon.svelte';
 
 	let active = 'home';
 
@@ -13,12 +14,10 @@
 			active = 'home';
 		} else if (id === '/my-page') {
 			active = 'myPage';
+		} else if (id === '/ranking') {
+			active = 'ranking';
 		}
 	});
-	// url 에서 정보 가져오기
-	const goBack = () => {
-		window.history.back();
-	};
 </script>
 
 <footer class="footer">
@@ -31,6 +30,16 @@
 	>
 		<HomeIcon color={active === 'home' ? '#5387F7' : '#BDBDBD'} />
 		홈
+	</div>
+	<div
+		class={`icon-container ${active === 'ranking' ? 'active' : ''}`}
+		on:keydown={() => {}}
+		on:click={() => {
+			goto('/ranking');
+		}}
+	>
+		<RankingIcon color={active === 'ranking' ? '#5387F7' : '#BDBDBD'} />
+		랭킹
 	</div>
 	<div
 		class={`icon-container ${active === 'myPage' ? 'active' : ''}`}
@@ -49,7 +58,7 @@
 		width: 100%;
 		background-color: white;
 		display: flex;
-		justify-content: space-around;
+		justify-content: center;
 		align-items: center;
 		height: var(--footer-height);
 		border-top: 1px solid #e0e0e0;
@@ -62,7 +71,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-
+		flex: 1;
 		text-align: center;
 		font-family: Pretendard;
 		font-size: 11px;
