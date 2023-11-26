@@ -1,71 +1,75 @@
-<script>
+<script lang="ts">
 	import { fade } from 'svelte/transition';
 	import Footer from '$components/Footer.svelte';
 	import { goto } from '$app/navigation';
 	import NonMemberModal from '$components/NonMemberModal.svelte';
 	import Spinner from '$components/Spinner.svelte';
-
+	import { onMount } from 'svelte';
 	import Button from '$components/Button.svelte';
-	import GoldenMedal from '$components/icons/GoldenMedal.svelte';
-	import SilverMedal from '$components/icons/SilverMedal.svelte';
-	import BronzeMedal from '$components/icons/BronzeMedal.svelte';
 	import { page } from '$app/stores';
 	import DrawerHeader from '$components/DrawerHeader.svelte';
+	import PlayIcon from '$components/icons/PlayIcon.svelte';
+	import { dequeueFromRemainingQuizzes } from '$utils/window/utils.js';
 
 	export let data;
+	const { categoryId } = data;
 	let NonMemberModalOpen = false;
+
+	function startQuiz(quizId: string) {}
+
+	onMount(() => {
+		data.streamed.remainingQuizzes.then((remainingQuizzes) => {
+			localStorage.setItem('remainingQuizzes', JSON.stringify(remainingQuizzes));
+		});
+	});
 </script>
 
 <svelte:head>
-	<title>상식 퀴즈 - dual-brain</title>
-	<meta
-		name="description"
-		content="상식 퀴즈를 풀어보세요. 상식 퀴즈를 풀면서 지식을 쌓아보세요."
-	/>
+	<title>인기 있는 퀴즈 - dual-brain</title>
+	<meta name="description" content="가장 인기 있는 상식 퀴즈를 확인하고 도전해보세요." />
 </svelte:head>
 
 <div in:fade class="container">
 	<DrawerHeader
 		onClick={() => {
 			goto('/');
-		}}>상식퀴즈</DrawerHeader
+		}}
 	>
+		듀얼브레인
+	</DrawerHeader>
 
 	<div class="title-container">
-		<!-- <CommonQuizIcon2 /> -->
-		<div class="title">
-			상식 게임
-			<div class="sub-title">
-				퀴즈를 통해 나의 지식을 확장하고, <br />
-				랭킹 1등에 도전해보세요.
-			</div>
-		</div>
+		<!-- <div class="title">🌟{data.name}에서 가장 인기있는 퀴즈는 무엇일까요?🌟</div> -->
+		<div class="title">🚀 실시간 인기 {data.name} 퀴즈 🚀</div>
 	</div>
 
 	<div class="card-container">
-		<div>랭킹</div>
 		<div class="create-container">
-			{#await data.streamed.ranking}
+			{#await data.streamed?.popularQuizzes}
 				<div class="spinner-container">
 					<Spinner />
 				</div>
-			{:then value}
-				{#each value as rank, index}
-					<div class="ranking-list-item" class:isMe={rank.userId === 'user.id'}>
+			{:then quizzes}
+				{#each quizzes as quiz, index}
+					<div class="ranking-list-item">
 						<div class="rank">
-							{#if index === 0}
-								<GoldenMedal />
-							{:else if index === 1}
-								<SilverMedal />
-							{:else if index === 2}
-								<BronzeMedal />
-							{:else}
-								{index + 1}
-							{/if}
+							{index + 1}
 						</div>
-						<div class="rank-name">{rank.userNickname}</div>
-						<div class="correct-ratio" class:isMe={rank.userId === 'user.id'}>
-							{rank.totalPoints}개 ({rank.userAccuracy.toFixed(0)}%)
+						<div class="rank-name">{quiz.question}</div>
+						<div
+							class="play-button"
+							on:click={() => {
+								const quizId = quiz.quizId;
+								const queryPram = categoryId ? `?category=${categoryId}` : '';
+								if (!$page?.data?.session?.user) {
+									NonMemberModalOpen = true;
+									return;
+								}
+								goto(`/quiz/${quizId}${queryPram}`);
+							}}
+							on:keydown={(e) => {}}
+						>
+							<PlayIcon />
 						</div>
 					</div>
 				{/each}
@@ -76,14 +80,26 @@
 		<Button
 			primary
 			classes="start"
-			onclick={() => {
+			onclick={async () => {
 				if (!$page?.data?.session?.user) {
 					NonMemberModalOpen = true;
 					return;
 				}
-				goto('/categories');
-			}}>시작하기</Button
+				const quiz = await dequeueFromRemainingQuizzes({
+					categoryId
+				});
+				const queryPram = categoryId ? `?category=${categoryId}` : '';
+				if (!quiz) {
+					goto(`/quiz/complete${queryPram}`);
+					return;
+				}
+				goto(`/quiz/${quiz.id}${queryPram}`);
+
+				// goto('/categories');
+			}}
 		>
+			시작하기
+		</Button>
 	</div>
 
 	{#if NonMemberModalOpen}
@@ -97,6 +113,7 @@
 			}}
 		/>
 	{/if}
+
 	<Footer />
 </div>
 
@@ -109,32 +126,25 @@
 		font-weight: 600;
 		line-height: 22px; /* 95.652% */
 		letter-spacing: -0.408px;
-		flex: 0.1;
-		margin-right: 5px;
+	}
+	.play-button {
+		position: absolute;
+		right: 10px;
 	}
 
 	.rank-name {
 		font-family: Pretendard;
 		font-size: 12px;
 		font-style: normal;
-		flex: 0.9;
 		font-weight: 600;
 		line-height: 22px; /* 122.222% */
 		letter-spacing: -0.408px;
 		text-overflow: ellipsis;
+		padding-right: 30px;
 		overflow: hidden;
+		text-align: left;
 		white-space: pre;
-	}
-	.correct-ratio {
-		color: rgba(104, 104, 104, 0.6);
-		font-family: Pretendard;
-		font-size: 13px;
-		font-style: normal;
-		font-weight: 400;
-		line-height: 22px; /* 169.231% */
-		letter-spacing: -0.408px;
-		text-align: right;
-		flex: 0.4;
+		z-index: 0;
 	}
 
 	.container {
@@ -143,30 +153,26 @@
 		display: flex;
 		flex-direction: column;
 		background-color: rgba(83, 135, 247, 0.19);
-		gap: 7px;
 	}
 
 	.create-container {
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
 		align-items: center;
-		gap: 10px;
 		height: 100%;
+		gap: 10px;
 	}
 	.ranking-list-item {
 		position: relative;
 		display: flex;
-		justify-content: space-between;
 		flex-direction: row;
 		align-items: center;
 		width: 100%;
-		height: 59px;
+		height: 40px;
 		flex-shrink: 0;
 		border-radius: 10px;
-		background: #f3f4f6;
-		padding: 10px;
 		box-sizing: border-box;
+		gap: 5px;
 	}
 
 	.card-container {
@@ -179,8 +185,13 @@
 		border-radius: 16px;
 		background: #fff;
 		gap: 10px;
-		max-height: 360px;
+		max-height: 400px;
 		height: 100%;
+		overflow: scroll;
+		margin-top: 15px;
+	}
+	.card-container::-webkit-scrollbar {
+		display: none;
 	}
 	.isMe {
 		background-color: #a2bdf8;
@@ -188,6 +199,8 @@
 	}
 	.title-container {
 		display: flex;
+		justify-content: center;
+		padding-right: 16px;
 	}
 	.title {
 		display: flex;
@@ -198,7 +211,7 @@
 		box-sizing: border-box;
 		color: #424242;
 		font-family: Pretendard;
-		font-size: 21px;
+		font-size: 18px;
 		font-style: normal;
 		font-weight: 700;
 		line-height: 22px; /* 88% */

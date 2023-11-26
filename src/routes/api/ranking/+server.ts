@@ -4,40 +4,46 @@ import { sql } from '@vercel/postgres';
 
 export async function GET(request) {
 	const categoryId = request.url.searchParams.get('categoryId');
-	const params = [];
 
-	let categoryCondition = '';
+	let query = '';
+	let params: string[] = [];
+
 	if (categoryId) {
-		categoryCondition = `AND q.category_id = $1`;
-		params.push(categoryId);
-	}
-
-	const query = `
-        SELECT
-            user_id,
-            user_nickname,
-            total_correct,
-            total_attempts,
-            user_accuracy
-        FROM (
+		// 특정 카테고리에 대한 랭킹 조회
+		query = `
             SELECT
-                u.id as user_id,
-                u.nickname as user_nickname,
-                COUNT(uq.is_correct) FILTER (WHERE uq.is_correct = true AND uq.quiz_id = q.id ${categoryCondition}) as total_correct,
-                COUNT(uq.is_correct) FILTER (WHERE uq.quiz_id = q.id ${categoryCondition}) as total_attempts,
-                CASE WHEN COUNT(uq.is_correct) FILTER (WHERE uq.quiz_id = q.id ${categoryCondition}) > 0 THEN 
-                    COUNT(uq.is_correct) FILTER (WHERE uq.is_correct = true AND uq.quiz_id = q.id ${categoryCondition}) * 100.0 / COUNT(uq.is_correct) FILTER (WHERE uq.quiz_id = q.id ${categoryCondition})
-                ELSE 0 
-                END as user_accuracy
+                u.nickname AS user_nickname,
+                ucr.correct_count AS total_correct,
+                ucr.incorrect_count AS total_incorrect,
+                (ucr.correct_count * 100.0 / (ucr.correct_count + ucr.incorrect_count)) AS user_accuracy
             FROM
-                users u
-            LEFT JOIN user_quizzes uq on u.id = uq.user_id
-            LEFT JOIN quizzes q on uq.quiz_id = q.id
-            GROUP BY u.id, u.nickname
-        ) as ranking
-        WHERE total_correct > 0
-        ORDER BY total_correct DESC, user_accuracy DESC, total_attempts DESC
-    `;
+                user_category_rankings ucr
+            JOIN
+                users u ON ucr.user_id = u.id
+            WHERE
+                ucr.category_id = $1
+            ORDER BY
+                total_correct DESC, user_accuracy DESC, (ucr.correct_count + ucr.incorrect_count) DESC
+        `;
+		params = [categoryId];
+	} else {
+		// 전체 카테고리에 대한 랭킹 조회
+		query = `
+            SELECT
+                u.nickname AS user_nickname,
+                SUM(ucr.correct_count) AS total_correct,
+                SUM(ucr.incorrect_count) AS total_incorrect,
+                (SUM(ucr.correct_count) * 100.0 / (SUM(ucr.correct_count) + SUM(ucr.incorrect_count))) AS user_accuracy
+            FROM
+                user_category_rankings ucr
+            JOIN
+                users u ON ucr.user_id = u.id
+            GROUP BY
+                ucr.user_id, u.nickname
+            ORDER BY
+                total_correct DESC, user_accuracy DESC, (SUM(ucr.correct_count) + SUM(ucr.incorrect_count)) DESC
+        `;
+	}
 
 	const { rows } = await sql.query(query, params);
 	return json(serveToClient(rows), { status: 200 });

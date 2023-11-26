@@ -22,7 +22,7 @@ export const getRemainingQuizzes = async ({
 		params.push(userEmail);
 	}
 
-	if (categoryId) {
+	if (categoryId && categoryId !== '0') {
 		conditions.push(`q.category_id = $${params.length + 1}`);
 		params.push(categoryId);
 	}
@@ -107,4 +107,19 @@ export const getTopFiveRanking = async ({ categoryId }: { categoryId: string }) 
   `;
 
 	return serveToClient(rows);
+};
+
+export const updateCategoryRanking = async (
+	userId: number,
+	categoryId: number,
+	isCorrect: boolean
+) => {
+	return await sql`
+        INSERT INTO user_category_rankings (user_id, category_id, correct_count, incorrect_count)
+        VALUES (${userId}, ${categoryId}, ${isCorrect ? 1 : 0}, ${isCorrect ? 0 : 1})
+        ON CONFLICT (user_id, category_id)
+        DO UPDATE SET
+            correct_count = user_category_rankings.correct_count + ${isCorrect ? 1 : 0},
+            incorrect_count = user_category_rankings.incorrect_count + ${isCorrect ? 0 : 1};
+    `;
 };

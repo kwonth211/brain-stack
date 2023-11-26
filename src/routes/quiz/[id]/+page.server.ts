@@ -39,9 +39,6 @@ export async function load({ url, params, locals }) {
 		isAlreadySolved: solvedQuizzes.some((q) => q.quiz_id === quizId),
 		userAnswer: solvedQuizzes.find((q) => q.quiz_id === quizId)?.answer,
 		solvedCount: solvedQuizzes.length,
-		correctCount: correctCount,
-		streamed: {
-			ranking: getAllRanking()
-		}
+		correctCount: correctCount
 	};
 }

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
 
 	import IssueModal from '$components/IssueModal.svelte';
 	import Quiz from '$components/Quiz.svelte';
@@ -15,13 +16,14 @@
 	import GoogleAdsense from '$lib/GoogleAdSense.svelte';
 
 	export let data;
+	// TODO rank구현
+	$: rankings = [] as any;
 	const {
 		currentQuiz,
 		solvedCount: _solvedCount,
 		unSolvedCount: _unsolvedCount,
 		correctCount: _correctCount,
 		isAlreadySolved,
-		streamed,
 		userAnswer
 	} = data;
 
@@ -52,9 +54,20 @@
 		showFeedbackModal = true;
 	};
 
+	async function fetchRankings(categoryId: string) {
+		// const params = categoryId !== '0' ? { categoryId } : {};
+		// const response = await axios.get(`/api/ranking`, {
+		// 	params
+		// });
+	}
+
 	const pageTitle = currentQuiz?.question;
 	const metaDescription = `${currentQuiz?.option1}, ${currentQuiz?.option2}, ${currentQuiz?.option3}, ${currentQuiz?.option4}. ${currentQuiz?.explanation}`;
 	const quizCategory = CATEGORY[categoryId as unknown as keyof typeof CATEGORY] ?? '상식';
+
+	onMount(async () => {
+		await fetchRankings(String(categoryId));
+	});
 </script>
 
 <svelte:head>
@@ -89,7 +102,7 @@
 			{unSolvedCount}
 			{isAlreadySolved}
 			{userAnswer}
-			ranking={streamed?.ranking}
+			ranking={rankings}
 			onCheckAnswer={(isCorrect) => {
 				solvedCount++;
 				unSolvedCount--;
