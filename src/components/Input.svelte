@@ -41,7 +41,7 @@
 <style>
 	label {
 		display: block;
-		/* margin-bottom: 1rem; */
+		width: 100%;
 	}
 	div {
 		display: block;

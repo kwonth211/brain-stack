@@ -406,7 +406,7 @@
 		width: 100%;
 	}
 	.button-container :global(.btn) {
-		min-height: 55px;
+		min-height: 50px;
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;

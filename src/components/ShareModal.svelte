@@ -9,6 +9,7 @@
 	import axios from 'axios';
 	import Facebook from '$lib/assets/Facebook.png';
 	import X from '$lib/assets/Twitter-x-logo.png';
+	import CopyIcon from './icons/CopyIcon.svelte';
 
 	const categoryId = $page.url.searchParams.get('category') as keyof typeof CATEGORY;
 	export let close: () => void;
@@ -51,6 +52,13 @@
 			correctRate = response.data.correctRate ?? 0;
 		} catch (error) {
 			console.error('Failed to load correct rate:', error);
+		}
+	};
+	const copyToClipboard = async (text: string) => {
+		try {
+			await navigator.clipboard.writeText(text);
+		} catch (err) {
+			console.error('Failed to copy: ', err);
 		}
 	};
 
@@ -104,11 +112,20 @@
 			</a>
 		</div>
 		<Divider />
-		<Input placeholder="https://" value={sharedLink} />
+		<div class="input-and-copy">
+			<Input placeholder="https://" value={sharedLink} />
+			<CopyIcon onClick={() => copyToClipboard(sharedLink)} />
+		</div>
 	</div>
 </div>
 
 <style>
+	.input-and-copy {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		width: 100%;
+	}
 	.share-container {
 		display: flex;
 		justify-content: center;
