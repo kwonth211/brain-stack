@@ -12,6 +12,7 @@
 	import ShareIcon from './icons/ShareIcon.svelte';
 	import ShareModal from './ShareModal.svelte';
 	import LoginModal from './LoginModal.svelte';
+	import KaKaoAddFit from './KaKaoAddFit.svelte';
 
 	export let quiz: Quiz;
 	export let ranking: Promise<any[]>;
@@ -295,6 +296,7 @@
 		{/each}
 	</div>
 </div>
+<KaKaoAddFit />
 
 <style>
 	.next-button-wrapper {
@@ -344,7 +346,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		align-items: center;
-		overflow: scroll;
+		overflow: hidden;
 		padding: 16px;
 		box-sizing: border-box;
 		height: calc(100% - 32px);
