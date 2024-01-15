@@ -88,14 +88,12 @@
 				const quiz = await dequeueFromRemainingQuizzes({
 					categoryId
 				});
-				const queryPram = categoryId ? `?category=${categoryId}` : '';
+				const queryParam = categoryId ? `?category=${categoryId}` : '';
 				if (!quiz) {
-					goto(`/quiz/complete${queryPram}`);
+					goto(`/quiz/complete${queryParam}`);
 					return;
 				}
-				goto(`/quiz/${quiz.id}${queryPram}`);
-
-				// goto('/categories');
+				goto(`/quiz/${quiz.id}${queryParam}`);
 			}}
 		>
 			시작하기
@@ -104,9 +102,17 @@
 
 	{#if NonMemberModalOpen}
 		<NonMemberModal
-			onConfirm={() => {
+			onConfirm={async () => {
+				const quiz = await dequeueFromRemainingQuizzes({
+					categoryId
+				});
+				const queryParam = categoryId ? `?category=${categoryId}` : '';
 				NonMemberModalOpen = false;
-				goto('/categories');
+				if (!quiz) {
+					goto(`/quiz/complete${queryParam}`);
+					return;
+				}
+				goto(`/quiz/${quiz.id}${queryParam}`);
 			}}
 			close={() => {
 				NonMemberModalOpen = false;

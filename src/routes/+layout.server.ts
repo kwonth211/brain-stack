@@ -1,13 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
 
-const ONLY_ACCESS_USER_PATHS = [
-	'/main',
-	'/profile',
-	'/my-page',
-	'/quiz/create',
-	'/back-office/start'
-];
+const ONLY_ACCESS_USER_PATHS = ['/main', '/profile', '/my-page', '/quiz/create'];
 
 export const load: LayoutServerLoad = async (event) => {
 	const session = await event.locals.getSession();
