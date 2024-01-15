@@ -61,7 +61,7 @@
 		// });
 	}
 
-	const pageTitle = currentQuiz?.question;
+	const pageTitle = `상식퀴즈: ${currentQuiz?.question}`;
 	const metaDescription = `${currentQuiz?.option1}, ${currentQuiz?.option2}, ${currentQuiz?.option3}, ${currentQuiz?.option4}. ${currentQuiz?.explanation}`;
 	const quizCategory = CATEGORY[categoryId as unknown as keyof typeof CATEGORY] ?? '상식';
 
