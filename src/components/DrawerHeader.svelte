@@ -8,6 +8,7 @@
 	import { goto } from '$app/navigation';
 	import BuyCoffee from '$components/BuyCoffee.svelte';
 	import SendIcon from './icons/SendIcon.svelte';
+	import YoutubeChannel from './YoutubeChannel.svelte';
 
 	let menuOpen = false;
 
@@ -87,10 +88,6 @@
 					>
 						<CreateQuizIcon />퀴즈 만들기
 					</li>
-				</ul>
-			</div>
-			<div class="menu-section bottom">
-				<ul>
 					<li
 						on:click={() => {
 							goto('/feedback');
@@ -104,8 +101,13 @@
 						<SendIcon />
 						의견 보내기
 					</li>
-
-					<!-- <li><QuestionIcon style="margin-left: 2px;" />듀얼 브레인이란?</li> -->
+				</ul>
+			</div>
+			<div class="menu-section bottom">
+				<ul>
+					<li style="flex-direction: column; position:relative;">
+						<YoutubeChannel />
+					</li>
 					<li style="flex-direction: column; position:relative;">
 						<BuyCoffee />
 					</li>
@@ -162,10 +164,13 @@
 	ul {
 		list-style: none;
 		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
 	}
 
 	li {
-		padding: 10px 10px;
+		padding: 0 10px;
 		display: flex;
 
 		align-items: center;

@@ -2,8 +2,10 @@
 	import { fade } from 'svelte/transition';
 	import Footer from '$components/Footer.svelte';
 	import { goto } from '$app/navigation';
-
 	import DrawerHeader from '$components/DrawerHeader.svelte';
+	import YoutubeModal from '$components/YoutubeModal.svelte';
+	import { onMount } from 'svelte';
+
 	const messages = [
 		'<b>지식을 키워줄 퀴즈!</b><br />오늘도 지식을 함께 키워보아요.',
 		'<b>지식의 향연!</b><br />새로운 지식의 세계를 함께 탐험해보세요.',
@@ -18,6 +20,13 @@
 		const randomIndex = Math.floor(Math.random() * messages.length);
 		return messages[randomIndex];
 	};
+	let isYoutubeModalOpen = false;
+	onMount(() => {
+		const showModal = sessionStorage.getItem('isYoutubeModalShown');
+		if (!showModal) {
+			isYoutubeModalOpen = true;
+		}
+	});
 
 	const quizList = [
 		{
@@ -94,6 +103,14 @@
 			{/each}
 		</div>
 	</div>
+	{#if isYoutubeModalOpen}
+		<YoutubeModal
+			close={() => {
+				isYoutubeModalOpen = false;
+				sessionStorage.setItem('isYoutubeModalShown', 'true');
+			}}
+		/>
+	{/if}
 	<Footer />
 </div>
 

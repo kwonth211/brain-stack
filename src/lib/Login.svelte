@@ -10,7 +10,7 @@
 	import NonMemberModal from '$components/NonMemberModal.svelte';
 	import NaverLogo from '$components/icons/NaverIcon.svelte';
 	import { goto } from '$app/navigation';
-	import { clearRemainingQuizzes } from '$utils/window/utils';
+	import { clearRemainingQuizzes, dequeueFromRemainingQuizzes } from '$utils/window/utils';
 
 	const store = writable('home');
 	let userEmail = '';
@@ -113,9 +113,17 @@
 
 		{#if NonMemberModalOpen}
 			<NonMemberModal
-				onConfirm={() => {
-					NonMemberModalOpen = false;
-					goto('/categories');
+				onConfirm={async () => {
+					const quiz = await dequeueFromRemainingQuizzes({
+						categoryId: null
+					});
+
+					if (!quiz) {
+						goto('/quiz/complete');
+						return;
+					}
+
+					goto(`/quiz/${quiz.id}`);
 				}}
 				close={() => {
 					NonMemberModalOpen = false;

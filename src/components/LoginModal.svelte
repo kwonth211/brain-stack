@@ -1,8 +1,4 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import type { CATEGORY } from '$types/categories';
-	import type { Quiz } from '$types/quiz';
-	import { onMount } from 'svelte';
 	import Input from './Input.svelte';
 	import ModalCloseIcon from './icons/ModalCloseIcon.svelte';
 	import GoogleLogo from '$components/icons/GoogleIcon.svelte';
@@ -17,7 +13,6 @@
 	let modal: EventTarget;
 	let userEmail = '';
 	let password = '';
-	onMount(() => {});
 
 	const handleLogin = async (platform: string) => {
 		clearRemainingQuizzes();

@@ -5,7 +5,7 @@
 
 <a href={url} target="_blank" class="bmc-button">
 	<span class="emoji">☕</span>
-	Buy me a coffee
+	커피 한 잔 사주기
 </a>
 
 <style>
@@ -18,9 +18,10 @@
 		border-radius: 5px;
 		text-decoration: none;
 		font-family: 'Lato', sans-serif;
-		font-size: 16px;
+		font-size: 14px;
 		width: 100%;
 		padding: 10px;
+		box-sizing: border-box;
 	}
 
 	.emoji {
