@@ -1,5 +1,6 @@
 <script>
 	export let onClick = () => {};
+	export let color = '#5387F7';
 </script>
 
 <svg
@@ -10,7 +11,7 @@
 	fill="none"
 	xmlns="http://www.w3.org/2000/svg"
 >
-	<circle cx="12.1697" cy="12.2711" r="11.3579" fill="#5387F7" />
+	<circle cx="12.1697" cy="12.2711" r="11.3579" fill={color} />
 	<path
 		d="M16.7714 7.71179L7.72266 16.7605"
 		stroke="white"

@@ -44,6 +44,7 @@
 		"@sveltejs/adapter-vercel": "^1.0.6",
 		"@vercel/analytics": "^1.0.2",
 		"@vercel/postgres": "^0.4.1",
+		"@vercel/speed-insights": "^1.0.10",
 		"axios": "^1.4.0",
 		"bcrypt": "^5.1.1",
 		"chart.js": "^4.4.0",
