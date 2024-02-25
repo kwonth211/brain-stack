@@ -9,7 +9,9 @@
 	--gray: #f4f4f4;
 	--dark-gray: #a9a9a9;
 	--wrong: #ff7971;
+	--background-color: #dfe9fe;
 
+	--max-width: 468px;
 	--font: 'Roboto', sans-serif;
 	--button-height: 51px;
 	--font-size: 16px;

@@ -21,11 +21,13 @@
 		left: 0;
 		top: 0;
 		width: 100%;
+		max-width: var(--max-width);
+		margin: 0 auto;
+		right: 0px;
 		height: 100%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		z-index: 100;
-		/* background: rgba(0, 0, 0, 0.4); */
 	}
 </style>

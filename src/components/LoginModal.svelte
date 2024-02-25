@@ -127,6 +127,9 @@
 		align-items: center;
 		z-index: 100;
 		background: rgba(0, 0, 0, 0.4);
+		max-width: var(--max-width);
+		margin: 0 auto;
+		right: 0px;
 	}
 	.modal-content {
 		gap: 10px;

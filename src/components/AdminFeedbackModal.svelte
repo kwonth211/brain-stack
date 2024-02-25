@@ -23,6 +23,9 @@
 		width: 100%;
 		height: 100%;
 		display: flex;
+		max-width: var(--max-width);
+		margin: 0 auto;
+		right: 0px;
 		justify-content: center;
 		align-items: center;
 	}

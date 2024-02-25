@@ -157,6 +157,9 @@
 		width: 100%;
 		height: 100%;
 		display: flex;
+		max-width: var(--max-width);
+		margin: 0 auto;
+		right: 0;
 		justify-content: center;
 		align-items: center;
 		z-index: 100;

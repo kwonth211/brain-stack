@@ -27,55 +27,63 @@
 			goto('/');
 		}}>의견 보내기</DrawerHeader
 	>
+	<div class="wrapper">
+		<div class="brain-title">브레인들의 도움이 필요해요</div>
+		<div class="sub-text-container">
+			<div class="sub-text">문제점이 있다면 알려주세요</div>
+			<div class="sub-text">브레인들의 아이디어가 필요해요.</div>
+			<div class="sub-text">아무말이나 다 좋아요.</div>
+		</div>
+		<div class="ask">
+			<img
+				src="https://dual-brain.s3.ap-northeast-2.amazonaws.com/logo.png"
+				class="logo"
+				alt="logo"
+			/>
 
-	<div class="brain-title">브레인들의 도움이 필요해요</div>
-	<div class="sub-text-container">
-		<div class="sub-text">문제점이 있다면 알려주세요</div>
-		<div class="sub-text">브레인들의 아이디어가 필요해요.</div>
-		<div class="sub-text">아무말이나 다 좋아요.</div>
+			<form id="brand" on:submit|preventDefault={handleSubmit}>
+				<select
+					bind:value={selectedOption}
+					name="ask-options"
+					id="ask-options"
+					class="option-select"
+				>
+					<option value="이런 거 해주세요!">이런 거 해주세요!</option>
+					<option value="문제가 있어요 고쳐주세요.">문제가 있어요 고쳐주세요.</option>
+					<option value="응원해요!">응원해요!</option>
+					<option value="아무 이야기나 할래요.">아무 이야기나 할래요.</option>
+				</select>
+				<div id="form-contents">
+					<label class="title" for="email">이메일</label>
+					<input bind:value={email} type="email" placeholder="이메일을 적어주세요." name="email" />
+					<br />
+					<label class="title" for="contents">내용</label>
+					<textarea
+						bind:value={message}
+						placeholder="소중한 피드백, 빠르게 반영할게요"
+						name="contents"
+					/>
+					<input type="submit" value="보내기" id="submitmail" />
+				</div>
+			</form>
+		</div>
+
+		{#if showAdminFeedbackModal}
+			<AdminFeedbackModal
+				close={() => {
+					showAdminFeedbackModal = false;
+				}}
+			/>
+		{/if}
 	</div>
-	<div class="ask">
-		<img
-			src="https://dual-brain.s3.ap-northeast-2.amazonaws.com/logo.png"
-			class="logo"
-			alt="logo"
-		/>
-
-		<form id="brand" on:submit|preventDefault={handleSubmit}>
-			<select bind:value={selectedOption} name="ask-options" id="ask-options" class="option-select">
-				<option value="이런 거 해주세요!">이런 거 해주세요!</option>
-				<option value="문제가 있어요 고쳐주세요.">문제가 있어요 고쳐주세요.</option>
-				<option value="응원해요!">응원해요!</option>
-				<option value="아무 이야기나 할래요.">아무 이야기나 할래요.</option>
-			</select>
-			<div id="form-contents">
-				<label class="title" for="email">이메일</label>
-				<input bind:value={email} type="email" placeholder="이메일을 적어주세요." name="email" />
-				<br />
-				<label class="title" for="contents">내용</label>
-				<textarea
-					bind:value={message}
-					placeholder="소중한 피드백, 빠르게 반영할게요"
-					name="contents"
-				/>
-				<input type="submit" value="보내기" id="submitmail" />
-			</div>
-		</form>
-	</div>
-
-	{#if showAdminFeedbackModal}
-		<AdminFeedbackModal
-			close={() => {
-				showAdminFeedbackModal = false;
-			}}
-		/>
-	{/if}
 </div>
 
 <style>
+	.wrapper {
+		padding: 20px;
+	}
 	.container {
 		box-sizing: border-box;
-		padding: 20px;
 	}
 
 	.brain-title {

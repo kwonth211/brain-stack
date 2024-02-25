@@ -59,9 +59,15 @@
 	:global(html) {
 		height: 100vh;
 		margin: 0;
+		background-color: azure;
 	}
 	main {
+		background-color: white;
 		position: relative;
 		height: 100%;
+		max-width: var(--max-width);
+		width: 100%;
+		margin: 0 auto;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	}
 </style>

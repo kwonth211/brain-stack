@@ -144,7 +144,6 @@
 		margin-top: 10px;
 		margin-left: 10px;
 		margin-right: 10px;
-		border-radius: 15px; /* Rounded corners for the table */
 		background: white;
 		height: 60%;
 		padding-bottom: var(--footer-height);
@@ -156,7 +155,6 @@
 	.ranking-table {
 		width: 100%;
 		border-collapse: collapse;
-		border-radius: 15px; /* Rounded corners for the table */
 	}
 	.ranking-table th {
 		color: black;

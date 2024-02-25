@@ -51,6 +51,9 @@
 		justify-content: center;
 		align-items: center;
 		background-color: rgba(0, 0, 0, 0.4); /* 뒷 배경에 약간의 어두움 추가 */
+		max-width: var(--max-width);
+		margin: 0 auto;
+		right: 0px;
 	}
 	.container {
 		width: 200px;

@@ -121,16 +121,14 @@
 <style>
 	.header {
 		position: fixed;
-		top: 0;
-		left: 0;
 		width: 100%;
 		background-color: white;
-		z-index: 1000; /* Ensure the header is above other elements */
+		z-index: 10;
+		max-width: var(--max-width);
 	}
 	.container {
 		display: flex;
 		align-items: center;
-		justify-content: center;
 		height: var(--header-height);
 		padding-left: 10px;
 	}
@@ -138,7 +136,11 @@
 		height: var(--header-height);
 	}
 	.overlay {
+		display: flex;
+		justify-content: center;
+		max-width: var(--max-width);
 		position: fixed;
+		margin: 0 auto;
 		top: 0;
 		left: 0;
 		right: 0;
@@ -150,8 +152,10 @@
 	nav {
 		position: fixed;
 		top: 0;
-		right: 0;
 		width: 50%;
+		right: calc((100% - var(--max-width)) / 2); /* 최대 너비 안쪽에서 시작하도록 조정 */
+		max-width: calc(var(--max-width) / 2); /* 메뉴의 최대 너비를 최대 페이지 너비의 절반으로 설정 */
+
 		background-color: #fff;
 		box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
 		z-index: 10;

@@ -25,5 +25,8 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		max-width: var(--max-width);
+		margin: 0 auto;
+		right: 0px;
 	}
 </style>

@@ -35,5 +35,9 @@
 		align-items: center;
 		z-index: 100;
 		background: rgba(0, 0, 0, 0.4);
+		max-width: var(--max-width);
+		margin: 0 auto;
+		left: 0;
+		right: 0;
 	}
 </style>

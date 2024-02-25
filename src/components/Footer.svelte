@@ -66,6 +66,7 @@
 		position: fixed;
 		bottom: 0;
 		width: 100%;
+		max-width: var(--max-width);
 	}
 	.icon-container {
 		display: flex;

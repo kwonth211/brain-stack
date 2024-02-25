@@ -37,93 +37,100 @@
 	>
 		듀얼브레인
 	</DrawerHeader>
-
-	<div class="title-container">
-		<!-- <div class="title">🌟{data.name}에서 가장 인기있는 퀴즈는 무엇일까요?🌟</div> -->
-		<div class="title">🚀 실시간 인기 {data.name} 퀴즈 🚀</div>
-	</div>
-
-	<div class="card-container">
-		<div class="create-container">
-			{#await data.streamed?.popularQuizzes}
-				<div class="spinner-container">
-					<Spinner />
-				</div>
-			{:then quizzes}
-				{#each quizzes as quiz, index}
-					<div class="ranking-list-item">
-						<div class="rank">
-							{index + 1}
-						</div>
-						<div class="rank-name">{quiz.question}</div>
-						<div
-							class="play-button"
-							on:click={() => {
-								const quizId = quiz.quizId;
-								const queryPram = categoryId ? `?category=${categoryId}` : '';
-								if (!$page?.data?.session?.user) {
-									NonMemberModalOpen = true;
-									return;
-								}
-								goto(`/quiz/${quizId}${queryPram}`);
-							}}
-							on:keydown={(e) => {}}
-						>
-							<PlayIcon />
-						</div>
-					</div>
-				{/each}
-			{/await}
+	<div class="wrapper">
+		<div class="title-container">
+			<!-- <div class="title">🌟{data.name}에서 가장 인기있는 퀴즈는 무엇일까요?🌟</div> -->
+			<div class="title">🚀 실시간 인기 {data.name} 퀴즈 🚀</div>
 		</div>
-	</div>
-	<div class="start-container">
-		<Button
-			primary
-			classes="start"
-			onclick={async () => {
-				if (!$page?.data?.session?.user) {
-					NonMemberModalOpen = true;
-					return;
-				}
-				const quiz = await dequeueFromRemainingQuizzes({
-					categoryId
-				});
-				const queryParam = categoryId ? `?category=${categoryId}` : '';
-				if (!quiz) {
-					goto(`/quiz/complete${queryParam}`);
-					return;
-				}
-				goto(`/quiz/${quiz.id}${queryParam}`);
-			}}
-		>
-			시작하기
-		</Button>
-	</div>
 
-	{#if NonMemberModalOpen}
-		<NonMemberModal
-			onConfirm={async () => {
-				const quiz = await dequeueFromRemainingQuizzes({
-					categoryId
-				});
-				const queryParam = categoryId ? `?category=${categoryId}` : '';
-				NonMemberModalOpen = false;
-				if (!quiz) {
-					goto(`/quiz/complete${queryParam}`);
-					return;
-				}
-				goto(`/quiz/${quiz.id}${queryParam}`);
-			}}
-			close={() => {
-				NonMemberModalOpen = false;
-			}}
-		/>
-	{/if}
+		<div class="card-container">
+			<div class="create-container">
+				{#await data.streamed?.popularQuizzes}
+					<div class="spinner-container">
+						<Spinner />
+					</div>
+				{:then quizzes}
+					{#each quizzes as quiz, index}
+						<div class="ranking-list-item">
+							<div class="rank">
+								{index + 1}
+							</div>
+							<div class="rank-name">{quiz.question}</div>
+							<div
+								class="play-button"
+								on:click={() => {
+									const quizId = quiz.quizId;
+									const queryPram = categoryId ? `?category=${categoryId}` : '';
+									if (!$page?.data?.session?.user) {
+										NonMemberModalOpen = true;
+										return;
+									}
+									goto(`/quiz/${quizId}${queryPram}`);
+								}}
+								on:keydown={(e) => {}}
+							>
+								<PlayIcon />
+							</div>
+						</div>
+					{/each}
+				{/await}
+			</div>
+		</div>
+		<div class="start-container">
+			<Button
+				primary
+				classes="start"
+				onclick={async () => {
+					if (!$page?.data?.session?.user) {
+						NonMemberModalOpen = true;
+						return;
+					}
+					const quiz = await dequeueFromRemainingQuizzes({
+						categoryId
+					});
+					const queryParam = categoryId ? `?category=${categoryId}` : '';
+					if (!quiz) {
+						goto(`/quiz/complete${queryParam}`);
+						return;
+					}
+					goto(`/quiz/${quiz.id}${queryParam}`);
+				}}
+			>
+				시작하기
+			</Button>
+		</div>
+
+		{#if NonMemberModalOpen}
+			<NonMemberModal
+				onConfirm={async () => {
+					const quiz = await dequeueFromRemainingQuizzes({
+						categoryId
+					});
+					const queryParam = categoryId ? `?category=${categoryId}` : '';
+					NonMemberModalOpen = false;
+					if (!quiz) {
+						goto(`/quiz/complete${queryParam}`);
+						return;
+					}
+					goto(`/quiz/${quiz.id}${queryParam}`);
+				}}
+				close={() => {
+					NonMemberModalOpen = false;
+				}}
+			/>
+		{/if}
+	</div>
 
 	<Footer />
 </div>
 
 <style>
+	.wrapper {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		height: 80%;
+	}
 	.rank {
 		text-align: center;
 		font-family: Pretendard;
@@ -191,7 +198,7 @@
 		border-radius: 16px;
 		background: #fff;
 		gap: 10px;
-		max-height: 400px;
+		max-height: 500px;
 		height: 100%;
 		overflow: scroll;
 		margin-top: 15px;
