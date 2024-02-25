@@ -13,6 +13,7 @@
 	import ShareModal from './ShareModal.svelte';
 	import LoginModal from './LoginModal.svelte';
 	import KaKaoAddFit from './KaKaoAddFit.svelte';
+	import CoupangAdsModal from './CoupangAdsModal.svelte';
 
 	export let quiz: Quiz;
 	export let ranking: Promise<any[]>;
@@ -66,6 +67,11 @@
 			}, 2000);
 		}, quiz.question.length * 50);
 	});
+	onMount(() => {
+		if (Math.random() < 0.3) {
+			isLoginModalOpen = true;
+		}
+	});
 
 	const startTimer = () => {
 		timerInterval = setInterval(() => {
@@ -79,6 +85,7 @@
 	let answerIsCorrect = false;
 	let answerIsTimeout = false;
 	let isLoginModalOpen = false;
+
 	const checkAnswer = async (_selectedOption: string) => {
 		loadingNext = true;
 		clearInterval(timerInterval);
@@ -260,7 +267,7 @@
 	{/if}
 
 	{#if isLoginModalOpen}
-		<LoginModal
+		<CoupangAdsModal
 			close={() => {
 				isLoginModalOpen = false;
 			}}
@@ -277,9 +284,6 @@
 						onclick={() => {
 							if (isAlreadySolved) {
 								return;
-							}
-							if (Math.random() < 0.3 && !isLoggedIn) {
-								isLoginModalOpen = true;
 							}
 
 							checkAnswer(String(index + 1));
