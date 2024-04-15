@@ -3,7 +3,6 @@
 	import Footer from '$components/Footer.svelte';
 	import { goto } from '$app/navigation';
 	import DrawerHeader from '$components/DrawerHeader.svelte';
-	import YoutubeModal from '$components/YoutubeModal.svelte';
 	import { onMount } from 'svelte';
 
 	const messages = [
@@ -103,14 +102,7 @@
 			{/each}
 		</div>
 	</div>
-	{#if isYoutubeModalOpen}
-		<YoutubeModal
-			close={() => {
-				isYoutubeModalOpen = false;
-				sessionStorage.setItem('isYoutubeModalShown', 'true');
-			}}
-		/>
-	{/if}
+
 	<Footer />
 </div>
 
