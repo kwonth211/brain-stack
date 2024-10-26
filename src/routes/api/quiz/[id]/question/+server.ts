@@ -1,12 +1,12 @@
 import { json } from '@sveltejs/kit';
 import { sql } from '@vercel/postgres';
 import OpenAI from 'openai';
-import { OPENAI_API_KEY } from '$env/static/private';
+import { OPENAI_API_KEY2 } from '$env/static/private';
 
 // apiKey: process.env.OPENAI_API_KEY,
 
 const openai = new OpenAI({
-	apiKey: OPENAI_API_KEY
+	apiKey: OPENAI_API_KEY2
 });
 
 export async function GET(request) {
