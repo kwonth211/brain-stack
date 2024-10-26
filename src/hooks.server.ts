@@ -55,6 +55,7 @@ export const handle = SvelteKitAuth({
 	],
 	callbacks: {
 		async session({ session, token, user }) {
+			console.log('session>>>', session);
 			if (session.user) {
 				session.user.email = token.email ?? token.sub;
 			}
