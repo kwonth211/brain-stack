@@ -1,10 +1,12 @@
 import { json } from '@sveltejs/kit';
 import { sql } from '@vercel/postgres';
 import OpenAI from 'openai';
-import { OPEN_API_KEY } from '$env/static/private';
+import { OPENAI_API_KEY } from '$env/static/private';
+
+// apiKey: process.env.OPENAI_API_KEY,
 
 const openai = new OpenAI({
-	apiKey: OPEN_API_KEY
+	apiKey: OPENAI_API_KEY
 });
 
 export async function GET(request) {
@@ -29,10 +31,11 @@ export async function GET(request) {
 					content: prompt
 				}
 			],
-			model: 'gpt-3.5-turbo'
+			model: 'gpt-4o-mini'
 		});
 		return json({ explanation: chatCompletion.choices[0].message.content }, { status: 200 });
 	} catch (error) {
+		console.log(error);
 		return json({ error: '알수없는 오류가 발생했습니다,' }, { status: 500 });
 	}
 }
